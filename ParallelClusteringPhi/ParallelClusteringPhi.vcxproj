@@ -110,6 +110,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="MetricsDistance.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="MetricsDistance.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
