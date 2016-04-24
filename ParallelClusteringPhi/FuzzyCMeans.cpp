@@ -14,6 +14,7 @@ namespace ParallelClustering {
 		Epsilon = epsilon;
 		Fuzzy = fuzzy;
 		DistanceCalculate = metrics;
+		//ClusterCount = cluster_count;
 	}
 
 
@@ -41,8 +42,9 @@ namespace ParallelClustering {
 				}
 				UMatrix[i] = normalizeUMatrixRow(UMatrix[i]);
 			}
-			currentDecisionValue = calculateDecisionFunction(centroids, UMatrix);
+			currentDecisionValue = calculateDecisionFunction(centroids, UMatrix);			
 		}
+		
 		joinMatrix(UMatrix);
 
 	}
@@ -108,11 +110,11 @@ namespace ParallelClustering {
 	}
 	
 	double FuzzyCMeans::calculateDecisionFunction(vector<CustomObject*> centroids, vector<vector<double>> matrix) {
-		double sum = 0;
-		int sizeOfMatrix = matrix.size();
-		for (int i = 0; i < sizeOfMatrix;i++) {
-			for (int j = 0; j < ClusterCount; j++) {
+		double sum = 0;		
+		for (int i = 0; i < countOfObjects;i++) {			
+			for (int j = 0; j < ClusterCount; j++) {								
 				sum += DistanceCalculate(centroids[j]->Data, matrix[i]);
+				
 			}
 		}
 		return sum;
