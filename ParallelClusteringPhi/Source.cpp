@@ -1,9 +1,11 @@
 #include <vector>
 #include <functional>
 #include <time.h>
+#include <omp.h>
 #include "FuzzyCMeans.h"
 #include "CustomObject.h"
 #include "Helper.h"
+
 
 using namespace std;
 using namespace ParallelClustering;
