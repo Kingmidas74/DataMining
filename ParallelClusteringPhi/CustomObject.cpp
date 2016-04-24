@@ -5,7 +5,7 @@ namespace ParallelClustering {
 
 	CustomObject::CustomObject(vector<double> rgb_data)
 	{
-		RGB_data = rgb_data;
+		Data = rgb_data;
 	}
 
 	CustomObject::CustomObject()

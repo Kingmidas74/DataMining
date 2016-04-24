@@ -20,7 +20,7 @@ namespace ParallelClustering {
 		static vector<CustomObject*> GetRandomObjects(int count);
 		static vector<CustomObject*> GetTest3DBatterfly();
 
-		vector<double> RGB_data;
+		vector<double> Data;
 		map<int, double> ProbabilityClusters;
 	};
 }
