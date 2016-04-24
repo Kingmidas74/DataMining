@@ -2,6 +2,7 @@
 #include <functional>
 #include <time.h>
 #include <omp.h>
+#include <mpi.h>
 #include "FuzzyCMeans.h"
 #include "CustomObject.h"
 #include "Helper.h"
@@ -11,8 +12,10 @@ using namespace std;
 using namespace ParallelClustering;
 using namespace Metrics;
 
-void main(int argc, char *argv[])
-{
+int Rank;
+int Size;
+
+void MainProcess() {
 	vector<CustomObject*> data = CustomObject::GetTest3DBatterfly();
 	PrintObjects(data);
 	vector<CustomObject*> centroids(3);
@@ -25,4 +28,20 @@ void main(int argc, char *argv[])
 	FuzzyCMeans* cmeans = new FuzzyCMeans(data, 0.1, 1.5, GetMetrics(MetricsDistanceTypes::Evklid));
 	cmeans->StartClustering(centroids);
 	PrintObjects(cmeans->ObjectsForClustering);
+}
+
+void SlaveProcess() {
+	
+}
+
+
+void main(int argc, char *argv[])
+{
+	MPI_Init(&argc, &argv);
+	MPI_Comm_size(MPI_COMM_WORLD, &Size);
+	MPI_Comm_rank(MPI_COMM_WORLD, &Rank);
+	srand(time(NULL));
+	vector<function<void()>> actions = { MainProcess, SlaveProcess };
+	actions[Rank]();
+	MPI_Finalize();
 }
