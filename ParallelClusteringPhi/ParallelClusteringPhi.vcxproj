@@ -120,6 +120,7 @@
     <ClCompile Include="FuzzyCMeans.cpp" />
     <ClCompile Include="Helper.cpp" />
     <ClCompile Include="MetricsDistance.cpp" />
+    <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
