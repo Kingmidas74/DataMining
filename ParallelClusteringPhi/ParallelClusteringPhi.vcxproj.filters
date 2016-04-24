@@ -18,9 +18,15 @@
     <ClInclude Include="MetricsDistance.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="CustomObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MetricsDistance.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CustomObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
