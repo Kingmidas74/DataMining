@@ -13,15 +13,15 @@ namespace ParallelClustering {
 
 	}
 
-	vector<CustomObject*> CustomObject::GetRandomObjects(int count)
+	vector<CustomObject*> CustomObject::GetRandomObjects(int count, int dimension)
 	{
 		vector<CustomObject*> result(count);
 		for (int i = 0; i < count; i++) {
-			vector<double> rgb(3);
-			rgb[0] = GetRandomDouble();
-			rgb[1] = GetRandomDouble();
-			rgb[2] = GetRandomDouble();
-			result[i] = new CustomObject(rgb);
+			vector<double> data(dimension);
+			for (int j = 0; j < dimension; j++) {
+				data[j] = GetRandomDouble();				
+			}
+			result[i] = new CustomObject(data);
 		}
 		return result;
 	}

@@ -16,15 +16,17 @@ int Rank;
 int Size;
 
 void MainProcess() {
-	vector<CustomObject*> data = CustomObject::GetTest3DBatterfly();
+	vector<CustomObject*> data = CustomObject::GetRandomObjects(100, 3);
 	PrintObjects(data);
-	vector<CustomObject*> centroids(3);
-	vector<double> red = { 2,3,0 };
-	vector<double> green = { 8,3,0 };
-	vector<double> blue = { 5,3,3 };
+	vector<CustomObject*> centroids(4);
+	vector<double> red = { 1,0,0 };
+	vector<double> green = { 0,1,0 };
+	vector<double> blue = { 0,0,1 };
+	vector<double> yellow = { 1,1,0 };
 	centroids[0] = new CustomObject(red);
 	centroids[1] = new CustomObject(green);
 	centroids[2] = new CustomObject(blue);
+	centroids[3] = new CustomObject(yellow);
 	FuzzyCMeans* cmeans = new FuzzyCMeans(data, 0.1, 1.5, GetMetrics(MetricsDistanceTypes::Evklid));
 	cmeans->StartClustering(centroids);
 	PrintObjects(cmeans->ObjectsForClustering);

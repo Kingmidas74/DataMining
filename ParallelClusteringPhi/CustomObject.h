@@ -17,7 +17,7 @@ namespace ParallelClustering {
 
 
 		void DefineCluster(int num_of_cluster, double probability);
-		static vector<CustomObject*> GetRandomObjects(int count);
+		static vector<CustomObject*> GetRandomObjects(int count, int dimension);
 		static vector<CustomObject*> GetTest3DBatterfly();
 
 		vector<double> Data;

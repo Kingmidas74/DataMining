@@ -11,10 +11,16 @@ namespace ParallelClustering {
 		int size = objects.size();
 		cout<<endl<<"VectorSize is "<<size<<endl;
 		for (int i = 0; i < size; i++) {
-			cout << i<<": "
-				<<objects[i]->Data[0]<<" "<<objects[i]->Data[1] << " " <<objects[i]->Data[2] << " "
-				<<objects[i]->ProbabilityClusters[0] << " " << objects[i]->ProbabilityClusters[1] << " " << objects[i]->ProbabilityClusters[2] 
-				<< endl;
+			cout << i << ": ";
+			for (int j = 0; j < objects[i]->Data.size(); j++) {
+				cout << objects[i]->Data[j] << " ";
+			}
+			double sum = 0;
+			for (int j = 0; j < objects[i]->Data.size(); j++) {
+				cout << objects[i]->ProbabilityClusters[j] << " ";
+				sum += objects[i]->ProbabilityClusters[j];
+			}
+			cout <<sum<< endl;
 		}
 	}
 
