@@ -16,7 +16,7 @@ namespace ParallelClustering {
 				cout << objects[i]->Data[j] << " ";
 			}
 			double sum = 0;
-			for (int j = 0; j < objects[i]->Data.size(); j++) {
+			for (int j = 0; j < objects[i]->ProbabilityClusters.size(); j++) {
 				cout << objects[i]->ProbabilityClusters[j] << " ";
 				sum += objects[i]->ProbabilityClusters[j];
 			}
