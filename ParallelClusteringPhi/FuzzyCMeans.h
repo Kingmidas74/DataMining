@@ -1,11 +1,17 @@
 #pragma once
 
+/*
+"Реализация параллельных версиий алгоритов кластеризации данных
+с использованием многоядерных ускорителей"
+
+Класс реализующий алгоритм кластеризации Fuzzy C-means.
+Авторы: Сулейманов Д.Э., Цымблер М.Л.
+*/
+
 #include <vector>
 #include <functional>
 #include "CustomObject.h"
 #include "MetricsDistance.h"
-
-
 
 namespace ParallelClustering {
 	class FuzzyCMeans
