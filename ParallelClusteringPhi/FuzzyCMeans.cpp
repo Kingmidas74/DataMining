@@ -7,12 +7,9 @@
 */
 
 #include "FuzzyCMeans.h"
-#include "Helper.h";
-#include <iostream>
+
 
 namespace ParallelClustering {
-
-	using namespace std;
 
 	FuzzyCMeans::FuzzyCMeans(vector<vector<double>> objects, double epsilon, double fuzzy, function<double(vector<double>, vector<double>)> metrics)
 	{

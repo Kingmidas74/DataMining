@@ -9,7 +9,6 @@
 #include "Helper.h"
 
 namespace ParallelClustering {
-	using namespace std;
 
 	double GetRandomDouble(double min, double max) {
 		return (static_cast <double> (rand()) / static_cast <double> (RAND_MAX));

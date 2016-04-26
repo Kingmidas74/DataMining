@@ -10,8 +10,10 @@
 
 #include <vector>
 #include <functional>
-#include "CustomObject.h"
 #include "MetricsDistance.h"
+#include "Helper.h"
+
+using namespace std;
 
 namespace ParallelClustering {
 	class FuzzyCMeans

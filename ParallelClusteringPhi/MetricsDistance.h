@@ -13,9 +13,10 @@
 #include <functional>
 #include <cmath>
 
+using namespace std;
 
 namespace Metrics {
-	using namespace std;
+	
 	enum class MetricsDistanceTypes
 	{
 		Evklid,

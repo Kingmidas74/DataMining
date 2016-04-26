@@ -4,7 +4,6 @@
 #include <omp.h>
 #include <sstream>
 #include "FuzzyCMeans.h"
-#include "CustomObject.h"
 #include "Helper.h"
 
 

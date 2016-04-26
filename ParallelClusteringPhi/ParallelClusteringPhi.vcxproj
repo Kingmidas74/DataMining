@@ -121,13 +121,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="CustomObject.h" />
     <ClInclude Include="FuzzyCMeans.h" />
     <ClInclude Include="Helper.h" />
     <ClInclude Include="MetricsDistance.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="CustomObject.cpp" />
     <ClCompile Include="FuzzyCMeans.cpp" />
     <ClCompile Include="Helper.cpp" />
     <ClCompile Include="MetricsDistance.cpp" />
