@@ -42,6 +42,9 @@
     <ClInclude Include="Helper.h">
       <Filter>Header Files\ParallelClustering</Filter>
     </ClInclude>
+    <ClInclude Include="Executor.h">
+      <Filter>Header Files\ParallelClustering</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source.cpp">
@@ -54,6 +57,9 @@
       <Filter>Source Files\ParallelClustering\Metrics</Filter>
     </ClCompile>
     <ClCompile Include="Helper.cpp">
+      <Filter>Source Files\ParallelClustering</Filter>
+    </ClCompile>
+    <ClCompile Include="Executor.cpp">
       <Filter>Source Files\ParallelClustering</Filter>
     </ClCompile>
   </ItemGroup>
