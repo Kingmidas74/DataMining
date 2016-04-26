@@ -45,7 +45,7 @@ void SlaveProcess(int butterfly) {
 int main(int argc, char *argv[])
 {
 	vector<function<void(int)>> actions = { MainProcess, SlaveProcess };	
-	if (argc >= 4)
+	if (argc >= 3)
 	{
 		int val;
 		std::istringstream iss1(argv[1]);		
@@ -63,13 +63,7 @@ int main(int argc, char *argv[])
 		if (iss3 >> val)
 		{
 			CountOfClusters = val;
-		}
-
-		std::istringstream iss4(argv[3]);
-		if (iss4 >> val)
-		{
-			CountOfClusters = val;
-		}
+		}		
 		actions[0](0);
 	}
 	else {
