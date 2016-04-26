@@ -11,10 +11,9 @@
 #include <vector>
 #include <iostream>
 
-using namespace std;
-
 namespace ParallelClustering 
 {
+	using namespace std;
 
 	double GetRandomDouble(double min = 0, double max = 1);
 	void PrintObjects(vector<vector<double>> objects);

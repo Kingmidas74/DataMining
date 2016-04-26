@@ -1,7 +1,6 @@
 #include <vector>
 #include <functional>
 #include <time.h>
-#include <omp.h>
 #include <sstream>
 #include "FuzzyCMeans.h"
 #include "Helper.h"
@@ -9,7 +8,8 @@
 
 using namespace std;
 using namespace ParallelClustering;
-using namespace Metrics;
+using namespace ParallelClustering::FuzzyCMeansCollection;
+using namespace ParallelClustering::Metrics;
 
 int Rank;
 int Size;

@@ -13,30 +13,48 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\ParallelClustering">
+      <UniqueIdentifier>{e4fadb69-e785-49e7-b52e-a53f6d251ca0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ParallelClustering\FuzzyCMeansCollection">
+      <UniqueIdentifier>{88c4a7d3-bac3-4e55-afd1-467d6906d51c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ParallelClustering\Metrics">
+      <UniqueIdentifier>{456aa947-f12a-40e0-a603-a572a9bcfeb6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ParallelClustering">
+      <UniqueIdentifier>{4ea71267-0025-457d-9fe8-7914ef3aca27}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ParallelClustering\FuzzyCMeansCollection">
+      <UniqueIdentifier>{9d81b3f7-e524-439f-8f76-e19083790028}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ParallelClustering\Metrics">
+      <UniqueIdentifier>{94fabb68-b40c-40c7-bfff-4bb674f7d75b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="FuzzyCMeans.h">
+      <Filter>Header Files\ParallelClustering\FuzzyCMeansCollection</Filter>
+    </ClInclude>
     <ClInclude Include="MetricsDistance.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\ParallelClustering\Metrics</Filter>
     </ClInclude>
     <ClInclude Include="Helper.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="FuzzyCMeans.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\ParallelClustering</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="MetricsDistance.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Helper.cpp">
+    <ClCompile Include="Source.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="FuzzyCMeans.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\ParallelClustering\FuzzyCMeansCollection</Filter>
     </ClCompile>
-    <ClCompile Include="Source.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="MetricsDistance.cpp">
+      <Filter>Source Files\ParallelClustering\Metrics</Filter>
+    </ClCompile>
+    <ClCompile Include="Helper.cpp">
+      <Filter>Source Files\ParallelClustering</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
