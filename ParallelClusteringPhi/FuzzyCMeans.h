@@ -21,13 +21,14 @@ namespace ParallelClustering {
 		int						ClusterCount;
 		double					Epsilon;
 		double					Fuzzy;
-		vector<CustomObject*>	ObjectsForClustering;
+		vector<vector<double>>	VectorsForClustering;
+		vector<vector<double>>	VectorsOfProbabilities;
 
 		function<double(vector<double>, vector<double>)> DistanceCalculate;
 
-		FuzzyCMeans(vector<CustomObject*> objects, double epsilon, double fuzzy, function<double(vector<double>, vector<double>)> metrics);
+		FuzzyCMeans(vector<vector<double>> objects, double epsilon, double fuzzy, function<double(vector<double>, vector<double>)> metrics);
 		~FuzzyCMeans();
-		void StartClustering(vector<CustomObject*> centroids);
+		void StartClustering(vector<vector<double>> centroids);
 
 	private:
 
@@ -36,9 +37,9 @@ namespace ParallelClustering {
 
 		vector<vector<double>> generateUMatrix();
 		vector<double> normalizeUMatrixRow(vector<double> row);
-		vector<CustomObject*> calculateCentroids(vector<vector<double>> matrix, vector<CustomObject*> centroids);
-		double calculateDecisionFunction(vector<CustomObject*> centers, vector<vector<double>> matrix);
-		void joinMatrix(vector<vector<double>> matrix);
+		vector<vector<double>> calculateCentroids(vector<vector<double>> matrix);
+		double calculateDecisionFunction(vector<vector<double>> matrix, vector<vector<double>> centers);
+		vector<vector<double>> getProbabilities(vector<vector<double>> matrix);
 	};
 }
 

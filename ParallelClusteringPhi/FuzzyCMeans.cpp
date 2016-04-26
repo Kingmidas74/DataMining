@@ -14,11 +14,11 @@ namespace ParallelClustering {
 
 	using namespace std;
 
-	FuzzyCMeans::FuzzyCMeans(vector<CustomObject*> objects, double epsilon, double fuzzy, function<double(vector<double>, vector<double>)> metrics)
+	FuzzyCMeans::FuzzyCMeans(vector<vector<double>> objects, double epsilon, double fuzzy, function<double(vector<double>, vector<double>)> metrics)
 	{
-		ObjectsForClustering = objects;
+		VectorsForClustering = objects;
 		countOfObjects = objects.size();
-		countofDimensions = objects[0]->Data.size();
+		countofDimensions = objects[0].size();
 		Epsilon = epsilon;
 		Fuzzy = fuzzy;
 		DistanceCalculate = metrics;
@@ -30,40 +30,43 @@ namespace ParallelClustering {
 	{
 	}
 
-	void FuzzyCMeans::StartClustering(vector<CustomObject*> centroids)
+	void FuzzyCMeans::StartClustering(vector<vector<double>> centroids)
 	{
 		ClusterCount = centroids.size();
 		vector<vector<double>> UMatrix = generateUMatrix();
 		double previousDecisionValue = 0;
 		double currentDecisionValue = 1;
-		int sizeOfMatrix = ObjectsForClustering.size();
+		int sizeOfMatrix = VectorsForClustering.size();
 		int step = 0;
 		while (abs(previousDecisionValue - currentDecisionValue) > Epsilon)
 		{
 			step++;
 			previousDecisionValue = currentDecisionValue;
-			centroids = calculateCentroids(UMatrix, centroids);
+			centroids = calculateCentroids(UMatrix);
 			for (int i = 0; i < sizeOfMatrix;i++) {
 				for (int j = 0; j < ClusterCount; j++) {
-					double distance = DistanceCalculate(ObjectsForClustering[i]->Data, centroids[j]->Data);
+					double distance = DistanceCalculate(VectorsForClustering[i], centroids[j]);
 					UMatrix[i][j] = pow(1 / distance, 2 / (Fuzzy - 1));
 				}
 				UMatrix[i] = normalizeUMatrixRow(UMatrix[i]);
 			}
-			currentDecisionValue = calculateDecisionFunction(centroids, UMatrix);			
+			currentDecisionValue = calculateDecisionFunction(UMatrix, centroids);			
 		}
 		
-		joinMatrix(UMatrix);
+		VectorsOfProbabilities=getProbabilities(UMatrix);
 
 	}
 
-	void FuzzyCMeans::joinMatrix(vector<vector<double>> matrix)
+	vector<vector<double>> FuzzyCMeans::getProbabilities(vector<vector<double>> matrix)
 	{
+		vector<vector<double>> result(countOfObjects);
 		for (int i = 0; i < countOfObjects;i++) {
+			result[i] = vector<double>(ClusterCount);
 			for (int j = 0; j < ClusterCount; j++) {
-				ObjectsForClustering[i]->ProbabilityClusters[j] = matrix[i][j];
+				result[i][j] = matrix[i][j];
 			}
 		}
+		return result;
 	}
 
 	vector<vector<double>> FuzzyCMeans::generateUMatrix() {
@@ -90,9 +93,9 @@ namespace ParallelClustering {
 		return new_row;
 	}
 
-	vector<CustomObject*> FuzzyCMeans::calculateCentroids(vector<vector<double>> matrix, vector<CustomObject*> centroids)
+	vector<vector<double>> FuzzyCMeans::calculateCentroids(vector<vector<double>> matrix)
 	{
-		vector<CustomObject*> new_centroids(ClusterCount);
+		vector<vector<double>> new_centroids(ClusterCount);
 		vector<vector<double>> powMatrix(countOfObjects);
 		for (int i = 0; i < countOfObjects; i++) {
 			vector<double> rowOfpow(ClusterCount);
@@ -107,21 +110,21 @@ namespace ParallelClustering {
 				double numenator = 0.0;
 				double denomenator = 0.0;
 				for (int j = 0; j < countOfObjects; j++) {
-					numenator += powMatrix[j][i] * ObjectsForClustering[j]->Data[d];
+					numenator += powMatrix[j][i] * VectorsForClustering[j][d];
 					denomenator += powMatrix[j][i];
 				}
 				centroid_data[d] = numenator / denomenator;
 			}
-			new_centroids[i] = new CustomObject(centroid_data);
+			new_centroids[i] = centroid_data;
 		}
 		return new_centroids;
 	}
 	
-	double FuzzyCMeans::calculateDecisionFunction(vector<CustomObject*> centroids, vector<vector<double>> matrix) {
+	double FuzzyCMeans::calculateDecisionFunction(vector<vector<double>> matrix, vector<vector<double>> centroids) {
 		double sum = 0;		
 		for (int i = 0; i < countOfObjects;i++) {			
 			for (int j = 0; j < ClusterCount; j++) {								
-				sum += DistanceCalculate(centroids[j]->Data, matrix[i]);
+				sum += DistanceCalculate(centroids[j], matrix[i]);
 				
 			}
 		}

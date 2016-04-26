@@ -20,21 +20,21 @@ int CountOfClusters = 2;
 
 void MainProcess(int batterfly) {
 
-	vector<CustomObject*> data;
-	vector<CustomObject*> centroids;
+	vector<vector<double>> data;
+	vector<vector<double>> centroids;
 	if (batterfly == 1) {
-		data = CustomObject::GetTest3DBatterfly();
-		centroids = CustomObject::GetRandomObjects(3, 3);
+		data = GetTest3DBatterfly();
+		centroids = GetRandomObjects(3, 3);
 	}
 	else {
-		data = CustomObject::GetRandomObjects(CountOfObjects, CountOfDimensions);
-		centroids = CustomObject::GetRandomObjects(CountOfClusters, CountOfDimensions);
+		data = GetRandomObjects(CountOfObjects, CountOfDimensions);
+		centroids = GetRandomObjects(CountOfClusters, CountOfDimensions);
 	}
 	PrintObjects(data);	 
 	PrintObjects(centroids);
 	FuzzyCMeans* cmeans = new FuzzyCMeans(data, 0.1, 1.5, GetMetrics(MetricsDistanceTypes::Evklid));
 	cmeans->StartClustering(centroids);
-	PrintObjects(cmeans->ObjectsForClustering);
+	PrintObjects(cmeans->VectorsOfProbabilities);
 }
 
 void SlaveProcess(int butterfly) {
