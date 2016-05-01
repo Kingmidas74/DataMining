@@ -9,7 +9,6 @@
 */
 
 #include <functional>
-#include <cstring>
 #include <fstream>
 #include <sstream>
 #include "Helper.h"
@@ -31,7 +30,7 @@ namespace ParallelClustering
 	private:
 
 		int _argc;
-		vector<char*> _argv;
+		vector<string> _argv;
 		Parameters allParameters;
 
 

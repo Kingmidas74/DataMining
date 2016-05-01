@@ -16,7 +16,7 @@ namespace ParallelClustering
 		_argc = argc-1;		
 		for (int i = 1; i < argc; i++) 
 		{
-			_argv.push_back(argv[i]);
+			_argv.push_back(string(argv[i]));
 		}
 	}
 
@@ -29,13 +29,13 @@ namespace ParallelClustering
 	{
 		for (int i = 0; i < _argc; i=i+2)
 		{
-			if (strcmp(_argv[i], "-i") == 0) getInputFilPath(i + 1);
-			if (strcmp(_argv[i], "-o") == 0) getOutputFilPath(i + 1);
-			if (strcmp(_argv[i], "-k") == 0) getCountOfClusters(i + 1);
+			if (_argv[i].compare("-i") == 0) getInputFilPath(i + 1);
+			if (_argv[i].compare("-o") == 0) getOutputFilPath(i + 1);
+			if (_argv[i].compare("-k") == 0) getCountOfClusters(i + 1);
 			//if (strcmp(_argv[i], "-d") == 0) getCountOfDimensions(i + 1);
 			//if (strcmp(_argv[i], "-n") == 0) getCountOfObjects(i + 1);
-			if (strcmp(_argv[i], "-f") == 0) getFuzzy(i + 1);
-			if (strcmp(_argv[i], "-e") == 0) getEpsilon(i + 1);
+			if (_argv[i].compare("-f") == 0) getFuzzy(i + 1);
+			if (_argv[i].compare("-e") == 0) getEpsilon(i + 1);
 		}
 	}
 
@@ -47,7 +47,7 @@ namespace ParallelClustering
 
 	void ClusterParameters::getInputFilPath(int numberOfparameter) 
 	{
-		if (_argv[numberOfparameter])
+		if (&_argv[numberOfparameter])
 		{
 			fstream file;
 			file.open(_argv[numberOfparameter]);
@@ -60,7 +60,7 @@ namespace ParallelClustering
 
 	void ClusterParameters::getOutputFilPath(int numberOfparameter)
 	{
-		if (_argv[numberOfparameter])
+		if (&_argv[numberOfparameter])
 		{
 			fstream file;
 			file.open(_argv[numberOfparameter], fstream::out);
@@ -73,7 +73,7 @@ namespace ParallelClustering
 
 	void ClusterParameters::getCountOfClusters(int numberOfparameter)
 	{		
-		if (_argv[numberOfparameter])
+		if (&_argv[numberOfparameter])
 		{			
 			int val;
 			istringstream iss(_argv[numberOfparameter]);
@@ -86,7 +86,7 @@ namespace ParallelClustering
 
 	void ClusterParameters::getCountOfDimensions(int numberOfparameter)
 	{
-		if (_argv[numberOfparameter])
+		if (&_argv[numberOfparameter])
 		{
 			int val;
 			istringstream iss(_argv[numberOfparameter]);
@@ -99,7 +99,7 @@ namespace ParallelClustering
 
 	void ClusterParameters::getCountOfObjects(int numberOfparameter)
 	{
-		if (_argv[numberOfparameter])
+		if (&_argv[numberOfparameter])
 		{
 			int val;
 			istringstream iss(_argv[numberOfparameter]);
@@ -112,7 +112,7 @@ namespace ParallelClustering
 
 	void ClusterParameters::getFuzzy(int numberOfparameter)
 	{
-		if (_argv[numberOfparameter])
+		if (&_argv[numberOfparameter])
 		{
 			double val;
 			istringstream iss(_argv[numberOfparameter]);
@@ -125,7 +125,7 @@ namespace ParallelClustering
 
 	void ClusterParameters::getEpsilon(int numberOfparameter)
 	{
-		if (_argv[numberOfparameter])
+		if (&_argv[numberOfparameter])
 		{
 			double val;
 			istringstream iss(_argv[numberOfparameter]);
