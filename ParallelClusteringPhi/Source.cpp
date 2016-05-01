@@ -2,15 +2,26 @@
 
 using namespace std;
 
-int main(int argc, char *argv[])
+
+void WriteLog(Executor* executor)
 {
-	
+	fstream file;
+	file.open("log.csv", ios::out | ios::app);
+	file <<
+		executor->DateTimeNow << ";" <<
+		executor->AlgorithmParameters.CountOfObjects << ";" <<
+		executor->AlgorithmParameters.CountOfDimensions << ";" <<
+		executor->AlgorithmParameters.CountOfClusters << ";" <<
+		executor->AlgorithmParameters.Fuzzy << ";" <<
+		executor->AlgorithmParameters.Epsilon << ";" <<		
+		executor->Runtime << endl;
+}
+
+int main(int argc, char *argv[])
+{	
 	ClusterParameters clusterParameters(argc, argv);
 	Executor* executor = new Executor(clusterParameters.GetParameters());
-	int start_time = clock();
-	executor->CalculateProbabilities();
-	int stop_time = clock();
-	cout << (stop_time - start_time) / double(CLOCKS_PER_SEC) * 1000 << endl;
-	cout << executor->Runtime;
+	executor->CalculateProbabilities();	
+	WriteLog(executor);
 	return EXIT_SUCCESS;
 }

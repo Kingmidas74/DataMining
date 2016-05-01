@@ -30,11 +30,13 @@ namespace ParallelClustering
 		~Executor();
 		vector<vector<double>> CalculateProbabilities();
 		double Runtime;
+		string DateTimeNow;
+		Parameters AlgorithmParameters;
 
 	private:
-		vector<vector<double>> _normalizeObjects;
-		Parameters _algorithmParameters;
+		vector<vector<double>> _normalizeObjects;		
 
+		void setDateTime();
 		bool tryReadFile(vector<vector<double>> &data);
 		void tryWriteFile(vector<vector<double>> &data);
 	};

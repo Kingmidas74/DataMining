@@ -34,6 +34,8 @@ namespace ParallelClustering
 			vector<vector<double>>	Centroids;
 			vector<vector<double>>	VectorsOfProbabilities;
 			double					ClearRuntime;
+			int						CountOfObjects;
+			int						CountofDimensions;
 
 			function<double(vector<double>, vector<double>)> DistanceCalculate;
 
@@ -42,10 +44,6 @@ namespace ParallelClustering
 			void StartClustering(vector<vector<double>> centroids);
 
 		private:
-
-			int countOfObjects;
-			int countofDimensions;
-
 			vector<vector<double>> generateUMatrix();
 			vector<double> normalizeUMatrixRow(vector<double> row);
 			vector<vector<double>> calculateCentroids(vector<vector<double>> matrix);

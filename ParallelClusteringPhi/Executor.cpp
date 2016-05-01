@@ -12,10 +12,10 @@ namespace ParallelClustering
 {
 	Executor::Executor(Parameters algorithmParameters)
 	{
-		_algorithmParameters = algorithmParameters;
+		AlgorithmParameters = algorithmParameters;
 	}
 
-	Executor::~Executor() 
+	Executor::~Executor()
 	{
 
 	}
@@ -24,12 +24,15 @@ namespace ParallelClustering
 	{
 		vector<vector<double>> data;
 		vector<vector<double>> centroids;
+		setDateTime();
 		if (tryReadFile(data))
 		{
-			centroids = GetRandomObjects(_algorithmParameters.CountOfClusters, data[0].size());
-			FuzzyCMeans* cmeans = new FuzzyCMeans(data, _algorithmParameters.Epsilon, _algorithmParameters.Fuzzy, GetMetrics(MetricsDistanceTypes::Evklid));
+			AlgorithmParameters.CountOfObjects = data.size();
+			AlgorithmParameters.CountOfDimensions = data[0].size();
+			centroids = GetRandomObjects(AlgorithmParameters.CountOfClusters, data[0].size());
+			FuzzyCMeans* cmeans = new FuzzyCMeans(data, AlgorithmParameters.Epsilon, AlgorithmParameters.Fuzzy, GetMetrics(MetricsDistanceTypes::Evklid));
 			cmeans->StartClustering(centroids);
-			Runtime = cmeans->ClearRuntime;
+			Runtime = cmeans->ClearRuntime;			
 			tryWriteFile(cmeans->VectorsOfProbabilities);
 		}
 		else {
@@ -40,7 +43,7 @@ namespace ParallelClustering
 
 	bool Executor::tryReadFile(vector<vector<double>> &data)
 	{
-		fstream infile(_algorithmParameters.InputFilePath);
+		fstream infile(AlgorithmParameters.InputFilePath);
 
 		while (infile)
 		{
@@ -60,26 +63,40 @@ namespace ParallelClustering
 				if (iss >> p)
 				{
 					record.push_back(p);
-				}				
+				}
 			}
 
 			data.push_back(record);
-		}		
+		}
 		return true;
 	}
 
 	void Executor::tryWriteFile(vector<vector<double>> &data)
 	{
-		fstream outfile(_algorithmParameters.OutputFilePath);
-		for (int n = 0; n<data.size(); n++)
+		fstream outfile(AlgorithmParameters.OutputFilePath+"_"+DateTimeNow, fstream::out);
+		for (int n = 0; n < data.size(); n++)
 		{
 			int c;
-			for (c = 0; c < data[n].size()-1; c++)
+			for (c = 0; c < data[n].size() - 1; c++)
 			{
 				outfile << data[n][c] << ";";
 			}
 			outfile << data[n][c] << endl;
 		}
+	}
+
+	void Executor::setDateTime()
+	{
+		time_t rawtime;
+		struct tm timeinfo;
+		char buffer[80];
+
+		time(&rawtime);
+		localtime_s(&timeinfo, &rawtime);
+
+		strftime(buffer, 80, "%d-%m-%Y;%H:%M:%S", &timeinfo);
+		std::string str(buffer);
+		DateTimeNow = str;
 	}
 
 }
