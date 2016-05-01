@@ -1,0 +1,570 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<sim-project version="9.2" multi-file="no">
+  <meta>
+    <name>ParallelClustering</name>
+    <authors>Suleymanov D,E., Zymbler M.L.</authors>
+    <description />
+  </meta>
+  <counters models="1">
+    <entity-names>
+      <counter>
+        <item-type type="UmlClass" />
+        <value>6</value>
+      </counter>
+      <counter>
+        <item-type stereotype="struct" type="UmlClass" />
+        <value>1</value>
+      </counter>
+      <counter>
+        <item-type stereotype="enumeration" type="UmlEnumeration" />
+        <value>1</value>
+      </counter>
+    </entity-names>
+    <entity-ids>
+      <counter>
+        <item-type type="AbstractElementGroup" />
+        <value>160</value>
+      </counter>
+      <counter>
+        <item-type type="UmlClass" />
+        <value>8</value>
+      </counter>
+      <counter>
+        <item-type type="UmlDependency" />
+        <value>10</value>
+      </counter>
+      <counter>
+        <item-type type="UmlEnumeration" />
+        <value>2</value>
+      </counter>
+    </entity-ids>
+    <diagrams>
+      <counter>
+        <type>SoftwareIdeasModeler.Core.Diagrams.UmlDiagrams.UmlClassDiagram</type>
+        <value>1</value>
+      </counter>
+    </diagrams>
+    <fields>
+      <counter>
+        <type>SoftwareIdeasModeler.Core.DiagramItems.Fields.OperationField</type>
+        <value>30</value>
+      </counter>
+      <counter>
+        <type>SoftwareIdeasModeler.Core.DiagramItems.Fields.AttributeField</type>
+        <value>21</value>
+      </counter>
+      <counter>
+        <type>SoftwareIdeasModeler.Core.DiagramItems.Fields.EnumerationItemField</type>
+        <value>3</value>
+      </counter>
+    </fields>
+  </counters>
+  <alias-groups />
+  <management>
+    <persons>
+      <person id="P74d0dba92bba4ee9a912ad5735f865f8">
+        <first-name />
+        <last-name />
+        <role />
+        <e-mail />
+        <phone-number />
+        <description />
+        <color>#00000000</color>
+      </person>
+    </persons>
+    <tasks />
+    <requirements />
+    <issues />
+    <to-dos />
+  </management>
+  <glossary />
+  <types>
+    <type-sets>
+      <type-set file="UmlTypes.xml" />
+    </type-sets>
+    <custom-types>
+      <type id="Class:di852173916115257546" tid="" name="Parameters" description="" nullable="false" class-ref="di852173916115257546" />
+      <type id="void" tid="" name="void" description="" nullable="false" />
+      <type id="vector&lt;vector&lt;double&gt;&gt;" tid="" name="vector&lt;vector&lt;double&gt;&gt;" description="" nullable="false" />
+      <type id="double" tid="" name="double" description="" nullable="false" />
+      <type id="function&lt;double(vector&lt;double&gt;, vector&lt;double&gt;)&gt;" tid="" name="function&lt;double(vector&lt;double&gt;, vector&lt;double&gt;)&gt;" description="" nullable="false" />
+      <type id="&gt; metrics)" tid="" name="&gt; metrics)" description="" nullable="false" />
+      <type id="vector&lt;double&gt;" tid="" name="vector&lt;double&gt;" description="" nullable="false" />
+      <type id="int" tid="" name="int" description="" nullable="false" />
+    </custom-types>
+  </types>
+  <filters />
+  <items>
+    <item id="di543738816694999638" cid="C003" type="class" name="ClusterParameters" style-class="" visibility="package" change-tracking-state="added" creator="P74d0dba92bba4ee9a912ad5735f865f8" creation-date="05/01/2016 16:48:45">
+      <style class="default" />
+      <attributes>
+        <attribute id="a98c39b12a7fa47659410fcd1a609c4be839" cid="AT008" name="int _argc" type="" type-id="" visibility="private">
+          <style class="default" />
+        </attribute>
+        <attribute id="a0666398db42b4550afbf71a64278e240775" cid="AT009" name="vector&lt;char*&gt; _argv" type="" type-id="" visibility="private">
+          <style class="default" />
+        </attribute>
+      </attributes>
+      <operations>
+        <operation id="o64ff003795cc4dd49da2167b4c98104a871" cid="OP004" name="Parse" type="void" type-id="void" visibility="private">
+          <style class="default" />
+        </operation>
+        <operation id="obcadcdf6dc434b8a978728174068a48e807" cid="OP005" name="ClusterParameters" type="" type-id="" visibility="public">
+          <style class="default" />
+          <parameters>
+            <parameter id="p7bf8c77d7d4349b5ac15f26dfedb139d" name="int argc" type="" type-id="" />
+            <parameter id="p7ee1bd92e4a146b9abb995b7a1214bc2" name="char* argv" type="" type-id="" multiplicity="*" />
+          </parameters>
+        </operation>
+        <operation id="o9593d2183ae245e284c6a2daac91fbde903" cid="OP006" name="GetParameters" type="Parameters" type-id="Class:di852173916115257546" visibility="public">
+          <style class="default" />
+        </operation>
+        <operation id="o42fc678dcbf2463ab1fd6efac27ddc8f527" cid="OP007" name="getInputFile" type="void" type-id="void" visibility="private">
+          <style class="default" />
+          <parameters>
+            <parameter id="p761b2d9ff424455da8cdce71a4768a9b" name="int numberOfparameter" type="" type-id="" />
+          </parameters>
+        </operation>
+        <operation id="o65cd46ee3d864b8c9246b78b310f64ad847" cid="OP008" name="getOuputFile" type="void" type-id="void" visibility="private">
+          <style class="default" />
+          <parameters>
+            <parameter id="p2aa08cd28be84e9b9c55445cea49758c" name="int numberOfparameter" type="" type-id="" />
+          </parameters>
+        </operation>
+        <operation id="o40804d8d109b41e6a763c527b2aee145703" cid="OP009" name="getCountOfClusters" type="void" type-id="void" visibility="private">
+          <style class="default" />
+          <parameters>
+            <parameter id="p8901d4f4d6894661bfa7fabcfbc373f7" name="int numberOfparameter" type="" type-id="" />
+          </parameters>
+        </operation>
+        <operation id="o4e6b2ec8a0a549849bb39c915a4daf9e399" cid="OP010" name="getCountOfDimensions" type="void" type-id="void" visibility="private">
+          <style class="default" />
+          <parameters>
+            <parameter id="p467d4d79eeff412cb5249e5a160ad81c" name="int numberOfparameter" type="" type-id="" />
+          </parameters>
+        </operation>
+        <operation id="o97d307479f5d454ebd71b341a4605725767" cid="OP011" name="getCountOfObjects" type="void" type-id="void" visibility="private">
+          <style class="default" />
+          <parameters>
+            <parameter id="pc681420841634ad4913b3d0de59f9538" name="int numberOfparameter" type="" type-id="" />
+          </parameters>
+        </operation>
+        <operation id="oe90ea127bafb4dbe9c1c5d93fbbe010c455" cid="OP012" name="getFuzzy" type="void" type-id="void" visibility="private">
+          <style class="default" />
+          <parameters>
+            <parameter id="pf7b9ddd50e7f49e68e8bad1e475e619d" name="int numberOfparameter" type="" type-id="" />
+          </parameters>
+        </operation>
+        <operation id="o7f272bfcaeeb4294a1839c2f2003240c174" cid="OP013" name="getEpsilon" type="void" type-id="void" visibility="private">
+          <style class="default" />
+          <parameters>
+            <parameter id="pdffca7f7d3d14ca98abb63226950ddf8" name="int numberOfparameter" type="" type-id="" />
+          </parameters>
+        </operation>
+      </operations>
+    </item>
+  </items>
+  <models>
+    <model id="pe6c93e4ec2254afa9a23feefbdb9551a_827827121" name="Model 1" namespace="" order-index="1">
+      <meta>
+        <authors>
+          <author> </author>
+        </authors>
+        <description />
+        <creation-date>05/01/2016 16:36:05</creation-date>
+        <change-date>01/01/0001 00:00:00</change-date>
+        <revision-count>0</revision-count>
+        <version />
+      </meta>
+      <abstract-items />
+      <sub-models />
+      <diagram type="uml-class" id="p3efec462b1df479a9897caabd6bd9c90_212898929" name="ClassDiagram1" order-index="1" show-id="false" show-name="true" show-parent-name="false" show-stereotypes="true" show-tagged-values="false" show-template-parameters="true" show-fields="true" show-empty-compartments="true" show-attributes="true" show-attribute-visibility="true" show-operations="true" show-operation-parameters="true" show-operation-visibility="true" show-nullability="true" show-sequence-number="false" show-extension-points="false" show-relationship-texts="true" show-description="false" show-field-description="false" auto-routed-paths="false" view-location="-472,199">
+        <style>
+          <background-color index="1" color="#FFFFFFFF" />
+          <background-color index="2" color="#FFFFFFFF" />
+          <background-type type="solid" />
+        </style>
+        <meta>
+          <authors>
+            <author> </author>
+          </authors>
+          <description />
+          <creation-date>05/01/2016 16:36:05</creation-date>
+          <change-date>05/01/2016 17:23:39</change-date>
+          <revision-count>0</revision-count>
+          <version />
+        </meta>
+        <abstract-items>
+          <item id="di659933467558362662" cid="C001" type="class" name="Helper" style-class="" visibility="package" change-tracking-state="added" creator="P74d0dba92bba4ee9a912ad5735f865f8" creation-date="05/01/2016 16:44:09">
+            <style class="default" />
+            <operations>
+              <operation id="o40a25cb0e64e4a6c9a6e4c195de3d046244" cid="OP001" name="PrintObjects" type="" type-id="" visibility="public">
+                <style class="default" />
+                <parameters>
+                  <parameter id="p889f5088b393488998f3a0bd831d6386" name="vector&lt;vector&lt;double&gt;&gt; objects" type="" type-id="" />
+                </parameters>
+              </operation>
+              <operation id="o9159a1d7622145fb81ed08341e9ca2b5504" cid="OP002" name="GetRandomDouble" type="double" type-id="double" visibility="public">
+                <style class="default" />
+                <parameters>
+                  <parameter id="p3b5ed2524cad428c93940add83731b20" name="double min" type="" type-id="" />
+                  <parameter id="p1af8408d1fc249819ce91181998cbe64" name="double max" type="" type-id="" />
+                </parameters>
+              </operation>
+              <operation id="o40c986381d3441418470ada154f44ed6664" cid="OP003" name="GetRandomObjects" type="vector&lt;vector&lt;double&gt;&gt;" type-id="vector&lt;vector&lt;double&gt;&gt;" visibility="public">
+                <style class="default" />
+                <parameters>
+                  <parameter id="pdd09f0cb6dbd4ad6af0285210dede9b7" name="int count" type="" type-id="" />
+                  <parameter id="p39c6d1985e93460885dd12337473c981" name="int dimension" type="" type-id="" />
+                </parameters>
+              </operation>
+            </operations>
+          </item>
+          <item id="di852173916115257546" cid="C002" type="class" name="Parameters" style-class="" visibility="package" change-tracking-state="added" creator="P74d0dba92bba4ee9a912ad5735f865f8" creation-date="05/01/2016 16:46:32">
+            <stereotypes>
+              <stereotype name="struct" />
+            </stereotypes>
+            <style class="default" />
+            <attributes>
+              <attribute id="a249adc1507c14de7992b32ffc85eb59d194" cid="AT001" name="int CountOfClusters" type="" type-id="" visibility="public">
+                <style class="default" />
+              </attribute>
+              <attribute id="a0346db1c9e3e443d8eec988210d488ed303" cid="AT002" name="double Fuzzy" type="" type-id="" visibility="public">
+                <style class="default" />
+              </attribute>
+              <attribute id="af38a11c8ed224afd950a3c397a2bea7b632" cid="AT003" name="double Epsilon" type="" type-id="" visibility="public">
+                <style class="default" />
+              </attribute>
+              <attribute id="af46fc6f17fe044ae819850ba3d724aab824" cid="AT004" name="string InputFilePath" type="" type-id="" visibility="public">
+                <style class="default" />
+              </attribute>
+              <attribute id="a514736ccb9114204b29609043c5d8b6a895" cid="AT005" name="string OutputFilePath" type="" type-id="" visibility="public">
+                <style class="default" />
+              </attribute>
+            </attributes>
+          </item>
+          <item id="di873428801943505273" cid="C004" type="class" name="Metrics" style-class="" visibility="package" change-tracking-state="added" creator="P74d0dba92bba4ee9a912ad5735f865f8" creation-date="05/01/2016 17:00:03">
+            <style class="default" />
+            <operations>
+              <operation id="o90826b34c51444db8f92d4ab62b3ec5194" cid="OP014" name="GetMetrics" type="function&lt;double(vector&lt;double&gt;, vector&lt;double&gt;)&gt;" type-id="function&lt;double(vector&lt;double&gt;, vector&lt;double&gt;)&gt;" visibility="public">
+                <style class="default" />
+                <parameters>
+                  <parameter id="pbe7f688ddc1b4363a085a11ce075e241" name="MetricsDistanceTypes type" type="" type-id="" />
+                </parameters>
+              </operation>
+              <operation id="o05303ed6faa44bdbb3c69731f6c94bf2566" cid="OP015" name="EvklidDistance" type="double" type-id="double" visibility="public">
+                <style class="default" />
+                <parameters>
+                  <parameter id="pf2eb5ae43d464caebe81bee62e230e5a" name="vector&lt;double&gt; first_data" type="" type-id="" />
+                  <parameter id="p092185c4849744e6a0b85dc35c0eaa87" name="vector&lt;double&gt; second_data" type="" type-id="" />
+                </parameters>
+              </operation>
+            </operations>
+          </item>
+          <item id="di726159744892010450" cid="DEP002" type="dependency" name="Return" style-class="" visibility="package" change-tracking-state="added" creator="P74d0dba92bba4ee9a912ad5735f865f8" creation-date="05/01/2016 16:53:39" from="di543738816694999638" to="di852173916115257546">
+            <stereotypes>
+              <stereotype name="use" />
+            </stereotypes>
+            <style class="default" />
+          </item>
+          <item id="di124818623189454520" cid="E001" type="enumeration" name="MetricsDistanceTypes" style-class="" visibility="package" change-tracking-state="added" creator="P74d0dba92bba4ee9a912ad5735f865f8" creation-date="05/01/2016 17:02:55">
+            <stereotypes>
+              <stereotype name="enumeration" />
+            </stereotypes>
+            <style class="default" />
+            <enumeration-items>
+              <enumeration-item id="afef73b275ead4cf7a902cd6375fbcf93145" cid="ENI001" name="Evklid">
+                <style class="default" />
+              </enumeration-item>
+              <enumeration-item id="ab99b122ebb074134bb2ba757f7243d45302" cid="ENI002" name="Custom">
+                <style class="default" />
+              </enumeration-item>
+            </enumeration-items>
+          </item>
+          <item id="di481223939248022863" cid="DEP003" type="dependency" name="Input parameter" style-class="" visibility="package" change-tracking-state="added" creator="P74d0dba92bba4ee9a912ad5735f865f8" creation-date="05/01/2016 17:04:22" from="di873428801943505273" to="di124818623189454520">
+            <stereotypes>
+              <stereotype name="use" />
+            </stereotypes>
+            <style class="default" />
+          </item>
+          <item id="di992600574828000763" cid="C005" type="class" name="FuzzyCMeans" style-class="" visibility="package" change-tracking-state="added" creator="P74d0dba92bba4ee9a912ad5735f865f8" creation-date="05/01/2016 17:06:57">
+            <style class="default" />
+            <attributes>
+              <attribute id="aca16f12d2c394b70813430badccacfce670" cid="AT010" name="int ClusterCount" type="" type-id="" visibility="public">
+                <style class="default" />
+              </attribute>
+              <attribute id="a6d13a696d8b3496ca55c6cfaad5dd1b2518" cid="AT011" name="double Epsilon" type="" type-id="" visibility="public">
+                <style class="default" />
+              </attribute>
+              <attribute id="adf0b21ff6ebb4061b763c26e148fee42398" cid="AT012" name="double Fuzzy" type="" type-id="" visibility="public">
+                <style class="default" />
+              </attribute>
+              <attribute id="a1012161ad734456594262745a18caa6b262" cid="AT013" name="vector&lt;vector&lt;double&gt;&gt; VectorsForClustering" type="" type-id="" visibility="public">
+                <style class="default" />
+              </attribute>
+              <attribute id="aeea6f0a4790649c6ba0b8904a62cd718614" cid="AT014" name="vector&lt;vector&lt;double&gt;&gt; Centroids" type="" type-id="" visibility="public">
+                <style class="default" />
+              </attribute>
+              <attribute id="a2a3c1d2a7394417380253fb82460b7c8534" cid="AT015" name="vector&lt;vector&lt;double&gt;&gt; VectorsOfProbabilities" type="" type-id="" visibility="public">
+                <style class="default" />
+              </attribute>
+              <attribute id="a2fd88f4ca8584b58b2dc62ff7d621f58958" cid="AT016" name="function&lt;double(vector&lt;double&gt;, vector&lt;double&gt;)&gt; DistanceCalculate" type="" type-id="" visibility="public">
+                <style class="default" />
+              </attribute>
+              <attribute id="a4ae97ec0475c46a38d98edc6659dc38e270" cid="AT017" name="int countOfObjects" type="" type-id="" visibility="private">
+                <style class="default" />
+              </attribute>
+              <attribute id="af906207acad144c28d7849ab994431b638" cid="AT018" name="int countOfDimensions" type="" type-id="" visibility="private">
+                <style class="default" />
+              </attribute>
+            </attributes>
+            <operations>
+              <operation id="o3e4f3c9a198a4715b167063f97febd08654" cid="OP016" name="FuzzyCMeans" type="&gt; metrics)" type-id="&gt; metrics)" visibility="public">
+                <style class="default" />
+                <parameters>
+                  <parameter id="p346023eb748c4efc8535b31aafa141a4" name="vector&lt;vector&lt;double&gt;&gt; objects" type="" type-id="" />
+                  <parameter id="p7b8060f346084e6495d4ee91b2e9d8c5" name="double epsilon" type="" type-id="" />
+                  <parameter id="p1ddf94c6db8d4527953592ade3b7a6f6" name="double fuzzy" type="" type-id="" />
+                  <parameter id="p18dcc25e5b2a4c29af8dcdd399130cd7" name="function&lt;double(vector&lt;double&gt;" type="" type-id="" />
+                  <parameter id="p6bd042ab70914455aa0153c992c1ed22" name="vector&lt;double&gt;" type="" type-id="" />
+                </parameters>
+              </operation>
+              <operation id="o02a1898001884b51810b3401f8582c8c86" cid="OP017" name="StartClustering" type="void" type-id="void" visibility="public">
+                <style class="default" />
+                <parameters>
+                  <parameter id="p6d8312ea65bd4aa08e93d1565d9420af" name="vector&lt;vector&lt;double&gt;&gt; centroids" type="" type-id="" />
+                </parameters>
+              </operation>
+              <operation id="o5e12b2fb7b404ad9a4efe47845c5d0f0630" cid="OP020" name="generateMatrix" type="vector&lt;vector&lt;double&gt;&gt;" type-id="vector&lt;vector&lt;double&gt;&gt;" visibility="private">
+                <style class="default" />
+              </operation>
+              <operation id="o7b073964563649f2b7489bf7af9f43f7350" cid="OP021" name="normalizeUMatrixRow" type="vector&lt;double&gt;" type-id="vector&lt;double&gt;" visibility="private">
+                <style class="default" />
+                <parameters>
+                  <parameter id="p5cf20a0a1c99419896238be7225e008f" name="vector&lt;double&gt; row" type="" type-id="" />
+                </parameters>
+              </operation>
+              <operation id="o7fc4269719614e2f9dd889c89d709825542" cid="OP022" name="calculateCentroids" type="vector&lt;vector&lt;double&gt;&gt;" type-id="vector&lt;vector&lt;double&gt;&gt;" visibility="private">
+                <style class="default" />
+                <parameters>
+                  <parameter id="pdb5114f0668142e087e9764fe7a2531c" name="vector&lt;vector&lt;double&gt;&gt; matrix" type="" type-id="" />
+                </parameters>
+              </operation>
+              <operation id="o6a4e05f84a234f6490b883ded3b759e3613" cid="OP023" name="calculateDecisionFunction" type="double" type-id="double" visibility="private">
+                <style class="default" />
+                <parameters>
+                  <parameter id="pf45aff84ed294201833684b57bd0bbaf" name="vector&lt;vector&lt;double&gt;&gt; matrix" type="" type-id="" />
+                  <parameter id="p356c262dee594a9ba985216bb20d2e2b" name="vector&lt;vector&lt;double&gt;&gt; centers" type="" type-id="" />
+                </parameters>
+              </operation>
+              <operation id="oc8bd14993fc84a7aba7133772b460af5438" cid="OP024" name="getProbabilities" type="vector&lt;vector&lt;double&gt;&gt;" type-id="vector&lt;vector&lt;double&gt;&gt;" visibility="private">
+                <style class="default" />
+                <parameters>
+                  <parameter id="p0b5908f1c0ec4302b82c6a235e65f01c" name="vector&lt;vector&lt;double&gt;&gt; matrix" type="" type-id="" />
+                </parameters>
+              </operation>
+            </operations>
+          </item>
+          <item id="di317347166534094348" cid="DEP004" type="dependency" name="Input parameter" style-class="" visibility="package" change-tracking-state="added" creator="P74d0dba92bba4ee9a912ad5735f865f8" creation-date="05/01/2016 17:13:16" from="di992600574828000763" to="di873428801943505273">
+            <stereotypes>
+              <stereotype name="use" />
+            </stereotypes>
+            <style class="default" />
+          </item>
+          <item id="di755780711907297437" cid="C006" type="class" name="Executor" style-class="" visibility="package" change-tracking-state="added" creator="P74d0dba92bba4ee9a912ad5735f865f8" creation-date="05/01/2016 17:15:30">
+            <style class="default" />
+            <attributes>
+              <attribute id="a9d5762b681ea4cd098c7fdf482d27a07597" cid="AT019" name="vector&lt;vector&lt;double&gt;&gt; _normalizeObjects" type="" type-id="" visibility="private">
+                <style class="default" />
+              </attribute>
+              <attribute id="aabf4e470d2d74f4497b7d80e6b634d86501" cid="AT020" name="Parameters _algorithmParameters" type="" type-id="" visibility="private">
+                <style class="default" />
+              </attribute>
+            </attributes>
+            <operations>
+              <operation id="o5f2a227a308a4a949a111aa796464ad3590" cid="OP025" name="Executor" type="" type-id="" visibility="public">
+                <style class="default" />
+                <parameters>
+                  <parameter id="p796aff886b274713bd8d0a61984bc08b" name="Parameters algorithmParameters" type="" type-id="" />
+                </parameters>
+              </operation>
+              <operation id="o1750a464aaca47db85ca7802376ffdcd37" cid="OP026" name="CalculateProbabilities" type="vector&lt;vector&lt;double&gt;&gt;" type-id="vector&lt;vector&lt;double&gt;&gt;" visibility="public">
+                <style class="default" />
+              </operation>
+              <operation id="o31d882b7e4cf4d59aff5a1e31ac00ac8157" cid="OP027" name="tryReadFile" type="Boolean" type-id="Uml.Boolean" visibility="private">
+                <style class="default" />
+                <parameters>
+                  <parameter id="pcd3aa046db6744cfa91d0082dbd4bafd" name="vector&lt;vector&lt;double&gt;&gt; &amp;data" type="" type-id="" />
+                </parameters>
+              </operation>
+              <operation id="o10b4c871e234480b9d1bf7404957523253" cid="OP028" name="tryWriteFile" type="void" type-id="void" visibility="private">
+                <style class="default" />
+                <parameters>
+                  <parameter id="p71e157f3147d4393a9ff79be3e4c966e" name="vector&lt;vector&lt;double&gt;&gt; data" type="" type-id="" />
+                </parameters>
+              </operation>
+            </operations>
+          </item>
+          <item id="di966473261773568274" cid="DEP005" type="dependency" name="Run" style-class="" visibility="package" change-tracking-state="added" creator="P74d0dba92bba4ee9a912ad5735f865f8" creation-date="05/01/2016 17:18:53" from="di755780711907297437" to="di992600574828000763">
+            <stereotypes>
+              <stereotype name="use" />
+            </stereotypes>
+            <style class="default" />
+          </item>
+          <item id="di917925824792273778" cid="DEP007" type="dependency" name="InputParameter" style-class="" visibility="package" change-tracking-state="added" creator="P74d0dba92bba4ee9a912ad5735f865f8" creation-date="05/01/2016 17:19:32" from="di755780711907297437" to="di852173916115257546">
+            <stereotypes>
+              <stereotype name="use" />
+            </stereotypes>
+            <style class="default" />
+          </item>
+          <item id="di459957119953149216" cid="C007" type="class" name="Source" style-class="" visibility="package" change-tracking-state="added" creator="P74d0dba92bba4ee9a912ad5735f865f8" creation-date="05/01/2016 17:21:18">
+            <style class="default" />
+            <operations>
+              <operation id="o8e216fedb1e24c6cb6d6a56561bb927e181" cid="OP029" name="main" type="int" type-id="int" visibility="public">
+                <style class="default" />
+                <parameters>
+                  <parameter id="p8ddab4a9ba7d45ddadf2fcb0c00305f5" name="int argc" type="" type-id="" />
+                  <parameter id="p3ef0387b01854176b0ed197dec6c251a" name="char* argv" type="" type-id="" multiplicity="*" />
+                </parameters>
+              </operation>
+            </operations>
+          </item>
+          <item id="di580767468925396371" cid="DEP008" type="dependency" name="Find" style-class="" visibility="package" change-tracking-state="added" creator="P74d0dba92bba4ee9a912ad5735f865f8" creation-date="05/01/2016 17:22:43" from="di459957119953149216" to="di543738816694999638">
+            <stereotypes>
+              <stereotype name="use" />
+            </stereotypes>
+            <style class="default" />
+          </item>
+          <item id="di112374971758545482" cid="DEP009" type="dependency" name="Run" style-class="" visibility="package" change-tracking-state="added" creator="P74d0dba92bba4ee9a912ad5735f865f8" creation-date="05/01/2016 17:23:39" from="di459957119953149216" to="di755780711907297437">
+            <stereotypes>
+              <stereotype name="use" />
+            </stereotypes>
+            <style class="default" />
+          </item>
+        </abstract-items>
+        <layer name="Default" visible="true" enabled="true" locked="false">
+          <item id="di659933467558362662" iid="60efd1d727314b0e96f2f73457042a45" creation-date="05/01/2016 16:44:09" order-index="0" type="entity">
+            <layout ax="-88" ay="152" awidth="500" aheight="128" x="-88" y="152" width="500" height="128" />
+            <class />
+          </item>
+          <item id="di852173916115257546" iid="5dbf31c3d459432289447389f91b26ea" creation-date="05/01/2016 16:46:32" order-index="1" type="entity">
+            <layout ax="528" ay="127" awidth="189" aheight="160" x="528" y="127" width="189" height="160" />
+            <class />
+          </item>
+          <item id="di543738816694999638" iid="907cda852fed40448bfbf0909b1466b7" creation-date="05/01/2016 16:48:45" order-index="2" type="entity">
+            <layout ax="38" ay="326" awidth="406" aheight="249" x="38" y="326" width="406" height="249" />
+            <class />
+          </item>
+          <item id="di726159744892010450" iid="c00d04d15fb74d92b0b77bef0e02ba01" creation-date="05/01/2016 16:53:39" order-index="3" type="relation">
+            <layout line-style="oblique" lock-start-point="true" lock-end-point="true" lock-to-fields="true" auto-path="" x1="444" y1="438" x2="624" y2="127" start-border-pos="0.362951807228916" end-border-pos="0.126984126984127" name-position="0,0">
+              <points>
+                <point x="444" y="438" />
+                <point x="470" y="438" />
+                <point x="473" y="68" />
+                <point x="625" y="69" />
+                <point x="624" y="127" />
+              </points>
+            </layout>
+            <relation from="di543738816694999638" from-iid="907cda852fed40448bfbf0909b1466b7" from-field="o9593d2183ae245e284c6a2daac91fbde903" to="di852173916115257546" to-iid="5dbf31c3d459432289447389f91b26ea" />
+          </item>
+          <item id="di873428801943505273" iid="0b756ca19a524317996eff973f7f7151" creation-date="05/01/2016 17:00:03" order-index="4" type="entity">
+            <layout ax="567" ay="383" awidth="292" aheight="160" x="567" y="383" width="292" height="160" />
+            <class />
+          </item>
+          <item id="di124818623189454520" iid="29833c93a1f746e8b0967ce20e98e14b" creation-date="05/01/2016 17:02:55" order-index="5" type="entity">
+            <layout ax="784" ay="127" awidth="189" aheight="83" x="784" y="127" width="189" height="83" />
+            <enumeration />
+          </item>
+          <item id="di481223939248022863" iid="9b2948726b92427baf8b07b642d15ecc" creation-date="05/01/2016 17:04:22" order-index="6" type="relation">
+            <layout line-style="oblique" lock-start-point="false" lock-end-point="true" lock-to-fields="true" auto-path="" x1="859" y1="442" x2="877" y2="127" start-border-pos="0.3421875" end-border-pos="0.123015873015873" name-position="0,0">
+              <points>
+                <point x="859" y="442" />
+                <point x="1014" y="444" />
+                <point x="1015" y="98" />
+                <point x="876" y="97" />
+                <point x="877" y="127" />
+              </points>
+            </layout>
+            <relation from="di873428801943505273" from-iid="0b756ca19a524317996eff973f7f7151" from-field="o90826b34c51444db8f92d4ab62b3ec5194" to="di124818623189454520" to-iid="29833c93a1f746e8b0967ce20e98e14b" to-field="enumeration" />
+          </item>
+          <item id="di992600574828000763" iid="37292f661d8b4faabbc68a6ac5b5b960" creation-date="05/01/2016 17:06:57" order-index="7" type="entity">
+            <layout ax="189" ay="621" awidth="485" aheight="392" x="189" y="621" width="485" height="392" />
+            <class />
+          </item>
+          <item id="di317347166534094348" iid="d5ff48d9a19b41caba9276ad02b9fcb2" creation-date="05/01/2016 17:13:16" order-index="8" type="relation">
+            <layout line-style="oblique" lock-start-point="false" lock-end-point="true" lock-to-fields="true" auto-path="" x1="674" y1="826" x2="716" y2="383" start-border-pos="0.380420918367347" end-border-pos="0.127568493150685" name-position="0,0">
+              <points>
+                <point x="674" y="826" />
+                <point x="792" y="826" />
+                <point x="793" y="587" />
+                <point x="528" y="587" />
+                <point x="528" y="345" />
+                <point x="717" y="346" />
+                <point x="716" y="383" />
+              </points>
+            </layout>
+            <relation from="di992600574828000763" from-iid="37292f661d8b4faabbc68a6ac5b5b960" from-field="o3e4f3c9a198a4715b167063f97febd08654" to="di873428801943505273" to-iid="0b756ca19a524317996eff973f7f7151" />
+          </item>
+          <item id="di755780711907297437" iid="84221bf479d44428bcf549553fedeb38" creation-date="05/01/2016 17:15:30" order-index="9" type="entity">
+            <layout ax="-290" ay="621" awidth="376" aheight="312" x="-290" y="621" width="376" height="312" />
+            <class />
+          </item>
+          <item id="di966473261773568274" iid="a1a23f24837e4ec29ff31ac1f1ef1261" creation-date="05/01/2016 17:18:53" order-index="10" type="relation">
+            <layout line-style="oblique" lock-start-point="false" lock-end-point="true" lock-to-fields="true" auto-path="" x1="86" y1="716" x2="189" y2="849" start-border-pos="0.326522435897436" end-border-pos="0.854272959183674" name-position="0,0">
+              <points>
+                <point x="86" y="716" />
+                <point x="126" y="718" />
+                <point x="126" y="850" />
+                <point x="189" y="849" />
+              </points>
+            </layout>
+            <relation from="di755780711907297437" from-iid="84221bf479d44428bcf549553fedeb38" from-field="o1750a464aaca47db85ca7802376ffdcd37" to="di992600574828000763" to-iid="37292f661d8b4faabbc68a6ac5b5b960" to-field="o02a1898001884b51810b3401f8582c8c86" />
+          </item>
+          <item id="di917925824792273778" iid="e5ba84ad2e5a45b78be23db2e92b5393" creation-date="05/01/2016 17:19:32" order-index="11" type="relation">
+            <layout line-style="oblique" lock-start-point="false" lock-end-point="true" lock-to-fields="true" auto-path="" x1="86" y1="676" x2="644" y2="127" start-border-pos="0.293669871794872" end-border-pos="0.153439153439153" name-position="0,0">
+              <points>
+                <point x="86" y="676" />
+                <point x="130" y="675" />
+                <point x="132" y="594" />
+                <point x="-290" y="594" />
+                <point x="-293" y="34" />
+                <point x="644" y="35" />
+                <point x="644" y="127" />
+              </points>
+            </layout>
+            <relation from="di755780711907297437" from-iid="84221bf479d44428bcf549553fedeb38" from-field="aabf4e470d2d74f4497b7d80e6b634d86501" to="di852173916115257546" to-iid="5dbf31c3d459432289447389f91b26ea" to-field="struct" />
+          </item>
+          <item id="di459957119953149216" iid="a149b9eab10741e0b280d6d7a246605e" creation-date="05/01/2016 17:21:18" order-index="12" type="entity">
+            <layout ax="-261" ay="349" awidth="251" aheight="67" x="-261" y="349" width="251" height="67" />
+            <class />
+          </item>
+          <item id="di580767468925396371" iid="125c1350dcf14d8a8b44bce410d5ffea" creation-date="05/01/2016 17:22:43" order-index="13" type="relation">
+            <layout line-style="oblique" lock-start-point="true" lock-end-point="true" lock-to-fields="true" auto-path="" x1="-10" y1="394" x2="201" y2="326" start-border-pos="0.416044776119403" end-border-pos="0.100369458128079" name-position="0,16">
+              <points>
+                <point x="-10" y="394" />
+                <point x="9" y="393" />
+                <point x="9" y="294" />
+                <point x="203" y="292" />
+                <point x="201" y="326" />
+              </points>
+            </layout>
+            <relation from="di459957119953149216" from-iid="a149b9eab10741e0b280d6d7a246605e" from-field="o8e216fedb1e24c6cb6d6a56561bb927e181" to="di543738816694999638" to-iid="907cda852fed40448bfbf0909b1466b7" />
+          </item>
+          <item id="di112374971758545482" iid="587c5332609f46e09d22222e699dfc72" creation-date="05/01/2016 17:23:39" order-index="14" type="relation">
+            <layout line-style="oblique" lock-start-point="true" lock-end-point="true" lock-to-fields="true" auto-path="" x1="-261" y1="394" x2="-290" y2="716" start-border-pos="0.833955223880597" end-border-pos="0.923477564102564" name-position="0,0">
+              <points>
+                <point x="-261" y="394" />
+                <point x="-367" y="394" />
+                <point x="-372" y="718" />
+                <point x="-290" y="716" />
+              </points>
+            </layout>
+            <relation from="di459957119953149216" from-iid="a149b9eab10741e0b280d6d7a246605e" from-field="o8e216fedb1e24c6cb6d6a56561bb927e181" to="di755780711907297437" to-iid="84221bf479d44428bcf549553fedeb38" to-field="o1750a464aaca47db85ca7802376ffdcd37" />
+          </item>
+        </layer>
+      </diagram>
+    </model>
+  </models>
+  <documents />
+  <document-templates />
+</sim-project>

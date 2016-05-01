@@ -25,7 +25,7 @@ namespace ParallelClustering
 	{
 	}
 
-	void ClusterParameters::Parse()
+	void ClusterParameters::parse()
 	{
 		for (int i = 0; i < _argc; i=i+2)
 		{
@@ -41,7 +41,7 @@ namespace ParallelClustering
 
 	Parameters ClusterParameters::GetParameters()
 	{
-		Parse();
+		parse();
 		return allParameters;
 	}
 

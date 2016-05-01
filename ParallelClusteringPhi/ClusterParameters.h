@@ -30,13 +30,12 @@ namespace ParallelClustering
 
 	private:
 
-		map<string, function<void(int)>> _handlers;
 		int _argc;
 		vector<char*> _argv;
 		Parameters allParameters;
 
 
-		void Parse();
+		void parse();
 		void getInputFilPath(int numberOfparameter);
 		void getOutputFilPath(int numberOfparameter);
 		void getCountOfObjects(int numberOfparameter);
