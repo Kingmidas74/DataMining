@@ -5,9 +5,9 @@ using namespace std;
 
 void WriteLog(Executor* executor)
 {
-	fstream file;
-	file.open("log.csv", ios::out | ios::app);
-	file <<
+	fstream log;
+	log.open("log.csv", ios::out | ios::app);
+	log <<
 		executor->DateTimeNow << ";" <<
 		executor->AlgorithmParameters.CountOfObjects << ";" <<
 		executor->AlgorithmParameters.CountOfDimensions << ";" <<
