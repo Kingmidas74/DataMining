@@ -73,7 +73,7 @@ namespace ParallelClustering
 
 	void Executor::tryWriteFile(vector<vector<double>> &data)
 	{
-		fstream outfile(AlgorithmParameters.OutputFilePath+"_"+DateTimeNow, fstream::out);
+		fstream outfile(AlgorithmParameters.OutputFilePath, fstream::out);
 		for (int n = 0; n < data.size(); n++)
 		{
 			int c;
