@@ -31,6 +31,7 @@ namespace ParallelClustering
 			double					Epsilon;
 			double					Fuzzy;
 			vector<vector<double>>	VectorsForClustering;
+			vector<vector<double>>	Centroids;
 			vector<vector<double>>	VectorsOfProbabilities;
 
 			function<double(vector<double>, vector<double>)> DistanceCalculate;

@@ -52,6 +52,7 @@ namespace ParallelClustering
 					UMatrix[i] = normalizeUMatrixRow(UMatrix[i]);
 				}
 				currentDecisionValue = calculateDecisionFunction(UMatrix, centroids);
+				Centroids = centroids;
 			}
 
 			VectorsOfProbabilities = getProbabilities(UMatrix);

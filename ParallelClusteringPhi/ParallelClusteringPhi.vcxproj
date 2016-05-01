@@ -121,12 +121,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="ClusterParameters.h" />
     <ClInclude Include="Executor.h" />
     <ClInclude Include="FuzzyCMeans.h" />
     <ClInclude Include="Helper.h" />
     <ClInclude Include="MetricsDistance.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ClusterParameters.cpp" />
     <ClCompile Include="Executor.cpp" />
     <ClCompile Include="FuzzyCMeans.cpp" />
     <ClCompile Include="Helper.cpp" />
