@@ -33,6 +33,7 @@ namespace ParallelClustering
 
 		void FuzzyCMeans::StartClustering(vector<vector<double>> centroids)
 		{
+			int start = clock();
 			ClusterCount = centroids.size();
 			vector<vector<double>> UMatrix = generateUMatrix();
 			double previousDecisionValue = 0;
@@ -54,7 +55,7 @@ namespace ParallelClustering
 				currentDecisionValue = calculateDecisionFunction(UMatrix, centroids);
 				Centroids = centroids;
 			}
-
+			ClearRuntime = (clock() - start) / double(CLOCKS_PER_SEC) * 1000;
 			VectorsOfProbabilities = getProbabilities(UMatrix);
 
 		}

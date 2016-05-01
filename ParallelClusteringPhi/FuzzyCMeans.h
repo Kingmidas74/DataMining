@@ -33,6 +33,7 @@ namespace ParallelClustering
 			vector<vector<double>>	VectorsForClustering;
 			vector<vector<double>>	Centroids;
 			vector<vector<double>>	VectorsOfProbabilities;
+			double					ClearRuntime;
 
 			function<double(vector<double>, vector<double>)> DistanceCalculate;
 

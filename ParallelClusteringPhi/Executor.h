@@ -29,6 +29,7 @@ namespace ParallelClustering
 		Executor(Parameters algorithmParameters);
 		~Executor();
 		vector<vector<double>> CalculateProbabilities();
+		double Runtime;
 
 	private:
 		vector<vector<double>> _normalizeObjects;

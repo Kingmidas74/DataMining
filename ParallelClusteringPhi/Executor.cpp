@@ -29,6 +29,7 @@ namespace ParallelClustering
 			centroids = GetRandomObjects(_algorithmParameters.CountOfClusters, data[0].size());
 			FuzzyCMeans* cmeans = new FuzzyCMeans(data, _algorithmParameters.Epsilon, _algorithmParameters.Fuzzy, GetMetrics(MetricsDistanceTypes::Evklid));
 			cmeans->StartClustering(centroids);
+			Runtime = cmeans->ClearRuntime;
 			tryWriteFile(cmeans->VectorsOfProbabilities);
 		}
 		else {
@@ -39,8 +40,6 @@ namespace ParallelClustering
 
 	bool Executor::tryReadFile(vector<vector<double>> &data)
 	{
-		PrintObjects(data);
-		data.clear();
 		fstream infile(_algorithmParameters.InputFilePath);
 
 		while (infile)
@@ -66,7 +65,6 @@ namespace ParallelClustering
 
 			data.push_back(record);
 		}		
-		PrintObjects(data);
 		return true;
 	}
 
