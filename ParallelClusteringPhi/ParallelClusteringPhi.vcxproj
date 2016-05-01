@@ -126,6 +126,7 @@
     <ClInclude Include="FuzzyCMeans.h" />
     <ClInclude Include="Helper.h" />
     <ClInclude Include="MetricsDistance.h" />
+    <ClInclude Include="ParallelClustering.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ClusterParameters.cpp" />

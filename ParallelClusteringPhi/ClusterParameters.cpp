@@ -1,3 +1,11 @@
+/*
+"Реализация параллельных версиий алгоритов кластеризации данных
+с использованием многоядерных ускорителей"
+
+Класс для определения входных данных.
+Авторы: Сулейманов Д.Э., Цымблер М.Л.
+*/
+
 #include "ClusterParameters.h"
 
 
@@ -33,6 +41,7 @@ namespace ParallelClustering
 
 	Parameters ClusterParameters::GetParameters()
 	{
+		Parse();
 		return allParameters;
 	}
 

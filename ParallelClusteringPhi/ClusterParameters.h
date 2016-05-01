@@ -1,5 +1,13 @@
 #pragma once
 
+/*
+"Реализация параллельных версиий алгоритов кластеризации данных
+с использованием многоядерных ускорителей"
+
+Класс для определения входных данных.
+Авторы: Сулейманов Д.Э., Цымблер М.Л.
+*/
+
 #include <functional>
 #include <map>
 #include <fstream>
@@ -18,8 +26,6 @@ namespace ParallelClustering
 
 		ClusterParameters(int argc, char* argv[]);
 		~ClusterParameters();
-
-		void Parse();
 		Parameters GetParameters();
 
 	private:
@@ -29,6 +35,8 @@ namespace ParallelClustering
 		vector<char*> _argv;
 		Parameters allParameters;
 
+
+		void Parse();
 		void getInputFilPath(int numberOfparameter);
 		void getOutputFilPath(int numberOfparameter);
 		void getCountOfObjects(int numberOfparameter);

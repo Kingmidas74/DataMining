@@ -48,6 +48,9 @@
     <ClInclude Include="ClusterParameters.h">
       <Filter>Header Files\ParallelClustering</Filter>
     </ClInclude>
+    <ClInclude Include="ParallelClustering.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source.cpp">

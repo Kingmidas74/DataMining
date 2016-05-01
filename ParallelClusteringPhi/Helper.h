@@ -10,6 +10,7 @@
 
 #include <vector>
 #include <iostream>
+#include <time.h>
 
 namespace ParallelClustering 
 {

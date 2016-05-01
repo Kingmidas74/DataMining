@@ -39,6 +39,7 @@ namespace ParallelClustering {
 
 	vector<vector<double>> GetRandomObjects(int count, int dimension)
 	{
+		srand(time(NULL));
 		vector<vector<double>> result(count);
 		for (int i = 0; i < count; i++) {
 			vector<double> data(dimension);
