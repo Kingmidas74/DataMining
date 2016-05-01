@@ -9,7 +9,7 @@
 */
 
 #include <functional>
-#include <map>
+#include <cstring>
 #include <fstream>
 #include <sstream>
 #include "Helper.h"
