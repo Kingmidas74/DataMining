@@ -9,6 +9,8 @@
 */
 
 #include <vector>
+#include <fstream>
+#include <sstream>
 #include "Helper.h"
 #include "FuzzyCMeans.h"
 
@@ -31,6 +33,9 @@ namespace ParallelClustering
 	private:
 		vector<vector<double>> _normalizeObjects;
 		Parameters _algorithmParameters;
+
+		bool tryReadFile(vector<vector<double>> &data);
+		void tryWriteFile(vector<vector<double>> &data);
 	};
 
 	

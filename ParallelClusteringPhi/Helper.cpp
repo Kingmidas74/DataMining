@@ -26,17 +26,6 @@ namespace ParallelClustering {
 		}
 	}
 
-	Parameters* InitParameters(int argc, char *argv[]) {
-		if (argc % 2 == 0) exit(EXIT_FAILURE);
-		Parameters* result = new Parameters;
-		vector<string> keys = { "-i", "-o", "-n", "-d", "-k", "-f", "-e" };
-		for (int i=1; i<argc; i++)
-		{
-			cout << argv[i]<<endl;
-		}
-		return result;
-	}
-
 	vector<vector<double>> GetRandomObjects(int count, int dimension)
 	{
 		srand(time(NULL));
@@ -49,16 +38,6 @@ namespace ParallelClustering {
 			result[i]=data;
 		}
 		return result;
-	}
-
-	vector<vector<double>> GetTest3DBatterfly() {
-		return vector<vector<double>> 
-		{
-			{ 0, 1, 0 }, { 0,5,0 }, { 3,2,0 },{ 3,4,0 },  
-			{7,2,0}, {7,4,0}, {10,1,0}, {10,5,0},
-			{5,2,2}, {5,4,2}, {5,1,5},	{5,5,5},
-			{ 5,3,0 }
-		};
 	}
 
 }

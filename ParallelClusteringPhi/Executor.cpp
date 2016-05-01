@@ -24,15 +24,64 @@ namespace ParallelClustering
 	{
 		vector<vector<double>> data;
 		vector<vector<double>> centroids;
-		data = GetRandomObjects(_algorithmParameters.CountOfObjects, _algorithmParameters.CountOfDimensions);
-		centroids = GetRandomObjects(_algorithmParameters.CountOfClusters, _algorithmParameters.CountOfDimensions);
-		PrintObjects(centroids);
-		PrintObjects(data);
-		FuzzyCMeans* cmeans = new FuzzyCMeans(data, _algorithmParameters.Epsilon, _algorithmParameters.Fuzzy, GetMetrics(MetricsDistanceTypes::Evklid));
-		cmeans->StartClustering(centroids);
-		PrintObjects(cmeans->Centroids);
-		PrintObjects(cmeans->VectorsOfProbabilities);
+		if (tryReadFile(data))
+		{
+			centroids = GetRandomObjects(_algorithmParameters.CountOfClusters, data[0].size());
+			FuzzyCMeans* cmeans = new FuzzyCMeans(data, _algorithmParameters.Epsilon, _algorithmParameters.Fuzzy, GetMetrics(MetricsDistanceTypes::Evklid));
+			cmeans->StartClustering(centroids);
+			tryWriteFile(cmeans->VectorsOfProbabilities);
+		}
+		else {
+			exit(EXIT_FAILURE);
+		}
 		return vector<vector<double>>();
+	}
+
+	bool Executor::tryReadFile(vector<vector<double>> &data)
+	{
+		PrintObjects(data);
+		data.clear();
+		fstream infile(_algorithmParameters.InputFilePath);
+
+		while (infile)
+		{
+			string s;
+			if (!getline(infile, s)) break;
+
+			istringstream ss(s);
+			vector <double> record;
+
+			while (ss)
+			{
+				string s;
+				double p;
+				if (!getline(ss, s, ';')) break;
+
+				istringstream iss(s);
+				if (iss >> p)
+				{
+					record.push_back(p);
+				}				
+			}
+
+			data.push_back(record);
+		}		
+		PrintObjects(data);
+		return true;
+	}
+
+	void Executor::tryWriteFile(vector<vector<double>> &data)
+	{
+		fstream outfile(_algorithmParameters.OutputFilePath);
+		for (int n = 0; n<data.size(); n++)
+		{
+			int c;
+			for (c = 0; c < data[n].size()-1; c++)
+			{
+				outfile << data[n][c] << ";";
+			}
+			outfile << data[n][c] << endl;
+		}
 	}
 
 }

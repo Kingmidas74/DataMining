@@ -32,8 +32,8 @@ namespace ParallelClustering
 			if (strcmp(_argv[i], "-i") == 0) getInputFilPath(i + 1);
 			if (strcmp(_argv[i], "-o") == 0) getOutputFilPath(i + 1);
 			if (strcmp(_argv[i], "-k") == 0) getCountOfClusters(i + 1);
-			if (strcmp(_argv[i], "-d") == 0) getCountOfDimensions(i + 1);
-			if (strcmp(_argv[i], "-n") == 0) getCountOfObjects(i + 1);
+			//if (strcmp(_argv[i], "-d") == 0) getCountOfDimensions(i + 1);
+			//if (strcmp(_argv[i], "-n") == 0) getCountOfObjects(i + 1);
 			if (strcmp(_argv[i], "-f") == 0) getFuzzy(i + 1);
 			if (strcmp(_argv[i], "-e") == 0) getEpsilon(i + 1);
 		}
