@@ -41,7 +41,7 @@ namespace ParallelClustering
 
 			FuzzyCMeans(vector<vector<double>> objects, double epsilon, double fuzzy, function<double(vector<double>, vector<double>)> metrics);
 			~FuzzyCMeans();
-			void StartClustering(vector<vector<double>> centroids);
+			virtual void StartClustering(vector<vector<double>> centroids);
 
 		private:
 			vector<vector<double>> generateUMatrix();

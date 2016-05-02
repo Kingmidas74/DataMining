@@ -34,6 +34,7 @@ namespace ParallelClustering
 			cmeans->StartClustering(centroids);
 			Runtime = cmeans->ClearRuntime;			
 			tryWriteFile(cmeans->VectorsOfProbabilities);
+			
 		}
 		else {
 			exit(EXIT_FAILURE);

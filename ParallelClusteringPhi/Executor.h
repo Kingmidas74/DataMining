@@ -11,8 +11,10 @@
 #include <vector>
 #include <fstream>
 #include <sstream>
+#include <ctime>
 #include "Helper.h"
 #include "FuzzyCMeans.h"
+#include "FuzzyCMeansOpenMP.h"
 
 
 namespace ParallelClustering
@@ -34,7 +36,7 @@ namespace ParallelClustering
 		Parameters AlgorithmParameters;
 
 	private:
-		vector<vector<double>> _normalizeObjects;		
+		vector<vector<double>> data;		
 
 		void setDateTime();
 		bool tryReadFile(vector<vector<double>> &data);

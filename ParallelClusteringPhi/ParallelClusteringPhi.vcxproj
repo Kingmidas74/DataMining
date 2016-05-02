@@ -124,6 +124,7 @@
     <ClInclude Include="ClusterParameters.h" />
     <ClInclude Include="Executor.h" />
     <ClInclude Include="FuzzyCMeans.h" />
+    <ClInclude Include="FuzzyCMeansOpenMP.h" />
     <ClInclude Include="Helper.h" />
     <ClInclude Include="MetricsDistance.h" />
     <ClInclude Include="ParallelClustering.h" />
@@ -132,6 +133,7 @@
     <ClCompile Include="ClusterParameters.cpp" />
     <ClCompile Include="Executor.cpp" />
     <ClCompile Include="FuzzyCMeans.cpp" />
+    <ClCompile Include="FuzzyCMeansOpenMP.cpp" />
     <ClCompile Include="Helper.cpp" />
     <ClCompile Include="MetricsDistance.cpp" />
     <ClCompile Include="Source.cpp" />

@@ -51,6 +51,9 @@
     <ClInclude Include="ParallelClustering.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="FuzzyCMeansOpenMP.h">
+      <Filter>Header Files\ParallelClustering\FuzzyCMeansCollection</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source.cpp">
@@ -70,6 +73,9 @@
     </ClCompile>
     <ClCompile Include="ClusterParameters.cpp">
       <Filter>Source Files\ParallelClustering</Filter>
+    </ClCompile>
+    <ClCompile Include="FuzzyCMeansOpenMP.cpp">
+      <Filter>Source Files\ParallelClustering\FuzzyCMeansCollection</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
