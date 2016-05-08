@@ -16,8 +16,8 @@ Global
 		DefaultConfig|x86 = DefaultConfig|x86
 		ParallelOpenMP|x64 = ParallelOpenMP|x64
 		ParallelOpenMP|x86 = ParallelOpenMP|x86
-		Release|x64 = Release|x64
-		Release|x86 = Release|x86
+		Seuqential|x64 = Seuqential|x64
+		Seuqential|x86 = Seuqential|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{1FD22B54-7B6E-459C-BAD3-B28A6C9AB218}.DefaultConfig|x64.ActiveCfg = Debug|x64
@@ -28,10 +28,10 @@ Global
 		{1FD22B54-7B6E-459C-BAD3-B28A6C9AB218}.ParallelOpenMP|x64.Build.0 = ParallelOpenMP|x64
 		{1FD22B54-7B6E-459C-BAD3-B28A6C9AB218}.ParallelOpenMP|x86.ActiveCfg = ParallelOpenMP|Win32
 		{1FD22B54-7B6E-459C-BAD3-B28A6C9AB218}.ParallelOpenMP|x86.Build.0 = ParallelOpenMP|Win32
-		{1FD22B54-7B6E-459C-BAD3-B28A6C9AB218}.Release|x64.ActiveCfg = Release|x64
-		{1FD22B54-7B6E-459C-BAD3-B28A6C9AB218}.Release|x64.Build.0 = Release|x64
-		{1FD22B54-7B6E-459C-BAD3-B28A6C9AB218}.Release|x86.ActiveCfg = Release|Win32
-		{1FD22B54-7B6E-459C-BAD3-B28A6C9AB218}.Release|x86.Build.0 = Release|Win32
+		{1FD22B54-7B6E-459C-BAD3-B28A6C9AB218}.Seuqential|x64.ActiveCfg = Seuqential|x64
+		{1FD22B54-7B6E-459C-BAD3-B28A6C9AB218}.Seuqential|x64.Build.0 = Seuqential|x64
+		{1FD22B54-7B6E-459C-BAD3-B28A6C9AB218}.Seuqential|x86.ActiveCfg = Seuqential|Win32
+		{1FD22B54-7B6E-459C-BAD3-B28A6C9AB218}.Seuqential|x86.Build.0 = Seuqential|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
