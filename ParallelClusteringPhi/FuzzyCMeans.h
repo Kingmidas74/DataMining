@@ -43,7 +43,7 @@ namespace ParallelClustering
 			~FuzzyCMeans();
 			virtual void StartClustering(vector<vector<double>> centroids);
 
-		private:
+		protected:
 			vector<vector<double>> generateUMatrix();
 			vector<double> normalizeUMatrixRow(vector<double> row);
 			vector<vector<double>> calculateCentroids(vector<vector<double>> matrix);

@@ -78,4 +78,15 @@
       <Filter>Source Files\ParallelClustering\FuzzyCMeansCollection</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="csv\input.csv">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="csv\log.csv">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="csv\output.csv">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
 </Project>

@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <functional>
+#include <omp.h>
 #include "FuzzyCMeans.h"
 
 namespace ParallelClustering

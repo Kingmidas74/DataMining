@@ -12,16 +12,22 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|x64 = Debug|x64
-		Debug|x86 = Debug|x86
+		DefaultConfig|x64 = DefaultConfig|x64
+		DefaultConfig|x86 = DefaultConfig|x86
+		ParallelOpenMP|x64 = ParallelOpenMP|x64
+		ParallelOpenMP|x86 = ParallelOpenMP|x86
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{1FD22B54-7B6E-459C-BAD3-B28A6C9AB218}.Debug|x64.ActiveCfg = Debug|x64
-		{1FD22B54-7B6E-459C-BAD3-B28A6C9AB218}.Debug|x64.Build.0 = Debug|x64
-		{1FD22B54-7B6E-459C-BAD3-B28A6C9AB218}.Debug|x86.ActiveCfg = Debug|Win32
-		{1FD22B54-7B6E-459C-BAD3-B28A6C9AB218}.Debug|x86.Build.0 = Debug|Win32
+		{1FD22B54-7B6E-459C-BAD3-B28A6C9AB218}.DefaultConfig|x64.ActiveCfg = Debug|x64
+		{1FD22B54-7B6E-459C-BAD3-B28A6C9AB218}.DefaultConfig|x64.Build.0 = Debug|x64
+		{1FD22B54-7B6E-459C-BAD3-B28A6C9AB218}.DefaultConfig|x86.ActiveCfg = Debug|Win32
+		{1FD22B54-7B6E-459C-BAD3-B28A6C9AB218}.DefaultConfig|x86.Build.0 = Debug|Win32
+		{1FD22B54-7B6E-459C-BAD3-B28A6C9AB218}.ParallelOpenMP|x64.ActiveCfg = ParallelOpenMP|x64
+		{1FD22B54-7B6E-459C-BAD3-B28A6C9AB218}.ParallelOpenMP|x64.Build.0 = ParallelOpenMP|x64
+		{1FD22B54-7B6E-459C-BAD3-B28A6C9AB218}.ParallelOpenMP|x86.ActiveCfg = ParallelOpenMP|Win32
+		{1FD22B54-7B6E-459C-BAD3-B28A6C9AB218}.ParallelOpenMP|x86.Build.0 = ParallelOpenMP|Win32
 		{1FD22B54-7B6E-459C-BAD3-B28A6C9AB218}.Release|x64.ActiveCfg = Release|x64
 		{1FD22B54-7B6E-459C-BAD3-B28A6C9AB218}.Release|x64.Build.0 = Release|x64
 		{1FD22B54-7B6E-459C-BAD3-B28A6C9AB218}.Release|x86.ActiveCfg = Release|Win32
