@@ -54,6 +54,15 @@
     <ClInclude Include="FuzzyCMeansOpenMP.h">
       <Filter>Header Files\ParallelClustering\FuzzyCMeansCollection</Filter>
     </ClInclude>
+    <ClInclude Include="ExecutorArray.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FuzzyCMeansArray.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FuzzyCMeansArrayOpenMP.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source.cpp">
@@ -76,6 +85,15 @@
     </ClCompile>
     <ClCompile Include="FuzzyCMeansOpenMP.cpp">
       <Filter>Source Files\ParallelClustering\FuzzyCMeansCollection</Filter>
+    </ClCompile>
+    <ClCompile Include="ExecutorArray.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FuzzyCMeansArray.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FuzzyCMeansArrayOpenMP.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

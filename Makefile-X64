@@ -1,6 +1,0 @@
-SOURCES = $(wildcard ./ParallelClusteringPhi/*.cpp)
-TARGET := x64/Debug
-all:
-	mkdir -p $(TARGET)
-	g++ $(SOURCES) -o ./$(TARGET)/ParallelClusteringPhi_x64 -std=c++0x
-	./$(TARGET)/ParallelClusteringPhi_x64
