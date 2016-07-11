@@ -42,6 +42,7 @@ namespace ParallelClustering
 		void getCountOfDimensions(int numberOfparameter);
 		void getFuzzy(int numberOfparameter);
 		void getEpsilon(int numberOfparameter);
+		void getCountOfThreads(int numberOfparameter);
 	};
 }
 

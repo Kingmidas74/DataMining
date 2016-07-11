@@ -259,6 +259,7 @@ xcopy "$(ProjectDir)csv\log.csv" "$(TargetDir)" /Y /I</Command>
       <AdditionalIncludeDirectories>
       </AdditionalIncludeDirectories>
       <OpenMP>GenerateParallelCode</OpenMP>
+      <AdditionalOptions> /Qvec-report:2 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
@@ -266,9 +267,9 @@ xcopy "$(ProjectDir)csv\log.csv" "$(TargetDir)" /Y /I</Command>
       </AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy "$(ProjectDir)csv\input.csv" "$(TargetDir)" /Y /I
-xcopy "$(ProjectDir)csv\output.csv" "$(TargetDir)" /Y /I
-xcopy "$(ProjectDir)csv\log.csv" "$(TargetDir)" /Y /I</Command>
+      <Command>xcopy "$(ProjectDir)csv\input.csv" "$(TargetDir)" /Y /I /d
+xcopy "$(ProjectDir)csv\output.csv" "$(TargetDir)" /Y /I /d
+xcopy "$(ProjectDir)csv\log.csv" "$(TargetDir)" /Y /I /d</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

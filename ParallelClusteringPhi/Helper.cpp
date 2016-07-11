@@ -39,5 +39,30 @@ namespace ParallelClustering {
 		}
 		return result;
 	}
+	
+	void GetRandomObjectsArray(int count, int dimension,double* my_array)
+	{
+		srand(time(NULL));
+		for (int i = 0; i < count; i++) {
+			for (int j = 0; j < dimension; j++) {
+				my_array[i*dimension+j] = GetRandomDouble();
+			}
+		}
+	}
+
+	void printArray(double* array, int width, int height, char* text) {
+		cout << endl;
+		cout << text << endl;
+		for (int i = 0; i < height; i++)
+		{
+			for (int j = 0; j < width; j++)
+			{
+				cout << array[i*width + j] << " ";
+			}
+			cout << endl;
+		}
+		cout << endl;
+	}
+
 
 }

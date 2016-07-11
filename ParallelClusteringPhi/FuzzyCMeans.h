@@ -44,11 +44,11 @@ namespace ParallelClustering
 			virtual void StartClustering(vector<vector<double>> centroids);
 
 		protected:
-			vector<vector<double>> generateUMatrix();
-			vector<double> normalizeUMatrixRow(vector<double> row);
-			vector<vector<double>> calculateCentroids(vector<vector<double>> matrix);
-			double calculateDecisionFunction(vector<vector<double>> matrix, vector<vector<double>> centers);
-			vector<vector<double>> getProbabilities(vector<vector<double>> matrix);
+			 vector<vector<double>> generateUMatrix();
+			 vector<double> normalizeUMatrixRow(vector<double> row);
+			virtual vector<vector<double>> calculateCentroids(vector<vector<double>> matrix);
+			 double calculateDecisionFunction(vector<vector<double>> matrix, vector<vector<double>> centers);
+			 vector<vector<double>> getProbabilities(vector<vector<double>> matrix);
 		};
 
 	}

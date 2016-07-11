@@ -6,54 +6,56 @@
 Авторы: Сулейманов Д.Э., Цымблер М.Л.
 */
 
-#include "Executor.h"
+#include "ExecutorArray.h"
 
 namespace ParallelClustering
 {
-	Executor::Executor(Parameters algorithmParameters)
+	ExecutorArray::ExecutorArray(Parameters algorithmParameters)
 	{
 		AlgorithmParameters = algorithmParameters;
 	}
 
-	Executor::~Executor()
+	ExecutorArray::~ExecutorArray()
 	{
 
 	}
 
-	vector<vector<double>> Executor::CalculateProbabilities()
+	double* ExecutorArray::CalculateProbabilities()
 	{
-		vector<vector<double>> data;
-		vector<vector<double>> centroids;
+		double* data = (double*)_mm_malloc(AlgorithmParameters.CountOfObjects*AlgorithmParameters.CountOfDimensions*sizeof(double),64);
+		double* centroids = (double*)_mm_malloc(AlgorithmParameters.CountOfClusters*AlgorithmParameters.CountOfDimensions*sizeof(double), 64);
 		setDateTime();
+		//cout<<"I am here CalculateProbabilities";
 		//for(int n=100;n<AlgorithmParameters.CountOfObjects; n+=100)
 		//{
 			
 			if (tryReadFile(data,AlgorithmParameters.CountOfObjects))
-			{				
-				AlgorithmParameters.CountOfDimensions = data[0].size();
-				FuzzyCMeans* cmeans;
+			{
+			//	printArray(data, AlgorithmParameters.CountOfDimensions, AlgorithmParameters.CountOfObjects, "data");
+				FuzzyCMeansArrayOpenMP* cmeans;
 				Runtime=0;
 				double time=0;
 				//for(int i=0; i<100; i++) {
-					centroids = GetRandomObjects(AlgorithmParameters.CountOfClusters, data[0].size());
-					cmeans = new FuzzyCMeans(data, AlgorithmParameters.Epsilon, AlgorithmParameters.Fuzzy, GetMetrics(MetricsDistanceTypes::Evklid));
+					GetRandomObjectsArray(AlgorithmParameters.CountOfClusters, AlgorithmParameters.CountOfDimensions, centroids);
+					cmeans = new FuzzyCMeansArrayOpenMP(data,AlgorithmParameters, Metrics::EvklidArray);
+					//cout<<"I am here CalculateProbabilities 2";
+					int start = omp_get_wtime();
 					cmeans->StartClustering(centroids);
-					Runtime = cmeans->ClearRuntime;
+					Runtime = (omp_get_wtime() - start);
 					time+=Runtime;
 				//}
 				Runtime=time;
 				WriteLog(AlgorithmParameters.CountOfObjects);
-				tryWriteFile(cmeans->VectorsOfProbabilities);
-				
+				tryWriteFile(cmeans->UMatrix);
 			}
 			else {
 				exit(EXIT_FAILURE);
 			}
 		//}
-		return vector<vector<double>>();
+		return NULL;
 	}
 	
-	void Executor::WriteLog(int &n)
+	void ExecutorArray::WriteLog(int n)
 	{
 		fstream log;
 		log.open("log.csv", ios::out | ios::app);
@@ -68,52 +70,59 @@ namespace ParallelClustering
 			Runtime << endl;
 	}
 
-	bool Executor::tryReadFile(vector<vector<double>> &data, int &n)
+	bool ExecutorArray::tryReadFile(double* data, int n)
 	{
+		
 		fstream infile(AlgorithmParameters.InputFilePath);
-		int readCount=0;
-		while (infile && readCount<n)
+		int row = 0;
+		long long elementN = 0;
+		while (infile && row<n)
 		{
 			string s;
 			if (!getline(infile, s)) break;
 
 			istringstream ss(s);
-			vector <double> record;
+
 
 			while (ss)
 			{
+
 				string s;
 				double p;
 				if (!getline(ss, s, ';')) break;
-
+				
 				istringstream iss(s);
 				if (iss >> p)
 				{
-					record.push_back(p);
+					data[elementN] = p;
+					elementN++;
 				}
 			}
-
-			data.push_back(record);
-			readCount++;
+			row++;
 		}
+		//cout << endl << endl;
+		//cout << "ELEMENTN=" << elementN;
 		return true;
 	}
 
-	void Executor::tryWriteFile(vector<vector<double>> &data)
+	void ExecutorArray::tryWriteFile(double* data)
 	{
 		fstream outfile(AlgorithmParameters.OutputFilePath, fstream::out);
-		for (int n = 0; n < data.size(); n++)
+		for (int n = 0; n < AlgorithmParameters.CountOfObjects; n++)
 		{
 			int c;
-			for (c = 0; c < data[n].size() - 1; c++)
+			for (c = 0; c < AlgorithmParameters.CountOfDimensions - 1; c++)
 			{
-				outfile << data[n][c] << ";";
+				
+				outfile << data[n*AlgorithmParameters.CountOfDimensions+c] << ";";
 			}
-			outfile << data[n][c] << endl;
+			outfile << data[n*AlgorithmParameters.CountOfDimensions+c] << endl;
+			
 		}
+		
 	}
 
-	void Executor::setDateTime()
+	void ExecutorArray::setDateTime()
 	{/*
 		time_t rawtime;
 		struct tm timeinfo;

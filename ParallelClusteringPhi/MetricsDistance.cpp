@@ -1,12 +1,12 @@
 #include "MetricsDistance.h"
 
 /*
-"Ðåàëèçàöèÿ ïàðàëëåëüíûõ âåðñèèé àëãîðèòîâ êëàñòåðèçàöèè äàííûõ
-ñ èñïîëüçîâàíèåì ìíîãîÿäåðíûõ óñêîðèòåëåé"
+"Ð ÐµÐ°Ð»Ð¸Ð·Ð°Ñ†Ð¸Ñ Ð¿Ð°Ñ€Ð°Ð»Ð»ÐµÐ»ÑŒÐ½Ñ‹Ñ… Ð²ÐµÑ€ÑÐ¸Ð¸Ð¹ Ð°Ð»Ð³Ð¾Ñ€Ð¸Ñ‚Ð¾Ð² ÐºÐ»Ð°ÑÑ‚ÐµÑ€Ð¸Ð·Ð°Ñ†Ð¸Ð¸ Ð´Ð°Ð½Ð½Ñ‹Ñ…
+Ñ Ð¸ÑÐ¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ð½Ð¸ÐµÐ¼ Ð¼Ð½Ð¾Ð³Ð¾ÑÐ´ÐµÑ€Ð½Ñ‹Ñ… ÑƒÑÐºÐ¾Ñ€Ð¸Ñ‚ÐµÐ»ÐµÐ¹"
 
-Ïðîñòðàíñòâî èì¸í ñîäåðæàùèå â ñåáå ðàçëè÷íûå ìåòðèêè äëÿ âû÷èñëåíèÿ ðàññòîÿíèÿ
-ìåæäó äâóìÿ âåêòîðàìè.
-Àâòîðû: Ñóëåéìàíîâ Ä.Ý., Öûìáëåð Ì.Ë.
+ÐŸÑ€Ð¾ÑÑ‚Ñ€Ð°Ð½ÑÑ‚Ð²Ð¾ Ð¸Ð¼Ñ‘Ð½ ÑÐ¾Ð´ÐµÑ€Ð¶Ð°Ñ‰Ð¸Ðµ Ð² ÑÐµÐ±Ðµ Ñ€Ð°Ð·Ð»Ð¸Ñ‡Ð½Ñ‹Ðµ Ð¼ÐµÑ‚Ñ€Ð¸ÐºÐ¸ Ð´Ð»Ñ Ð²Ñ‹Ñ‡Ð¸ÑÐ»ÐµÐ½Ð¸Ñ Ñ€Ð°ÑÑÑ‚Ð¾ÑÐ½Ð¸Ñ
+Ð¼ÐµÐ¶Ð´Ñƒ Ð´Ð²ÑƒÐ¼Ñ Ð²ÐµÐºÑ‚Ð¾Ñ€Ð°Ð¼Ð¸.
+ÐÐ²Ñ‚Ð¾Ñ€Ñ‹: Ð¡ÑƒÐ»ÐµÐ¹Ð¼Ð°Ð½Ð¾Ð² Ð”.Ð­., Ð¦Ñ‹Ð¼Ð±Ð»ÐµÑ€ Ðœ.Ð›.
 */
 namespace ParallelClustering
 {
@@ -37,6 +37,26 @@ namespace ParallelClustering
 			}
 			return sqrt(result);
 
+		}
+
+		double EvklidArray(double* first_data, long long first_data_size, double* second_data, long long second_data_size)
+		{
+			double result = 0;
+			long long fds=first_data_size;
+			long long sds=second_data_size;
+			while (first_data_size > sds) {
+				second_data[sds]=0;
+				sds++;
+			}
+			while (fds < second_data_size) {
+				first_data[fds]=0;
+				fds++;
+			}
+			long long countOfData = first_data_size;
+			for (int i = 0; i < countOfData; i++) {
+				result += pow(first_data[i] - second_data[i], 2);
+			}
+			return result;
 		}
 
 		double CustomDistance(vector<double> first_data, vector<double> second_data) {

@@ -8,13 +8,12 @@
 Авторы: Сулейманов Д.Э., Цымблер М.Л.
 */
 
-#include <vector>
 #include <fstream>
 #include <sstream>
 #include <ctime>
+#include <omp.h>
 #include "Helper.h"
-#include "FuzzyCMeans.h"
-#include "FuzzyCMeansOpenMP.h"
+#include "FuzzyCMeansArrayOpenMP.h"
 
 
 namespace ParallelClustering
@@ -25,23 +24,23 @@ namespace ParallelClustering
 	using namespace ParallelClustering::Metrics;
 
 
-	class Executor
+	class ExecutorArray
 	{
 	public:
-		Executor(Parameters algorithmParameters);
-		~Executor();
-		vector<vector<double>> CalculateProbabilities();
+		ExecutorArray(Parameters algorithmParameters);
+		~ExecutorArray();
+		double* CalculateProbabilities();
 		double Runtime;
 		string DateTimeNow;
 		Parameters AlgorithmParameters;
 
 	private:
-		vector<vector<double>> data;		
+		double data;		
 
-		void WriteLog(int &n);
+		void WriteLog(int n);
 		void setDateTime();
-		bool tryReadFile(vector<vector<double>> &data, int &n);
-		void tryWriteFile(vector<vector<double>> &data);
+		bool tryReadFile(double* data, int n);
+		void tryWriteFile(double* data);
 	};
 
 	
