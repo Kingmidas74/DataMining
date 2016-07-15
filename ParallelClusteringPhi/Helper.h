@@ -28,6 +28,19 @@ namespace ParallelClustering
 		string OutputFilePath;
 	};	
 
+	/*Allocators*/
+	template <typename Type>
+	Type* allocateAlign(long long count, int length = 64) {
+		return (Type*)_mm_malloc(count*sizeof(Type), length);
+	}
+
+	template <typename Type>
+	void freeAlign(Type* pointer) {
+		_mm_free(pointer);
+	}
+
+	/**/
+
 	double GetRandomDouble(double min = 0, double max = 1);
 	void PrintObjects(vector<vector<double>> objects);
 	vector<vector<double>> GetRandomObjects(int count, int dimension);

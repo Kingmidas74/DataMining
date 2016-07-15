@@ -28,7 +28,6 @@ namespace ParallelClustering {
 
 	vector<vector<double>> GetRandomObjects(int count, int dimension)
 	{
-		srand(time(NULL));
 		vector<vector<double>> result(count);
 		for (int i = 0; i < count; i++) {
 			vector<double> data(dimension);
@@ -42,7 +41,6 @@ namespace ParallelClustering {
 	
 	void GetRandomObjectsArray(int count, int dimension,double* my_array)
 	{
-		srand(time(NULL));
 		for (int i = 0; i < count; i++) {
 			for (int j = 0; j < dimension; j++) {
 				my_array[i*dimension+j] = GetRandomDouble();

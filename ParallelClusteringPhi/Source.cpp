@@ -4,9 +4,9 @@ using namespace std;
 
 int main(int argc, char *argv[])
 {	
+	srand(time(NULL));
 	ClusterParameters clusterParameters(argc, argv);
-	ExecutorArray* executor = new ExecutorArray(clusterParameters.GetParameters());
-	//cout<<"I am here Main";
-	executor->CalculateProbabilities();	
+	Executor<double,double>* executor = new Executor<double,double>(&clusterParameters.GetParameters());
+	executor->CalculateProbabilities();
 	return EXIT_SUCCESS;
 }

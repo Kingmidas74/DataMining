@@ -9,8 +9,6 @@
 Авторы: Сулейманов Д.Э., Цымблер М.Л.
 */
 
-#include <vector>
-#include <functional>
 #include <cmath>
 
 namespace ParallelClustering
@@ -20,14 +18,23 @@ namespace ParallelClustering
 
 		using namespace std;
 
-		enum class MetricsDistanceTypes
-		{
-			Evklid,
-			Custom
-		};
-		function<double(vector<double>, vector<double>)> GetMetrics(MetricsDistanceTypes type);
-		double EvklidDistance(vector<double> first_data, vector<double> second_data);
-		double CustomDistance(vector<double> first_data, vector<double> second_data);
-		double EvklidArray(double* first_data, long long first_data_size, double* second_data, long long second_data_size);
+		template <typename Type>
+		double Minkowski(Type* first_array, Type* second_array, long size, int power) {
+			double result = 0;
+			for (long i = 0; i < size; i++) {
+				result += pow(first_array[i] - second_array[i], power);
+			}
+			return pow(result, 1.0 / power);
+		}
+
+		template <typename Type>
+		double EuclidianSquare(Type* first_array, Type* second_array, long size) {
+			double result = 0;
+			for (long i = 0; i < size; i++) {
+				result += pow(first_array[i] - second_array[i], 2);
+			}
+			return result;
+		}
+
 	}
 }

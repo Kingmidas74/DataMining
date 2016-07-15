@@ -12,37 +12,152 @@
 #include <fstream>
 #include <sstream>
 #include <ctime>
+#include <omp.h>
 #include "Helper.h"
-#include "FuzzyCMeans.h"
-#include "FuzzyCMeansOpenMP.h"
-
+#include "Clustering.h"
+#include "KMeans.h"
+#include "MetricsDistance.h"
 
 namespace ParallelClustering
 {
 	using namespace std;
 	using namespace ParallelClustering;
-	using namespace ParallelClustering::FuzzyCMeansCollection;
+	using namespace ParallelClustering::KMeansCollection;
 	using namespace ParallelClustering::Metrics;
 
-
+	template<class IncomingType, class OutcommingType>
 	class Executor
 	{
 	public:
-		Executor(Parameters algorithmParameters);
-		~Executor();
-		vector<vector<double>> CalculateProbabilities();
+		Parameters* AlgorithmParameters;
 		double Runtime;
 		string DateTimeNow;
-		Parameters AlgorithmParameters;
 
-	private:
-		vector<vector<double>> data;		
+		Executor(Parameters* algorithmParameters)
+		{
+			AlgorithmParameters = algorithmParameters;
+		}
 
-		void WriteLog(int &n);
-		void setDateTime();
-		bool tryReadFile(vector<vector<double>> &data, int &n);
-		void tryWriteFile(vector<vector<double>> &data);
+		void CalculateProbabilities()
+		{
+			
+			IncomingType* data = allocateAlign<IncomingType>(AlgorithmParameters->CountOfObjects * AlgorithmParameters->CountOfDimensions);
+			IncomingType* centroids = allocateAlign<IncomingType>(AlgorithmParameters->CountOfClusters * AlgorithmParameters->CountOfDimensions);
+			
+			setDateTime();
+			if (tryReadFile(data, AlgorithmParameters->CountOfObjects))
+			{
+				Clustering<IncomingType,OutcommingType>* clustering;
+				int start = omp_get_wtime();
+				GetRandomObjectsArray(AlgorithmParameters->CountOfClusters, AlgorithmParameters->CountOfDimensions, centroids);
+				clustering = new KMeans<IncomingType,OutcommingType>(data, AlgorithmParameters, Metrics::EuclidianSquare<IncomingType>);
+				clustering->StartClustering();
+				Runtime = (omp_get_wtime() - start);
+				WriteLog(AlgorithmParameters->CountOfObjects);				
+				tryWriteFile(clustering->ResultMatrix);
+			}
+			else {
+				freeAlign(data);
+				freeAlign(centroids);
+				exit(EXIT_FAILURE);
+			}
+			freeAlign(data);
+			freeAlign(centroids);
+		}
+
+		void WriteLog(int n)
+		{
+			fstream log;
+			log.open("log.csv", ios::out | ios::app);
+			log <<
+				DateTimeNow << ";" <<
+				n << ";" <<
+				AlgorithmParameters->CountOfDimensions << ";" <<
+				AlgorithmParameters->CountOfClusters << ";" <<
+				AlgorithmParameters->CountOfThreads << ";" <<
+				AlgorithmParameters->Fuzzy << ";" <<
+				AlgorithmParameters->Epsilon << ";" <<
+				Runtime << endl;
+		}
+
+		bool tryReadFile(IncomingType* data, int n)
+		{
+
+			fstream infile(AlgorithmParameters->InputFilePath);
+			int row = 0;
+			long long elementN = 0;
+			while (infile && row<n)
+			{
+				string s;
+				if (!getline(infile, s)) break;
+
+				istringstream ss(s);
+
+				int dim = 0;
+				while (ss && dim<AlgorithmParameters->CountOfDimensions)
+				{
+
+					string s;
+					double p;
+					if (!getline(ss, s, ';')) break;
+
+					istringstream iss(s);
+					if (iss >> p)
+					{
+						data[elementN] = p;
+						dim++;
+						elementN++;
+					}
+				}
+				row++;
+			}
+			return true;
+		}
+
+		void tryWriteFile(OutcommingType* data)
+		{
+			fstream outfile(AlgorithmParameters->OutputFilePath, fstream::out);
+			for (int n = 0; n < AlgorithmParameters->CountOfObjects; n++)
+			{
+				/*int c;
+				for (c = 0; c < AlgorithmParameters->CountOfDimensions - 1; c++)
+				{
+
+					outfile << data[n*AlgorithmParameters->CountOfDimensions + c] << ";";
+				}*/
+				cout << data[n]<<endl;
+				outfile << data[n] << endl;
+
+			}
+
+		}
+
+		void setDateTime()
+		{/*
+		 time_t rawtime;
+		 struct tm timeinfo;
+		 char buffer[80];
+
+		 time(&rawtime);
+		 localtime_s(&timeinfo, &rawtime);
+
+		 strftime(buffer, 80, "%d-%m-%Y;%H:%M:%S", &timeinfo);
+		 std::string str(buffer);*/
+
+			time_t rawtime;
+			struct tm * timeinfo;
+			char buffer[80];
+
+			time(&rawtime);
+			timeinfo = localtime(&rawtime);
+
+			strftime(buffer, 80, "%d-%m-%Y;%H:%M:%S", timeinfo);
+			DateTimeNow = buffer;
+		}
+
+		virtual ~Executor()
+		{
+			
+		}
 	};
-
-	
 }

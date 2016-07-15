@@ -9,6 +9,6 @@
 */
 
 #include "ClusterParameters.h"
-#include "ExecutorArray.h"
+#include "Executor.h"
 
 using namespace ParallelClustering;

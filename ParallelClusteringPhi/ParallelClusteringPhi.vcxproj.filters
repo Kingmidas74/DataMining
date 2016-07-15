@@ -25,17 +25,14 @@
     <Filter Include="Source Files\ParallelClustering">
       <UniqueIdentifier>{4ea71267-0025-457d-9fe8-7914ef3aca27}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\ParallelClustering\FuzzyCMeansCollection">
-      <UniqueIdentifier>{9d81b3f7-e524-439f-8f76-e19083790028}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\ParallelClustering\Metrics">
       <UniqueIdentifier>{94fabb68-b40c-40c7-bfff-4bb674f7d75b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\ParallelClustering\KMeansCollection">
+      <UniqueIdentifier>{567d7452-3567-4ad9-ab81-4de447fadeec}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="FuzzyCMeans.h">
-      <Filter>Header Files\ParallelClustering\FuzzyCMeansCollection</Filter>
-    </ClInclude>
     <ClInclude Include="MetricsDistance.h">
       <Filter>Header Files\ParallelClustering\Metrics</Filter>
     </ClInclude>
@@ -51,49 +48,25 @@
     <ClInclude Include="ParallelClustering.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="FuzzyCMeansOpenMP.h">
+    <ClInclude Include="Clustering.h">
+      <Filter>Header Files\ParallelClustering</Filter>
+    </ClInclude>
+    <ClInclude Include="FuzzyCMeans.h">
       <Filter>Header Files\ParallelClustering\FuzzyCMeansCollection</Filter>
     </ClInclude>
-    <ClInclude Include="ExecutorArray.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="FuzzyCMeansArray.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="FuzzyCMeansArrayOpenMP.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="KMeans.h">
+      <Filter>Header Files\ParallelClustering\KMeansCollection</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="FuzzyCMeans.cpp">
-      <Filter>Source Files\ParallelClustering\FuzzyCMeansCollection</Filter>
-    </ClCompile>
-    <ClCompile Include="MetricsDistance.cpp">
-      <Filter>Source Files\ParallelClustering\Metrics</Filter>
-    </ClCompile>
     <ClCompile Include="Helper.cpp">
-      <Filter>Source Files\ParallelClustering</Filter>
-    </ClCompile>
-    <ClCompile Include="Executor.cpp">
       <Filter>Source Files\ParallelClustering</Filter>
     </ClCompile>
     <ClCompile Include="ClusterParameters.cpp">
       <Filter>Source Files\ParallelClustering</Filter>
-    </ClCompile>
-    <ClCompile Include="FuzzyCMeansOpenMP.cpp">
-      <Filter>Source Files\ParallelClustering\FuzzyCMeansCollection</Filter>
-    </ClCompile>
-    <ClCompile Include="ExecutorArray.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="FuzzyCMeansArray.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="FuzzyCMeansArrayOpenMP.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

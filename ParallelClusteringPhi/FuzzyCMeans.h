@@ -8,50 +8,45 @@
 Авторы: Сулейманов Д.Э., Цымблер М.Л.
 */
 
-#include <vector>
 #include <functional>
-#include "MetricsDistance.h"
+#include <iostream>
+
 #include "Helper.h"
+#include "Clustering.h"
 
+namespace ParallelClustering {
 
-
-namespace ParallelClustering 
-{
-
-	namespace FuzzyCMeansCollection 
-	{
+	namespace CMeansCollection {
 
 		using namespace std;
-		
-		class FuzzyCMeans
+
+		template<class IncomingType, class OutcommingType>
+		class FuzzyCMeans : public Clustering<IncomingType, OutcommingType>
 		{
-		public:
-
-			int						ClusterCount;
-			double					Epsilon;
-			double					Fuzzy;
-			vector<vector<double>>	VectorsForClustering;
-			vector<vector<double>>	Centroids;
-			vector<vector<double>>	VectorsOfProbabilities;
-			double					ClearRuntime;
-			int						CountOfObjects;
-			int						CountofDimensions;
-
-			function<double(vector<double>, vector<double>)> DistanceCalculate;
-
-			FuzzyCMeans(vector<vector<double>> objects, double epsilon, double fuzzy, function<double(vector<double>, vector<double>)> metrics);
-			~FuzzyCMeans();
-			virtual void StartClustering(vector<vector<double>> centroids);
 
 		protected:
-			 vector<vector<double>> generateUMatrix();
-			 vector<double> normalizeUMatrixRow(vector<double> row);
-			virtual vector<vector<double>> calculateCentroids(vector<vector<double>> matrix);
-			 double calculateDecisionFunction(vector<vector<double>> matrix, vector<vector<double>> centers);
-			 vector<vector<double>> getProbabilities(vector<vector<double>> matrix);
+
+		public:
+
+
+			FuzzyCMeans(IncomingType* data, Parameters* algorithm_parameters, function<double(IncomingType*, IncomingType*, long)> distance)
+				: Clustering(data, algorithm_parameters, distance)
+			{
+				ResultMatrix = (OutcommingType*)_mm_malloc(AlgorithmParameters->CountOfObjects * AlgorithmParameters->CountOfClusters * sizeof(OutcommingType), 64);
+			}
+
+			virtual void StartClustering()
+			{
+				cout << "START!" << endl;
+				for (int i = 0; i < AlgorithmParameters->CountOfObjects; ++i) {
+					ResultMatrix[i] = 0.1*i;
+				}
+			}
+
+			virtual ~FuzzyCMeans()
+			{
+				_mm_free(ResultMatrix);
+			}
 		};
-
 	}
-
 }
-
