@@ -21,6 +21,8 @@ namespace ParallelClustering {
 		
 		function<double(IncomingType*, IncomingType*, long)> DistanceCalculate;
 
+		virtual void ExecuteClustering(IncomingType* centroids) {};
+
 
 	public:
 
@@ -33,12 +35,10 @@ namespace ParallelClustering {
 			DistanceCalculate = distance;
 		}
 
-		virtual void StartClustering() {
+		virtual void StartClustering() {}
 
-		}
+		virtual void StartClustering(IncomingType* centroids) {}
 
-		virtual ~Clustering()
-		{
-		}
+		virtual ~Clustering() {}
 	};
 }

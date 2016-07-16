@@ -6,7 +6,8 @@ int main(int argc, char *argv[])
 {	
 	srand(time(NULL));
 	ClusterParameters clusterParameters(argc, argv);
-	Executor<double,double>* executor = new Executor<double,double>(&clusterParameters.GetParameters());
+	Parameters parameters = clusterParameters.GetParameters();
+	Executor<double,double>* executor = new Executor<double,double>(&parameters);
 	executor->CalculateProbabilities();
 	return EXIT_SUCCESS;
 }

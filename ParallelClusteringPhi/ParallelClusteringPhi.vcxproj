@@ -302,16 +302,16 @@ xcopy "$(ProjectDir)csv\log.csv" "$(TargetDir)" /Y /I /d</Command>
     <ClInclude Include="Clustering.h" />
     <ClInclude Include="ClusterParameters.h" />
     <ClInclude Include="Executor.h" />
+    <ClInclude Include="File.h" />
     <ClInclude Include="FuzzyCMeans.h" />
     <ClInclude Include="Helper.h" />
     <ClInclude Include="KMeans.h" />
+    <ClInclude Include="KMeansPP.h" />
     <ClInclude Include="MetricsDistance.h" />
     <ClInclude Include="ParallelClustering.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ClusterParameters.cpp" />
-    <ClCompile Include="Helper.cpp" />
-    <ClCompile Include="Source.cpp" />
+    <ClCompile Include="Source.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="csv\input.csv">

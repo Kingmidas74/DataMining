@@ -13,9 +13,12 @@
 #include <sstream>
 #include <ctime>
 #include <omp.h>
+
 #include "Helper.h"
 #include "Clustering.h"
 #include "KMeans.h"
+#include "KMeansPP.h"
+#include "FuzzyCMeans.h"
 #include "MetricsDistance.h"
 
 namespace ParallelClustering
@@ -23,6 +26,7 @@ namespace ParallelClustering
 	using namespace std;
 	using namespace ParallelClustering;
 	using namespace ParallelClustering::KMeansCollection;
+	using namespace ParallelClustering::CMeansCollection;
 	using namespace ParallelClustering::Metrics;
 
 	template<class IncomingType, class OutcommingType>
@@ -45,15 +49,18 @@ namespace ParallelClustering
 			IncomingType* centroids = allocateAlign<IncomingType>(AlgorithmParameters->CountOfClusters * AlgorithmParameters->CountOfDimensions);
 			
 			setDateTime();
-			if (tryReadFile(data, AlgorithmParameters->CountOfObjects))
+
+			if (tryReadFile(data))
 			{
 				Clustering<IncomingType,OutcommingType>* clustering;
+				
 				int start = omp_get_wtime();
 				GetRandomObjectsArray(AlgorithmParameters->CountOfClusters, AlgorithmParameters->CountOfDimensions, centroids);
 				clustering = new KMeans<IncomingType,OutcommingType>(data, AlgorithmParameters, Metrics::EuclidianSquare<IncomingType>);
 				clustering->StartClustering();
 				Runtime = (omp_get_wtime() - start);
-				WriteLog(AlgorithmParameters->CountOfObjects);				
+				
+				WriteLog();				
 				tryWriteFile(clustering->ResultMatrix);
 			}
 			else {
@@ -65,13 +72,13 @@ namespace ParallelClustering
 			freeAlign(centroids);
 		}
 
-		void WriteLog(int n)
+		void WriteLog()
 		{
 			fstream log;
 			log.open("log.csv", ios::out | ios::app);
 			log <<
 				DateTimeNow << ";" <<
-				n << ";" <<
+				AlgorithmParameters->CountOfObjects << ";" <<
 				AlgorithmParameters->CountOfDimensions << ";" <<
 				AlgorithmParameters->CountOfClusters << ";" <<
 				AlgorithmParameters->CountOfThreads << ";" <<
@@ -80,13 +87,12 @@ namespace ParallelClustering
 				Runtime << endl;
 		}
 
-		bool tryReadFile(IncomingType* data, int n)
+		bool tryReadFile(IncomingType* data)
 		{
-
 			fstream infile(AlgorithmParameters->InputFilePath);
 			int row = 0;
 			long long elementN = 0;
-			while (infile && row<n)
+			while (infile && row<AlgorithmParameters->CountOfObjects)
 			{
 				string s;
 				if (!getline(infile, s)) break;
@@ -127,23 +133,12 @@ namespace ParallelClustering
 				}*/
 				cout << data[n]<<endl;
 				outfile << data[n] << endl;
-
 			}
 
 		}
 
 		void setDateTime()
-		{/*
-		 time_t rawtime;
-		 struct tm timeinfo;
-		 char buffer[80];
-
-		 time(&rawtime);
-		 localtime_s(&timeinfo, &rawtime);
-
-		 strftime(buffer, 80, "%d-%m-%Y;%H:%M:%S", &timeinfo);
-		 std::string str(buffer);*/
-
+		{
 			time_t rawtime;
 			struct tm * timeinfo;
 			char buffer[80];

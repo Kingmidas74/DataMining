@@ -57,17 +57,12 @@
     <ClInclude Include="KMeans.h">
       <Filter>Header Files\ParallelClustering\KMeansCollection</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="Source.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Helper.cpp">
-      <Filter>Source Files\ParallelClustering</Filter>
-    </ClCompile>
-    <ClCompile Include="ClusterParameters.cpp">
-      <Filter>Source Files\ParallelClustering</Filter>
-    </ClCompile>
+    <ClInclude Include="File.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="KMeansPP.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="csv\log.csv">
@@ -81,5 +76,10 @@
     <Text Include="csv\input.csv">
       <Filter>Resource Files</Filter>
     </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source.h">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
