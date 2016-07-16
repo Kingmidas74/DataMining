@@ -304,6 +304,7 @@ xcopy "$(ProjectDir)csv\log.csv" "$(TargetDir)" /Y /I /d</Command>
     <ClInclude Include="Executor.h" />
     <ClInclude Include="File.h" />
     <ClInclude Include="FuzzyCMeans.h" />
+    <ClInclude Include="FuzzyCMeansOpenMP.h" />
     <ClInclude Include="Helper.h" />
     <ClInclude Include="KMeans.h" />
     <ClInclude Include="KMeansPP.h" />

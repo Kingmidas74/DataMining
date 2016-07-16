@@ -19,6 +19,7 @@
 #include "KMeans.h"
 #include "KMeansPP.h"
 #include "FuzzyCMeans.h"
+#include "FuzzyCMeansOpenMP.h"
 #include "MetricsDistance.h"
 
 namespace ParallelClustering
@@ -56,7 +57,7 @@ namespace ParallelClustering
 				
 				int start = omp_get_wtime();
 				GetRandomObjectsArray(AlgorithmParameters->CountOfClusters, AlgorithmParameters->CountOfDimensions, centroids);
-				clustering = new FuzzyCMeans<IncomingType,OutcommingType>(data, AlgorithmParameters, Metrics::EuclidianSquare<IncomingType>);
+				clustering = new FuzzyCMeansOpenMP<IncomingType,OutcommingType>(data, AlgorithmParameters, Metrics::EuclidianSquare<IncomingType>);
 				clustering->StartClustering();
 				Runtime = (omp_get_wtime() - start);
 				

@@ -63,6 +63,9 @@
     <ClInclude Include="KMeansPP.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="FuzzyCMeansOpenMP.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="csv\log.csv">
