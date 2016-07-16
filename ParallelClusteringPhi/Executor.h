@@ -56,7 +56,7 @@ namespace ParallelClustering
 				
 				int start = omp_get_wtime();
 				GetRandomObjectsArray(AlgorithmParameters->CountOfClusters, AlgorithmParameters->CountOfDimensions, centroids);
-				clustering = new KMeans<IncomingType,OutcommingType>(data, AlgorithmParameters, Metrics::EuclidianSquare<IncomingType>);
+				clustering = new FuzzyCMeans<IncomingType,OutcommingType>(data, AlgorithmParameters, Metrics::EuclidianSquare<IncomingType>);
 				clustering->StartClustering();
 				Runtime = (omp_get_wtime() - start);
 				
@@ -125,14 +125,14 @@ namespace ParallelClustering
 			fstream outfile(AlgorithmParameters->OutputFilePath, fstream::out);
 			for (int n = 0; n < AlgorithmParameters->CountOfObjects; n++)
 			{
-				/*int c;
+				int c;
 				for (c = 0; c < AlgorithmParameters->CountOfDimensions - 1; c++)
 				{
-
+					cout << data[n*AlgorithmParameters->CountOfDimensions + c] << ";";
 					outfile << data[n*AlgorithmParameters->CountOfDimensions + c] << ";";
-				}*/
-				cout << data[n]<<endl;
-				outfile << data[n] << endl;
+				}
+				cout << data[n*AlgorithmParameters->CountOfDimensions + c]<<endl;
+				outfile << data[n*AlgorithmParameters->CountOfDimensions + c] << endl;
 			}
 
 		}
