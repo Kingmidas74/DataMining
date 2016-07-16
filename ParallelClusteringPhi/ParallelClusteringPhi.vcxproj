@@ -260,6 +260,8 @@ xcopy "$(ProjectDir)csv\log.csv" "$(TargetDir)" /Y /I</Command>
       </AdditionalIncludeDirectories>
       <OpenMP>GenerateParallelCode</OpenMP>
       <AdditionalOptions> /Qvec-report:2 %(AdditionalOptions)</AdditionalOptions>
+      <Cpp0xSupport>true</Cpp0xSupport>
+      <CompileAs>CompileAsCpp</CompileAs>
     </ClCompile>
     <Link>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
