@@ -10,6 +10,7 @@
 
 #include <functional>
 #include <iostream>
+#include <omp.h>
 
 #include "Helper.h"
 #include "Clustering.h"
@@ -27,22 +28,21 @@ namespace ParallelClustering {
 
 		protected:
 
-			OutcommingType* _powMatrix;
 
-			void GenerateCentroids()
+			inline void GenerateCentroids()
 			{
 				for (int i = 0; i < AlgorithmParameters->CountOfClusters; i++)
 				{
 					for (int j = 0; j < AlgorithmParameters->CountOfDimensions; j++)
 					{
-						double r = GetRandomDouble();
-						Centroids[i*AlgorithmParameters->CountOfDimensions + j] = r;
+						Centroids[i*AlgorithmParameters->CountOfDimensions + j] = GetRandomDouble();
 					}
 				}
 			}
 
-			void GenerateDefaultResultMatrix()
+			inline void GenerateDefaultResultMatrix()
 			{
+				#pragma omp parallel for
 				for (int i = 0; i < AlgorithmParameters->CountOfObjects;i++)
 				{
 					for (int j = 0; j < AlgorithmParameters->CountOfClusters;j++)
@@ -53,19 +53,22 @@ namespace ParallelClustering {
 				}
 			}
 
-			void normalizeArray(double* row, int length) {
+			inline void normalizeArray(double* row, int length) {
 				double sum = 0;
+				#pragma omp simd reduction(+:sum)
 				for (int i = 0; i < length; i++) {
 					sum += row[i];
 				}
+				#pragma omp simd
 				for (int i = 0; i < length; i++) {
 					row[i] /= sum;
 				}
 			}
 
-			bool calculateDecision(IncomingType* centroids)
+			inline bool calculateDecision(IncomingType* centroids)
 			{
 				double sum = 0;
+				#pragma omp simd reduction(+:sum)
 				for (int i = 0; i < AlgorithmParameters->CountOfClusters; i++)
 				{
 					sum += DistanceCalculate(Centroids, centroids, AlgorithmParameters->CountOfDimensions);
@@ -73,7 +76,7 @@ namespace ParallelClustering {
 				return sum <= AlgorithmParameters->Epsilon;
 			}
 
-			virtual void ExecuteClustering(IncomingType* centroids)
+			inline virtual void ExecuteClustering(IncomingType* centroids)
 			{
 				bool decision = false;
 
@@ -86,8 +89,9 @@ namespace ParallelClustering {
 				}
 			}
 
-			void SetClusters(IncomingType* centroids)
+			inline void SetClusters(IncomingType* centroids)
 			{
+				#pragma omp parallel for
 				for (int i = 0; i < AlgorithmParameters->CountOfObjects;i++) {
 					for (int j = 0; j < AlgorithmParameters->CountOfClusters; j++) {
 						double distance = DistanceCalculate(&VectorsForClustering[i*AlgorithmParameters->CountOfDimensions], &centroids[j*AlgorithmParameters->CountOfDimensions], AlgorithmParameters->CountOfDimensions);
@@ -97,20 +101,23 @@ namespace ParallelClustering {
 				}
 			}
 
-			void CalculateCentroids(IncomingType* centroids)
+			inline void CalculateCentroids(IncomingType* centroids)
 			{
+				
+				#pragma omp parallel for simd
 				for (int i = 0; i < AlgorithmParameters->CountOfObjects; i++) {
 					for (int j = 0; j < AlgorithmParameters->CountOfClusters; j++) {
 						_powMatrix[i*AlgorithmParameters->CountOfClusters + j] = pow(ResultMatrix[i*AlgorithmParameters->CountOfClusters + j], AlgorithmParameters->Fuzzy);
 					}
 				}
 
+				#pragma omp parallel for collapse(2)
 				for (int i = 0; i < AlgorithmParameters->CountOfClusters; i++) {
 					for (int d = 0; d < AlgorithmParameters->CountOfDimensions; d++) {
 						double numenator = 0.0;
 						double denomenator = 0.0;
+						#pragma omp simd reduction(+:numenator, denomenator)
 						for (int j = 0; j < AlgorithmParameters->CountOfObjects; j++) {
-
 							numenator += _powMatrix[j*AlgorithmParameters->CountOfClusters + i] * VectorsForClustering[j*AlgorithmParameters->CountOfDimensions + d];
 							denomenator += _powMatrix[j*AlgorithmParameters->CountOfClusters + i];
 
@@ -126,7 +133,7 @@ namespace ParallelClustering {
 
 
 			FuzzyCMeansOpenMP(IncomingType* data, Parameters* algorithm_parameters, function<double(IncomingType*, IncomingType*, long)> distance)
-				: FuzzyCMeans<IncomingType, OutcommingType>(data, algorithm_parameters, distance)	{}
+				: FuzzyCMeans(data, algorithm_parameters, distance)	{}
 
 			virtual void StartClustering()
 			{
@@ -150,10 +157,7 @@ namespace ParallelClustering {
 				ExecuteClustering(centroids);
 			}
 
-			virtual ~FuzzyCMeansOpenMP() 
-			{
-			
-			}
+			virtual ~FuzzyCMeansOpenMP() {}
 		};
 	}
 }
