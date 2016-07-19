@@ -1,4 +1,4 @@
-SOURCES = $(wildcard ./ParallelClusteringPhi/*.cpp)
+SOURCES = $(wildcard ./ParallelClusteringPhi/*.h)
 TARGET := ./../../ParallelClusteringExecute/
 BASE_OPTIONS := -std=c++0x -openmp -O2 -vec-report=5
 
