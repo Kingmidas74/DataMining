@@ -1,4 +1,4 @@
-#include "ParallelClustering.h"
+#include "ParallelClustering.hpp"
 
 using namespace std;
 

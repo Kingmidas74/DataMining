@@ -14,13 +14,13 @@
 #include <ctime>
 #include <omp.h>
 
-#include "Helper.h"
-#include "Clustering.h"
-#include "KMeans.h"
-#include "KMeansPP.h"
-#include "FuzzyCMeans.h"
-#include "FuzzyCMeansOpenMP.h"
-#include "MetricsDistance.h"
+#include "Helper.hpp"
+#include "Clustering.hpp"
+#include "KMeans.hpp"
+#include "KMeansPP.hpp"
+#include "FuzzyCMeans.hpp"
+#include "FuzzyCMeansOpenMP.hpp"
+#include "MetricsDistance.hpp"
 
 namespace ParallelClustering
 {

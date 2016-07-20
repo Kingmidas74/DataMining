@@ -3,7 +3,7 @@
 #include <functional>
 #include <iostream>
 
-#include "Helper.h"
+#include "Helper.hpp"
 
 namespace ParallelClustering {
 	
