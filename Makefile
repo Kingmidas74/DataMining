@@ -1,6 +1,6 @@
-SOURCES = $(wildcard ./ParallelClusteringPhi/*.h)
+SOURCES = ./ParallelClusteringPhi/Source.cpp #$(wildcard ./ParallelClusteringPhi/*.hpp)
 TARGET := ./../../ParallelClusteringExecute/
-BASE_OPTIONS := -std=c++0x -openmp -O2 -vec-report=5
+BASE_OPTIONS := -std=c++0x -qopenmp -O2 -vec-report=5
 
 all:
 	mkdir -p $(TARGET)
