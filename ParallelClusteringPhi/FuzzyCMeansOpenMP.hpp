@@ -10,6 +10,7 @@
 
 #include <functional>
 #include <iostream>
+#include <algorithm>
 #include <omp.h>
 
 #include "Helper.hpp"
@@ -85,7 +86,10 @@ namespace ParallelClustering {
 					SetClusters(centroids);
 					CalculateCentroids(centroids);
 					decision = calculateDecision(centroids);
-					memcpy(Clustering<IncomingType, OutcommingType>::Centroids, centroids, sizeof(IncomingType)*Clustering<IncomingType, OutcommingType>::AlgorithmParameters->CountOfClusters*Clustering<IncomingType, OutcommingType>::AlgorithmParameters->CountOfDimensions);
+					copy(centroids,
+						centroids + sizeof(IncomingType)*Clustering<IncomingType, OutcommingType>::AlgorithmParameters->CountOfClusters*Clustering<IncomingType, OutcommingType>::AlgorithmParameters->CountOfDimensions,
+						Clustering<IncomingType, OutcommingType>::Centroids);
+
 				}
 			}
 
@@ -139,8 +143,10 @@ namespace ParallelClustering {
 			{
 				GenerateCentroids();
 				IncomingType* centroids = allocateAlign<IncomingType>(Clustering<IncomingType, OutcommingType>::AlgorithmParameters->CountOfClusters*Clustering<IncomingType, OutcommingType>::AlgorithmParameters->CountOfDimensions);
-				memcpy(centroids, Clustering<IncomingType, OutcommingType>::Centroids, sizeof(IncomingType)*Clustering<IncomingType, OutcommingType>::AlgorithmParameters->CountOfClusters*Clustering<IncomingType, OutcommingType>::AlgorithmParameters->CountOfDimensions);
-
+				copy(Clustering<IncomingType, OutcommingType>::Centroids,
+					Clustering<IncomingType, OutcommingType>::Centroids + sizeof(IncomingType)*Clustering<IncomingType, OutcommingType>::AlgorithmParameters->CountOfClusters*Clustering<IncomingType, OutcommingType>::AlgorithmParameters->CountOfDimensions,
+					centroids);
+				
 				GenerateDefaultResultMatrix();
 
 				ExecuteClustering(centroids);
@@ -150,7 +156,9 @@ namespace ParallelClustering {
 
 			virtual void StartClustering(IncomingType* centroids)
 			{
-				memcpy(Clustering<IncomingType, OutcommingType>::Centroids, centroids, sizeof(IncomingType)*Clustering<IncomingType, OutcommingType>::AlgorithmParameters->CountOfClusters*Clustering<IncomingType, OutcommingType>::AlgorithmParameters->CountOfDimensions);
+				copy(centroids,
+					centroids + sizeof(IncomingType)*Clustering<IncomingType, OutcommingType>::AlgorithmParameters->CountOfClusters*Clustering<IncomingType, OutcommingType>::AlgorithmParameters->CountOfDimensions,
+					Clustering<IncomingType, OutcommingType>::Centroids);
 
 				GenerateDefaultResultMatrix();
 
