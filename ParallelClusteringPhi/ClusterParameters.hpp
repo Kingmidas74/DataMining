@@ -11,7 +11,7 @@
 #include <functional>
 #include <fstream>
 #include <sstream>
-#include "Helper.h"
+#include "Helper.hpp"
 
 
 namespace ParallelClustering

@@ -8,7 +8,7 @@
 Авторы: Сулейманов Д.Э., Цымблер М.Л.
 */
 
-#include "ClusterParameters.h"
-#include "Executor.h"
+#include "ClusterParameters.hpp"
+#include "Executor.hpp"
 
 using namespace ParallelClustering;

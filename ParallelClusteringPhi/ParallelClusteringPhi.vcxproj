@@ -301,20 +301,20 @@ xcopy "$(ProjectDir)csv\log.csv" "$(TargetDir)" /Y /I /d</Command>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Clustering.h" />
-    <ClInclude Include="ClusterParameters.h" />
-    <ClInclude Include="Executor.h" />
-    <ClInclude Include="File.h" />
-    <ClInclude Include="FuzzyCMeans.h" />
-    <ClInclude Include="FuzzyCMeansOpenMP.h" />
-    <ClInclude Include="Helper.h" />
-    <ClInclude Include="KMeans.h" />
-    <ClInclude Include="KMeansPP.h" />
-    <ClInclude Include="MetricsDistance.h" />
-    <ClInclude Include="ParallelClustering.h" />
+    <ClInclude Include="Clustering.hpp" />
+    <ClInclude Include="ClusterParameters.hpp" />
+    <ClInclude Include="Executor.hpp" />
+    <ClInclude Include="File.hpp" />
+    <ClInclude Include="FuzzyCMeans.hpp" />
+    <ClInclude Include="FuzzyCMeansOpenMP.hpp" />
+    <ClInclude Include="Helper.hpp" />
+    <ClInclude Include="KMeans.hpp" />
+    <ClInclude Include="KMeansPP.hpp" />
+    <ClInclude Include="MetricsDistance.hpp" />
+    <ClInclude Include="ParallelClustering.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source.h" />
+    <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="csv\input.csv">

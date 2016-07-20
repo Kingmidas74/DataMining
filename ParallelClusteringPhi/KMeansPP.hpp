@@ -1,6 +1,6 @@
 #pragma once
-#include "KMeans.h"
-#include "Clustering.h"
+#include "KMeans.hpp"
+#include "Clustering.hpp"
 
 namespace ParallelClustering {
 
@@ -22,7 +22,7 @@ namespace ParallelClustering {
 		public:
 
 			KMeansPP(IncomingType* data, Parameters* algorithm_parameters, function<double(IncomingType*, IncomingType*, long)> distance)
-				: KMeans(data, algorithm_parameters, distance)
+				: KMeans<IncomingType, OutcommingType>(data, algorithm_parameters, distance)
 			{
 				
 			}

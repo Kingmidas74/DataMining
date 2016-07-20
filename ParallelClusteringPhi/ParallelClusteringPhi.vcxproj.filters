@@ -33,37 +33,37 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="MetricsDistance.h">
-      <Filter>Header Files\ParallelClustering\Metrics</Filter>
-    </ClInclude>
-    <ClInclude Include="Helper.h">
+    <ClInclude Include="Clustering.hpp">
       <Filter>Header Files\ParallelClustering</Filter>
     </ClInclude>
-    <ClInclude Include="Executor.h">
+    <ClInclude Include="ClusterParameters.hpp">
       <Filter>Header Files\ParallelClustering</Filter>
     </ClInclude>
-    <ClInclude Include="ClusterParameters.h">
+    <ClInclude Include="Executor.hpp">
       <Filter>Header Files\ParallelClustering</Filter>
     </ClInclude>
-    <ClInclude Include="ParallelClustering.h">
+    <ClInclude Include="File.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Clustering.h">
-      <Filter>Header Files\ParallelClustering</Filter>
-    </ClInclude>
-    <ClInclude Include="FuzzyCMeans.h">
+    <ClInclude Include="FuzzyCMeans.hpp">
       <Filter>Header Files\ParallelClustering\FuzzyCMeansCollection</Filter>
     </ClInclude>
-    <ClInclude Include="KMeans.h">
+    <ClInclude Include="FuzzyCMeansOpenMP.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Helper.hpp">
+      <Filter>Header Files\ParallelClustering</Filter>
+    </ClInclude>
+    <ClInclude Include="KMeans.hpp">
       <Filter>Header Files\ParallelClustering\KMeansCollection</Filter>
     </ClInclude>
-    <ClInclude Include="File.h">
+    <ClInclude Include="KMeansPP.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="KMeansPP.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="MetricsDistance.hpp">
+      <Filter>Header Files\ParallelClustering\Metrics</Filter>
     </ClInclude>
-    <ClInclude Include="FuzzyCMeansOpenMP.h">
+    <ClInclude Include="ParallelClustering.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -81,7 +81,7 @@
     </Text>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source.h">
+    <ClCompile Include="Source.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
