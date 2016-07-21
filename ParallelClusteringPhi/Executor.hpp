@@ -14,12 +14,8 @@
 #include <ctime>
 #include <omp.h>
 
+#include "ClusteringAlgorithms.hpp"
 #include "Helper.hpp"
-#include "Clustering.hpp"
-#include "KMeans.hpp"
-#include "KMeansPP.hpp"
-#include "FuzzyCMeans.hpp"
-#include "FuzzyCMeansOpenMP.hpp"
 #include "MetricsDistance.hpp"
 
 namespace ParallelClustering

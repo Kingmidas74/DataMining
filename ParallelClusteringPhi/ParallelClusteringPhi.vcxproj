@@ -302,6 +302,7 @@ xcopy "$(ProjectDir)csv\log.csv" "$(TargetDir)" /Y /I /d</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Clustering.hpp" />
+    <ClInclude Include="ClusteringAlgorithms.hpp" />
     <ClInclude Include="ClusterParameters.hpp" />
     <ClInclude Include="Executor.hpp" />
     <ClInclude Include="File.hpp" />
