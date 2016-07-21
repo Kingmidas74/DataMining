@@ -9,5 +9,6 @@ int main(int argc, char *argv[])
 	Parameters parameters = clusterParameters.GetParameters();
 	Executor<double,double>* executor = new Executor<double,double>(&parameters);
 	executor->CalculateProbabilities();
+	delete executor;
 	return EXIT_SUCCESS;
 }

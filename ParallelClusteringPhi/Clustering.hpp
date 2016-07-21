@@ -54,6 +54,9 @@ namespace ParallelClustering {
 
 		virtual void StartClustering(IncomingType* centroids) {}
 
-		virtual ~Clustering() {}
+		virtual ~Clustering()
+		{
+			freeAlign(DistanceMatrix);
+		}
 	};
 }

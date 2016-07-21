@@ -52,13 +52,14 @@ namespace ParallelClustering
 				Clustering<IncomingType,OutcommingType>* clustering;
 				
 				int start = omp_get_wtime();
-				GetRandomObjectsArray(AlgorithmParameters->CountOfClusters, AlgorithmParameters->CountOfDimensions, centroids);
+				
 				clustering = new FuzzyCMeansOpenMP<IncomingType,OutcommingType>(data, AlgorithmParameters, Metrics::EuclidianSquare<IncomingType>);
 				clustering->StartClustering();
 				Runtime = (omp_get_wtime() - start);
 				
 				WriteLog();				
 				tryWriteFile(clustering->ResultMatrix);
+				delete clustering;
 			}
 			else {
 				freeAlign(data);
