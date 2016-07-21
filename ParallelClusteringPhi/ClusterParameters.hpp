@@ -11,7 +11,10 @@
 #include <functional>
 #include <fstream>
 #include <sstream>
+#include <vector>
+
 #include "Helper.hpp"
+
 
 
 namespace ParallelClustering

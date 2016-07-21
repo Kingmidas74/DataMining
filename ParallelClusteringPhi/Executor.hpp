@@ -8,18 +8,13 @@
 Авторы: Сулейманов Д.Э., Цымблер М.Л.
 */
 
-#include <vector>
 #include <fstream>
 #include <sstream>
 #include <ctime>
 #include <omp.h>
 
 #include "Helper.hpp"
-#include "Clustering.hpp"
-#include "KMeans.hpp"
-#include "KMeansPP.hpp"
-#include "FuzzyCMeans.hpp"
-#include "FuzzyCMeansOpenMP.hpp"
+#include "ClusteringAlgorithms.hpp"
 #include "MetricsDistance.hpp"
 
 namespace ParallelClustering
@@ -56,13 +51,17 @@ namespace ParallelClustering
 				Clustering<IncomingType,OutcommingType>* clustering;
 				
 				int start = omp_get_wtime();
-				GetRandomObjectsArray(AlgorithmParameters->CountOfClusters, AlgorithmParameters->CountOfDimensions, centroids);
-				clustering = new FuzzyCMeansOpenMP<IncomingType,OutcommingType>(data, AlgorithmParameters, Metrics::EuclidianSquare<IncomingType>);
+				
+				clustering = new FuzzyCMeans<IncomingType,OutcommingType>(data, AlgorithmParameters, Metrics::EuclidianSquare<IncomingType>);
+				clustering->CalculateAllDistance();
+				printArray(clustering->DistanceMatrix, AlgorithmParameters->CountOfObjects, AlgorithmParameters->CountOfObjects, "DistanceMatrix");
 				clustering->StartClustering();
+				
 				Runtime = (omp_get_wtime() - start);
 				
 				WriteLog();				
 				tryWriteFile(clustering->ResultMatrix);
+				delete clustering;
 			}
 			else {
 				freeAlign(data);

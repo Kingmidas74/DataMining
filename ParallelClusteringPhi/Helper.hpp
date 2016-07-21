@@ -8,9 +8,7 @@
 Авторы: Сулейманов Д.Э., Цымблер М.Л.
 */
 
-#include <vector>
 #include <iostream>
-#include <time.h>
 
 namespace ParallelClustering 
 {
@@ -31,7 +29,7 @@ namespace ParallelClustering
 	/*Allocators*/
 	template <typename Type>
 	Type* allocateAlign(long long count, int length = 64) {
-		return (Type*)_mm_malloc(count*sizeof(Type), length);
+		return static_cast<Type*>(_mm_malloc(count*sizeof(Type), length));
 	}
 
 	template <typename Type>
@@ -41,11 +39,11 @@ namespace ParallelClustering
 
 	/**/
 
-	double GetRandomDouble(double min=0, double max=1) {
+	inline double GetRandomDouble(double min=0, double max=1) {
 		return (static_cast <double> (rand()) / static_cast <double> (RAND_MAX));
 	}
 
-	void GetRandomObjectsArray(int count, int dimension, double* my_array)
+	inline void GetRandomObjectsArray(int count, int dimension, double* my_array)
 	{
 		for (int i = 0; i < count; i++) {
 			for (int j = 0; j < dimension; j++) {
@@ -54,7 +52,7 @@ namespace ParallelClustering
 		}
 	}
 
-	void printArray(double* array, int width, int height, char* text) {
+	inline void printArray(double* array, int width, int height, char* text) {
 		cout << endl;
 		cout << text << endl;
 		for (int i = 0; i < height; i++)
