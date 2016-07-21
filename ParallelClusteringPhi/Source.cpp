@@ -4,11 +4,10 @@ using namespace std;
 
 int main(int argc, char *argv[])
 {	
-	srand(time(nullptr));
+	srand(time(NULL));
 	ClusterParameters clusterParameters(argc, argv);
-	auto parameters = clusterParameters.GetParameters();
-	auto executor = new Executor<double,double>(&parameters);
+	Parameters parameters = clusterParameters.GetParameters();
+	Executor<double,double>* executor = new Executor<double,double>(&parameters);
 	executor->CalculateProbabilities();
-	delete executor;
 	return EXIT_SUCCESS;
 }

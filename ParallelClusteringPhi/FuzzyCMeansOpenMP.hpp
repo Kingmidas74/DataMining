@@ -9,6 +9,8 @@
 */
 
 #include <functional>
+#include <iostream>
+#include <algorithm>
 #include <omp.h>
 
 #include "Helper.hpp"
@@ -28,7 +30,7 @@ namespace ParallelClustering {
 		protected:
 
 
-			void GenerateCentroids() override
+			inline void GenerateCentroids()
 			{
 				for (int i = 0; i < Clustering<IncomingType, OutcommingType>::AlgorithmParameters->CountOfClusters; i++)
 				{
@@ -39,7 +41,7 @@ namespace ParallelClustering {
 				}
 			}
 
-			void GenerateDefaultResultMatrix() override
+			inline void GenerateDefaultResultMatrix()
 			{
 				#pragma omp parallel for
 				for (int i = 0; i < Clustering<IncomingType, OutcommingType>::AlgorithmParameters->CountOfObjects;i++)
@@ -52,8 +54,7 @@ namespace ParallelClustering {
 				}
 			}
 
-			void normalizeArray(double* row, int length) override
-			{
+			inline void normalizeArray(double* row, int length) {
 				double sum = 0;
 				#pragma omp simd reduction(+:sum)
 				for (int i = 0; i < length; i++) {
@@ -65,7 +66,7 @@ namespace ParallelClustering {
 				}
 			}
 
-			bool calculateDecision(IncomingType* centroids) override
+			inline bool calculateDecision(IncomingType* centroids)
 			{
 				double sum = 0;
 				#pragma omp simd reduction(+:sum)
@@ -76,7 +77,7 @@ namespace ParallelClustering {
 				return sum <= Clustering<IncomingType, OutcommingType>::AlgorithmParameters->Epsilon;
 			}
 
-			void ExecuteClustering(IncomingType* centroids) override
+			inline virtual void ExecuteClustering(IncomingType* centroids)
 			{
 				bool decision = false;
 
@@ -92,7 +93,7 @@ namespace ParallelClustering {
 				}
 			}
 
-			void SetClusters(IncomingType* centroids) override
+			inline void SetClusters(IncomingType* centroids)
 			{
 				#pragma omp parallel for
 				for (int i = 0; i < Clustering<IncomingType, OutcommingType>::AlgorithmParameters->CountOfObjects;i++) {
@@ -104,7 +105,7 @@ namespace ParallelClustering {
 				}
 			}
 
-			void CalculateCentroids(IncomingType* centroids) override
+			inline void CalculateCentroids(IncomingType* centroids)
 			{
 				
 				#pragma omp parallel for simd
@@ -138,7 +139,7 @@ namespace ParallelClustering {
 			FuzzyCMeansOpenMP(IncomingType* data, Parameters* algorithm_parameters, function<double(IncomingType*, IncomingType*, long)> distance)
 				: FuzzyCMeans<IncomingType, OutcommingType>(data, algorithm_parameters, distance)	{}
 
-			void StartClustering() override
+			virtual void StartClustering()
 			{
 				GenerateCentroids();
 				IncomingType* centroids = allocateAlign<IncomingType>(Clustering<IncomingType, OutcommingType>::AlgorithmParameters->CountOfClusters*Clustering<IncomingType, OutcommingType>::AlgorithmParameters->CountOfDimensions);
@@ -153,7 +154,7 @@ namespace ParallelClustering {
 				freeAlign<IncomingType>(centroids);
 			}
 
-			void StartClustering(IncomingType* centroids) override
+			virtual void StartClustering(IncomingType* centroids)
 			{
 				copy(centroids,
 					centroids + sizeof(IncomingType)*Clustering<IncomingType, OutcommingType>::AlgorithmParameters->CountOfClusters*Clustering<IncomingType, OutcommingType>::AlgorithmParameters->CountOfDimensions,
