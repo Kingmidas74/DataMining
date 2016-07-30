@@ -8,7 +8,6 @@
 Авторы: Сулейманов Д.Э., Цымблер М.Л.
 */
 
-#include <vector>
 #include <fstream>
 #include <sstream>
 #include <ctime>
@@ -52,14 +51,15 @@ namespace ParallelClustering
 				Clustering<IncomingType,OutcommingType>* clustering;
 				
 				int start = omp_get_wtime();
-				
-				clustering = new FuzzyCMeansOpenMP<IncomingType,OutcommingType>(data, AlgorithmParameters, Metrics::EuclidianSquare<IncomingType>);
+				GetRandomObjectsArray(AlgorithmParameters->CountOfClusters, AlgorithmParameters->CountOfDimensions, centroids);
+				clustering = new FuzzyCMeans<IncomingType,OutcommingType>(data, AlgorithmParameters, Metrics::EuclidianSquare<IncomingType>);
 				clustering->StartClustering();
 				Runtime = (omp_get_wtime() - start);
 				
 				WriteLog();				
 				tryWriteFile(clustering->ResultMatrix);
 				delete clustering;
+				
 			}
 			else {
 				freeAlign(data);
@@ -101,11 +101,11 @@ namespace ParallelClustering
 				while (ss && dim<AlgorithmParameters->CountOfDimensions)
 				{
 
-					string s;
+					string str;
 					double p;
-					if (!getline(ss, s, ';')) break;
+					if (!getline(ss, str, ';')) break;
 
-					istringstream iss(s);
+					istringstream iss(str);
 					if (iss >> p)
 					{
 						data[elementN] = p;

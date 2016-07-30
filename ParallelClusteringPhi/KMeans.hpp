@@ -26,20 +26,7 @@ namespace ParallelClustering {
 				}
 				return sum<=Clustering<IncomingType, OutcommingType>::AlgorithmParameters->Epsilon;
 			}
-
-			void GenerateCentroids() 
-			{				
-				for (int i = 0; i < Clustering<IncomingType, OutcommingType>::AlgorithmParameters->CountOfClusters; i++)
-				{
-					for (int j = 0; j < Clustering<IncomingType, OutcommingType>::AlgorithmParameters->CountOfDimensions; j++)
-					{
-						double r = GetRandomDouble();
-
-						Clustering<IncomingType, OutcommingType>::Centroids[i*Clustering<IncomingType, OutcommingType>::AlgorithmParameters->CountOfDimensions + j] = r;
-					}
-				}
-			}
-
+			
 			void GenerateDefaultResultMatrix()
 			{
 				for (int i = 0; i < Clustering<IncomingType, OutcommingType>::AlgorithmParameters->CountOfObjects;i++)
@@ -48,7 +35,7 @@ namespace ParallelClustering {
 				}
 			}
 
-			void ExecuteClustering(IncomingType* centroids)
+			void ExecuteClustering(IncomingType* centroids) override
 			{
 				bool decision = false;
 				while (decision == false)
@@ -112,9 +99,9 @@ namespace ParallelClustering {
 				
 			}
 
-			void StartClustering()
+			void StartClustering() override
 			{
-				GenerateCentroids();
+				Clustering<IncomingType, OutcommingType>::GenerateCentroids();
 				IncomingType* centroids = allocateAlign<IncomingType>(Clustering<IncomingType, OutcommingType>::AlgorithmParameters->CountOfClusters*Clustering<IncomingType, OutcommingType>::AlgorithmParameters->CountOfDimensions);
 				copy(Clustering<IncomingType, OutcommingType>::Centroids,
 					Clustering<IncomingType, OutcommingType>::Centroids + sizeof(IncomingType)*Clustering<IncomingType, OutcommingType>::AlgorithmParameters->CountOfClusters*Clustering<IncomingType, OutcommingType>::AlgorithmParameters->CountOfDimensions,
@@ -127,7 +114,7 @@ namespace ParallelClustering {
 				freeAlign<IncomingType>(centroids);
 			}
 
-			void StartClustering(IncomingType* centroids)
+			void StartClustering(IncomingType* centroids) override
 			{
 				copy(centroids,
 					centroids + sizeof(IncomingType)*Clustering<IncomingType, OutcommingType>::AlgorithmParameters->CountOfClusters*Clustering<IncomingType, OutcommingType>::AlgorithmParameters->CountOfDimensions,

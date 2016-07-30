@@ -9,8 +9,6 @@
 */
 
 #include <functional>
-#include <iostream>
-#include <algorithm>
 
 #include "Helper.hpp"
 #include "Clustering.hpp"
@@ -29,41 +27,19 @@ namespace ParallelClustering {
 
 			OutcommingType* _powMatrix;
 
-			void GenerateCentroids()
+			virtual void GenerateDefaultResultMatrix()
 			{
-				for (int i = 0; i < Clustering<IncomingType, OutcommingType>::AlgorithmParameters->CountOfClusters; i++)
+				for (auto i = 0; i < Clustering<IncomingType, OutcommingType>::AlgorithmParameters->CountOfObjects;i++)
 				{
-					for (int j = 0; j < Clustering<IncomingType, OutcommingType>::AlgorithmParameters->CountOfDimensions; j++)
-					{
-						double r = GetRandomDouble();
-						Clustering<IncomingType, OutcommingType>::Centroids[i*Clustering<IncomingType, OutcommingType>::AlgorithmParameters->CountOfDimensions + j] = r;
-					}
-				}
-			}
-
-			void GenerateDefaultResultMatrix()
-			{
-				for (int i = 0; i < Clustering<IncomingType, OutcommingType>::AlgorithmParameters->CountOfObjects;i++)
-				{
-					for (int j = 0; j < Clustering<IncomingType, OutcommingType>::AlgorithmParameters->CountOfClusters;j++)
+					for (auto j = 0; j < Clustering<IncomingType, OutcommingType>::AlgorithmParameters->CountOfClusters;j++)
 					{
 						Clustering<IncomingType, OutcommingType>::ResultMatrix[i*Clustering<IncomingType, OutcommingType>::AlgorithmParameters->CountOfClusters+j] = GetRandomDouble();
 					}
-					normalizeArray(&Clustering<IncomingType, OutcommingType>::ResultMatrix[i*Clustering<IncomingType, OutcommingType>::AlgorithmParameters->CountOfClusters], Clustering<IncomingType, OutcommingType>::AlgorithmParameters->CountOfClusters);
+					Clustering<IncomingType, OutcommingType>::normalizeArray(&Clustering<IncomingType, OutcommingType>::ResultMatrix[i*Clustering<IncomingType, OutcommingType>::AlgorithmParameters->CountOfClusters], Clustering<IncomingType, OutcommingType>::AlgorithmParameters->CountOfClusters);
 				}
 			}
-
-			void normalizeArray(double* row, int length) {
-				double sum = 0;
-				for (int i = 0; i < length; i++) {
-					sum += row[i];
-				}
-				for (int i = 0; i < length; i++) {
-					row[i] /= sum;
-				}
-			}
-
-			bool calculateDecision(IncomingType* centroids)
+			
+			virtual bool calculateDecision(IncomingType* centroids)
 			{
 				double sum = 0;
 				for (int i = 0; i < Clustering<IncomingType, OutcommingType>::AlgorithmParameters->CountOfClusters; i++)
@@ -73,7 +49,7 @@ namespace ParallelClustering {
 				return sum <= Clustering<IncomingType, OutcommingType>::AlgorithmParameters->Epsilon;
 			}
 
-			virtual void ExecuteClustering(IncomingType* centroids)
+			void ExecuteClustering(IncomingType* centroids) override
 			{
 				bool decision = false;
 				
@@ -88,18 +64,18 @@ namespace ParallelClustering {
 				}
 			}
 
-			void SetClusters(IncomingType* centroids)
-			{
+			virtual void SetClusters(IncomingType* centroids)
+			{ 
 				for (int i = 0; i < Clustering<IncomingType, OutcommingType>::AlgorithmParameters->CountOfObjects;i++) {
 					for (int j = 0; j < Clustering<IncomingType, OutcommingType>::AlgorithmParameters->CountOfClusters; j++) {
 						double distance = Clustering<IncomingType, OutcommingType>::DistanceCalculate(&Clustering<IncomingType, OutcommingType>::VectorsForClustering[i*Clustering<IncomingType, OutcommingType>::AlgorithmParameters->CountOfDimensions], &centroids[j*Clustering<IncomingType, OutcommingType>::AlgorithmParameters->CountOfDimensions], Clustering<IncomingType, OutcommingType>::AlgorithmParameters->CountOfDimensions);
 						Clustering<IncomingType, OutcommingType>::ResultMatrix[i*Clustering<IncomingType, OutcommingType>::AlgorithmParameters->CountOfClusters + j] = pow(1 / distance, 2 / (Clustering<IncomingType, OutcommingType>::AlgorithmParameters->Fuzzy - 1));
 					}
-					normalizeArray(&Clustering<IncomingType, OutcommingType>::ResultMatrix[i*Clustering<IncomingType, OutcommingType>::AlgorithmParameters->CountOfClusters], Clustering<IncomingType, OutcommingType>::AlgorithmParameters->CountOfClusters);
+					Clustering<IncomingType, OutcommingType>::normalizeArray(&Clustering<IncomingType, OutcommingType>::ResultMatrix[i*Clustering<IncomingType, OutcommingType>::AlgorithmParameters->CountOfClusters], Clustering<IncomingType, OutcommingType>::AlgorithmParameters->CountOfClusters);
 				}
 			}
 
-			void CalculateCentroids(IncomingType* centroids)
+			virtual void CalculateCentroids(IncomingType* centroids)
 			{
 				for (int i = 0; i < Clustering<IncomingType, OutcommingType>::AlgorithmParameters->CountOfObjects; i++) {
 					for (int j = 0; j < Clustering<IncomingType, OutcommingType>::AlgorithmParameters->CountOfClusters; j++) {
@@ -135,9 +111,9 @@ namespace ParallelClustering {
 				_powMatrix = allocateAlign<OutcommingType>(Clustering<IncomingType, OutcommingType>::AlgorithmParameters->CountOfObjects*Clustering<IncomingType, OutcommingType>::AlgorithmParameters->CountOfClusters);
 			}
 
-			virtual void StartClustering()
+			void StartClustering() override
 			{
-				GenerateCentroids();
+				Clustering<IncomingType, OutcommingType>::GenerateCentroids();
 				IncomingType* centroids = allocateAlign<IncomingType>(Clustering<IncomingType, OutcommingType>::AlgorithmParameters->CountOfClusters*Clustering<IncomingType, OutcommingType>::AlgorithmParameters->CountOfDimensions);
 				
 				copy(Clustering<IncomingType, OutcommingType>::Centroids,
@@ -150,7 +126,7 @@ namespace ParallelClustering {
 				freeAlign<IncomingType>(centroids);
 			}
 
-			virtual void StartClustering(IncomingType* centroids)
+			void StartClustering(IncomingType* centroids) override
 			{	
 				copy(centroids,
 					centroids + sizeof(IncomingType)*Clustering<IncomingType, OutcommingType>::AlgorithmParameters->CountOfClusters*Clustering<IncomingType, OutcommingType>::AlgorithmParameters->CountOfDimensions,

@@ -1,7 +1,6 @@
 #pragma once
 
 #include <functional>
-#include <iostream>
 
 #include "Helper.hpp"
 
@@ -22,6 +21,17 @@ namespace ParallelClustering {
 		function<double(IncomingType*, IncomingType*, long)> DistanceCalculate;
 
 		virtual void ExecuteClustering(IncomingType* centroids) {};
+
+		virtual void GenerateCentroids()
+		{
+			for (auto i = 0; i < AlgorithmParameters->CountOfClusters; i++)
+			{
+				for (auto j = 0; j < AlgorithmParameters->CountOfDimensions; j++)
+				{
+					Centroids[i*AlgorithmParameters->CountOfDimensions + j] = GetRandomDouble();
+				}
+			}
+		}
 
 
 	public:
@@ -50,6 +60,16 @@ namespace ParallelClustering {
 				}
 			}
 			printArray(DistanceMatrix, AlgorithmParameters->CountOfObjects, AlgorithmParameters->CountOfObjects, "DistanceMatrix");
+		}
+
+		void normalizeArray(double* row, int length) const {
+			double sum = 0;
+			for (auto i = 0; i < length; i++) {
+				sum += row[i];
+			}
+			for (auto i = 0; i < length; i++) {
+				row[i] /= sum;
+			}
 		}
 
 		virtual void StartClustering(IncomingType* centroids) {}

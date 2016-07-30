@@ -14,7 +14,8 @@ namespace ParallelClustering {
 
 		protected:
 
-			virtual void ExecuteClustering(IncomingType* centroids) {
+			void ExecuteClustering(IncomingType* centroids) override
+			{
 				
 			}
 
@@ -27,9 +28,11 @@ namespace ParallelClustering {
 				
 			}
 
-			virtual  void StartClustering() {}
+			void StartClustering() override
+			{}
 
-			virtual  void StartClustering(IncomingType* centroids) {}
+			void StartClustering(IncomingType* centroids) override
+			{}
 
 			virtual ~KMeansPP()
 			{
