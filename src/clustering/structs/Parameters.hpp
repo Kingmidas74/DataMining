@@ -8,20 +8,23 @@ Purpose: Struct for save parameters.
 @version	0.0.0.1 9/17/2016
 */
 
+#include <iostream>
 
-namespace ParallelClustering 
+namespace ParallelClustering
 {
 	using namespace std;
 
 	struct Parameters
 	{
-		int CountOfObjects;
-		int CountOfDimensions;
-		int CountOfClusters;
-		int CountOfThreads;
+		unsigned int CountOfObjects;
+		unsigned int CountOfDimensions;
+		unsigned int CountOfClusters;
+		unsigned int CountOfThreads;
 		double Fuzzy;
 		double Epsilon;
 		string InputFilePath;
 		string OutputFilePath;
+
+		
 	};
 }

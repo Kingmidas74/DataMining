@@ -1,34 +1,30 @@
 #pragma once
 
-/*
-"Реализация параллельных версиий алгоритов кластеризации данных
-с использованием многоядерных ускорителей"
+/**
+DICParameters.hpp
+Purpose: Parser of cmd parameters.
 
-Класс для определения входных данных.
-Авторы: Сулейманов Д.Э., Цымблер М.Л.
+@author		Suleymanov D.
+@version	0.0.0.1 9/17/2016
 */
 
-#include <functional>
 #include <fstream>
 #include <sstream>
-#include "Helper.hpp"
 #include <vector>
+#include <math.h>
 
-
-namespace ParallelClustering
-{
-
+namespace ParallelClustering {
 	using namespace std;
 
 	class ClusterParameters
 	{
-	public:	
+	public:
 
 		ClusterParameters(int argc, char* argv[])
 		{
 			allParameters.CountOfDimensions = 3;
-			allParameters.CountOfClusters = allParameters.CountOfDimensions;
-			allParameters.CountOfObjects = 13;
+			allParameters.CountOfClusters = 3;
+			allParameters.CountOfObjects = 15;
 			allParameters.Epsilon = 0.1;
 			allParameters.Fuzzy = 1.5;
 			allParameters.InputFilePath = "input.csv";
@@ -104,7 +100,7 @@ namespace ParallelClustering
 		{
 			if (&_argv[numberOfparameter])
 			{
-				int val;
+				unsigned int val;
 				istringstream iss(_argv[numberOfparameter]);
 				if (iss >> val)
 				{
@@ -117,7 +113,7 @@ namespace ParallelClustering
 		{
 			if (&_argv[numberOfparameter])
 			{
-				int val;
+				unsigned int val;
 				istringstream iss(_argv[numberOfparameter]);
 				if (iss >> val)
 				{
@@ -130,7 +126,7 @@ namespace ParallelClustering
 		{
 			if (&_argv[numberOfparameter])
 			{
-				int val;
+				unsigned int val;
 				istringstream iss(_argv[numberOfparameter]);
 				if (iss >> val)
 				{
@@ -143,7 +139,7 @@ namespace ParallelClustering
 		{
 			if (&_argv[numberOfparameter])
 			{
-				int val;
+				unsigned int val;
 				istringstream iss(_argv[numberOfparameter]);
 				if (iss >> val)
 				{
@@ -179,4 +175,3 @@ namespace ParallelClustering
 		}
 	};
 }
-

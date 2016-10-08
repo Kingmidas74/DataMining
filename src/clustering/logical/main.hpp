@@ -8,6 +8,7 @@ Purpose: Primary .h file for include every elements.
 @version	0.0.0.1 9/17/2016
 */
 
+#include <omp.h>
 
 #include "./ClusterParameters.hpp"
 #include "./Executor.hpp"

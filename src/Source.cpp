@@ -1,15 +1,19 @@
+#include <iostream>
+
+
 #include "./clustering/ParallelClustering.hpp"
 
-using namespace std;
+
+#include <ctime>
 
 int main(int argc, char *argv[])
 {	
 	srand(time(nullptr));
 	
 	ClusterParameters clusterParameters(argc, argv);
-	Parameters parameters = clusterParameters.GetParameters();
-	Executor<double,double>* executor = Executor<double,double>(&parameters);
-	executor->CalculateProbabilities();
+	auto parameters = clusterParameters.GetParameters();
+	auto executor = Executor(&parameters);
+	executor.CalculateProbabilities();
 	
 	return EXIT_SUCCESS;
 }

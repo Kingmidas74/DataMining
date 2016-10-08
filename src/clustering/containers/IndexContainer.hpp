@@ -18,8 +18,8 @@ namespace ParallelClustering
 
 		Content* content;
 
-		unsigned long long my_size;
-		unsigned long long my_capacity;
+		unsigned int my_size;
+		unsigned int my_capacity;
 
 	public:
 		
@@ -30,64 +30,34 @@ namespace ParallelClustering
 			
 		}
 
-		IndexContainer(unsigned long long &size)
-		{
-			content = allocateAlign<Content>(size);			
-			my_size = size;
-			my_capacity = size;
-			Length = 0;
-		}
-
-		IndexContainer(unsigned long long &size, const Content &initial)
+		explicit IndexContainer(unsigned int size)
 		{
 			content = allocateAlign<Content>(size);
 			my_size = size;
 			my_capacity = size;
 			Length = 0;
-			for(unsigned long long i=0; i<size; i++)
+		}
+
+		explicit IndexContainer(unsigned int size, Content defaultValue)
+		{
+			content = allocateAlign<Content>(size);
+			my_size = size;
+			my_capacity = size;
+			Length = 0;
+			for(unsigned int i=0; i<size; i++)
 			{
-				content[i] = initial;
+				content[i] = defaultValue;
+				Length++;
 			}
 		}
 
-		IndexContainer(unsigned int &size)
-		{
-			content = allocateAlign<Content>(size);
-			my_size = size;
-			my_capacity = size;
-			Length = 0;
-		}
-
-		IndexContainer(unsigned int &size, const Content &initial)
-		{
-			content = allocateAlign<Content>(size);
-			my_size = size;
-			my_capacity = size;
-			Length = 0;
-			for (unsigned int i = 0; i<size; i++)
+		void Replace(IndexContainer<Content> old)
+		{	
+			for(auto element:old)
 			{
-				content[i] = initial;
+				//Append(element);
 			}
-		}
-
-		IndexContainer(int &size)
-		{
-			content = allocateAlign<Content>(size);
-			my_size = size;
-			my_capacity = size;
-			Length = 0;
-		}
-
-		IndexContainer(int &size, const Content &initial)
-		{
-			content = allocateAlign<Content>(size);
-			my_size = size;
-			my_capacity = size;
-			Length = 0;
-			for (int i = 0; i<size; i++)
-			{
-				content[i] = initial;
-			}
+			//Length = old.Length;
 		}
 
 		~IndexContainer()
@@ -95,19 +65,30 @@ namespace ParallelClustering
 			
 		}
 		
-		int * begin()
+		Content * begin()
 		{
 			return Length>0 ? &content[0] : nullptr;
 		}
 
-		int * end()
+		Content * end()
 		{
 			return Length>0 ? &content[Length] : nullptr;
 		}
 
 
-		Content & operator[](const unsigned long &index) {
+		Content & operator[](unsigned int index) {
 			return content[index];
+		}
+
+		IndexContainer<Content> Substruct(unsigned int start, unsigned int count)
+		{
+			auto result = IndexContainer<Content>(count);
+			//cout << "SUBSTRUCT:" << start << "_" << count << endl;
+			for(unsigned int i=start; i<start+count; i++)
+			{
+				result.Append(content[i]);
+			}
+			return result;
 		}
 
 		void Clear()
@@ -138,7 +119,12 @@ namespace ParallelClustering
 				throw "Memory is not allocated!";
 			}
 		}
+
 		
+
+
+		
+
 		void RemoveByIndex(int &index)
 		{	
 			if (Length == 0 || Length==index) throw "Invalid element index";

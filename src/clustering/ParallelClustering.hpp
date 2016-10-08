@@ -1,18 +1,18 @@
 #pragma once
 
-/*
-"Реализация параллельных версиий алгоритов кластеризации данных
-с использованием многоядерных ускорителей"
+/**
+DIC.h
+Purpose: Primary .h file for include every elements.
 
-Единая точка для подлкючения необходимых зависимостей.
-Авторы: Сулейманов Д.Э., Цымблер М.Л.
+@author		Suleymanov D.
+@version	0.0.0.1 9/17/2016
 */
 
-#include "./clustering/functions/main.hpp"
-#include "./clustering/structs/main.hpp"
-#include "./clustering/containers/main.hpp"
-#include "./clustering/algorithms/main.hpp"
-#include "./clustering/logical/main.hpp"
+#include "./functions/main.hpp"
+#include "./structs/main.hpp"
+#include "./containers/main.hpp"
+#include "./algorithms/main.hpp"
+#include "./logical/main.hpp"
 
 
 using namespace ParallelClustering;

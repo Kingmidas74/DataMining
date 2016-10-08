@@ -9,4 +9,6 @@ Purpose: Primary .h file for include every elements.
 */
 
 #include "./Allocators.hpp"
+#include "./GenerateRandom.hpp"
 #include "./Metrics.hpp"
+#include "./Prints.hpp"

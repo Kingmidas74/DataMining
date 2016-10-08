@@ -1,15 +1,8 @@
 #pragma once
-
-/*
-"Реализация параллельных версиий алгоритов кластеризации данных
-с использованием многоядерных ускорителей"
-
-Пространство имён содержащие в себе различные метрики для вычисления расстояния
-между двумя векторами.
-Авторы: Сулейманов Д.Э., Цымблер М.Л.
-*/
-
 #include <cmath>
+#include "Prints.hpp"
+#include <cassert>
+
 
 namespace ParallelClustering
 {
@@ -18,23 +11,16 @@ namespace ParallelClustering
 
 		using namespace std;
 
-		template <typename Type>
-		double MinkowskiWithPower(Type* first_array, Type* second_array, long size, int power) {
+		inline double MinkowskiSquare(double* first_array, double* second_array, unsigned int length, unsigned int power, unsigned int length2) {
+			//cout << "AA=" << first_array[0] << "_" << first_array[1] <<  endl;
+			//cout << "BB=" << second_array[0] << "_" << second_array[1]  << endl;
+			assert(length == length2);
 			double result = 0;
-			for (long i = 0; i < size; i++) {
+			for (unsigned int i = 0; i < length; i++) {
 				result += pow(first_array[i] - second_array[i], power);
 			}
-			return pow(result, 1.0 / power);
-		}
-
-		template <typename Type>
-		double Minkowski(Type* first_array, Type* second_array, long size) {
-			double result = 0;
-			for (long i = 0; i < size; i++) {
-				result += pow(first_array[i] - second_array[i], 2);
-			}
+			//result = pow(result, 1.0 / power);
 			return result;
 		}
-
 	}
 }

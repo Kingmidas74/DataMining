@@ -20,7 +20,7 @@ namespace ParallelClustering
 	@return Pointer to type T.
 	*/
 	template <typename Type>
-	Type* allocateAlign(unsigned long long count, int length = 64) {
+	Type* allocateAlign(unsigned long long count, unsigned int length = 64) {
 		return static_cast<Type*>(_mm_malloc(count * sizeof(Type), length));		
 	}
 

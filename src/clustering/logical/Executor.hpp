@@ -1,94 +1,76 @@
 #pragma once
 
-/*
-"Реализация параллельных версиий алгоритов кластеризации данных
-с использованием многоядерных ускорителей"
 
-Класс для инкапсуляции работы с кластеризацией данных.
-Авторы: Сулейманов Д.Э., Цымблер М.Л.
+/**
+Executor.h
+Purpose: Incapsulation of workflow.
+
+@author		Suleymanov D.
+@version	0.0.0.1 9/17/2016
 */
 
-#include <fstream>
-#include <sstream>
-#include <ctime>
-#include <omp.h>
+namespace ParallelClustering {
 
-#include "ClusteringAlgorithms.hpp"
-#include "Helper.hpp"
-#include "MetricsDistance.hpp"
-
-namespace ParallelClustering
-{
 	using namespace std;
-	using namespace ParallelClustering;
-	using namespace ParallelClustering::KMeansCollection;
-	using namespace ParallelClustering::CMeansCollection;
-	using namespace ParallelClustering::Metrics;
 
-	template<class IncomingType, class OutcommingType>
+	using namespace Metrics;
+	using namespace ClusteringAlgorithms;
+	using namespace ClusteringAlgorithms::CMeansCollection;
+
+
 	class Executor
 	{
 	public:
-		Parameters* AlgorithmParameters;
-		double Runtime;
-		string DateTimeNow;
 
-		Executor(Parameters* algorithmParameters)
+		Executor():Runtime(0)
+		{
+			AlgorithmParameters = nullptr;
+		}
+
+		explicit Executor(Parameters* algorithmParameters)
 		{
 			AlgorithmParameters = algorithmParameters;
+			Runtime = 0;
 		}
 
 		void CalculateProbabilities()
 		{
-			
-			IncomingType* data = allocateAlign<IncomingType>(AlgorithmParameters->CountOfObjects * AlgorithmParameters->CountOfDimensions);
-			IncomingType* centroids = allocateAlign<IncomingType>(AlgorithmParameters->CountOfClusters * AlgorithmParameters->CountOfDimensions);
-			
+			auto data		= allocateAlign<double>(AlgorithmParameters->CountOfObjects*AlgorithmParameters->CountOfDimensions);
+			///auto centroids	= allocateAlign<double>(AlgorithmParameters->CountOfClusters*AlgorithmParameters->CountOfDimensions);
+
 			setDateTime();
 
 			if (tryReadFile(data))
 			{
-				Clustering<IncomingType,OutcommingType>* clustering;
-				
-				int start = omp_get_wtime();
-				GetRandomObjectsArray(AlgorithmParameters->CountOfClusters, AlgorithmParameters->CountOfDimensions, centroids);
-				clustering = new FuzzyCMeans<IncomingType,OutcommingType>(data, AlgorithmParameters, Metrics::EuclidianSquare<IncomingType>);
-				clustering->StartClustering();
-				Runtime = (omp_get_wtime() - start);
-				
-				WriteLog();				
-				tryWriteFile(clustering->ResultMatrix);
-				delete clustering;
-				
+				auto clustering = FuzzyCMeans(data, AlgorithmParameters, Metrics::MinkowskiSquare);
+				clustering.CalculateAllDistance();
+				clustering.StartClustering();
+				tryWriteFile(clustering.ResultMatrix);
+				freeAlign<double>(data);
 			}
 			else {
-				freeAlign(data);
-				freeAlign(centroids);
+				//freeAlign<double>(data);
+				//freeAlign<double>(centroids);
 				exit(EXIT_FAILURE);
 			}
-			freeAlign(data);
-			freeAlign(centroids);
+			//freeAlign<double>(data);
+			//freeAlign<double>(centroids);
 		}
+
+	private:
+		Parameters* AlgorithmParameters;
+		double		Runtime;
+		string		DateTimeNow;
 
 		void WriteLog()
 		{
-			fstream log;
-			log.open("log.csv", ios::out | ios::app);
-			log <<
-				DateTimeNow << ";" <<
-				AlgorithmParameters->CountOfObjects << ";" <<
-				AlgorithmParameters->CountOfDimensions << ";" <<
-				AlgorithmParameters->CountOfClusters << ";" <<
-				AlgorithmParameters->CountOfThreads << ";" <<
-				AlgorithmParameters->Fuzzy << ";" <<
-				AlgorithmParameters->Epsilon << ";" <<
-				Runtime << endl;
+			
 		}
 
-		bool tryReadFile(IncomingType* data)
-		{
+		bool tryReadFile(double* data)
+		{			
 			fstream infile(AlgorithmParameters->InputFilePath);
-			int row = 0;
+			unsigned int row = 0;
 			long long elementN = 0;
 			while (infile && row<AlgorithmParameters->CountOfObjects)
 			{
@@ -96,48 +78,58 @@ namespace ParallelClustering
 				if (!getline(infile, s)) break;
 
 				istringstream ss(s);
-
-				int dim = 0;
+				
+				unsigned int dim = 0;
 				while (ss && dim<AlgorithmParameters->CountOfDimensions)
 				{
 
 					string str;
 					double p;
 					if (!getline(ss, str, ';')) break;
-
+					
 					istringstream iss(str);
 					if (iss >> p)
 					{
-						data[elementN] = p;
+						data[elementN]=p;
 						dim++;
 						elementN++;
 					}
 				}
 				row++;
 			}
+			infile.close();
 			return true;
 		}
 
-		void tryWriteFile(OutcommingType* data)
+		void tryWriteFile(double* data)
 		{
-			fstream outfile(AlgorithmParameters->OutputFilePath, fstream::out);
-			for (int n = 0; n < AlgorithmParameters->CountOfObjects; n++)
+			ofstream outfile(AlgorithmParameters->OutputFilePath, fstream::out);
+			cout.precision(5);
+			if (outfile.is_open())
 			{
-				int c;
-				for (c = 0; c < AlgorithmParameters->CountOfDimensions - 1; c++)
+				for (unsigned int n = 0; n < AlgorithmParameters->CountOfObjects; n++)
 				{
-					cout << data[n*AlgorithmParameters->CountOfDimensions + c] << ";";
+					double s = 0;
+					unsigned int c;
+					for (c = 0; c < AlgorithmParameters->CountOfDimensions - 1; c++)
+					{
+						cout << data[n*AlgorithmParameters->CountOfDimensions + c] << ";";
+						outfile << data[n*AlgorithmParameters->CountOfDimensions + c] << ";";
+						s += data[n*AlgorithmParameters->CountOfDimensions + c];
+					}
+					cout << data[n*AlgorithmParameters->CountOfDimensions + c] << ";" ;
 					outfile << data[n*AlgorithmParameters->CountOfDimensions + c] << ";";
+					s += data[n*AlgorithmParameters->CountOfDimensions + c];
+					cout << s << endl;
+					outfile << s << endl;
 				}
-				cout << data[n*AlgorithmParameters->CountOfDimensions + c]<<endl;
-				outfile << data[n*AlgorithmParameters->CountOfDimensions + c] << endl;
+				outfile.close();
 			}
-
 		}
 
 		void setDateTime()
 		{
-			time_t rawtime;
+			/*time_t rawtime;
 			struct tm * timeinfo;
 			char buffer[80];
 
@@ -145,12 +137,7 @@ namespace ParallelClustering
 			timeinfo = localtime(&rawtime);
 
 			strftime(buffer, 80, "%d-%m-%Y;%H:%M:%S", timeinfo);
-			DateTimeNow = buffer;
-		}
-
-		virtual ~Executor()
-		{
-			
+			DateTimeNow = buffer;*/
 		}
 	};
 }
