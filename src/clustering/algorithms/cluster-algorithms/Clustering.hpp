@@ -17,7 +17,7 @@ namespace ParallelClustering {
 
 			Parameters* AlgorithmParameters;
 
-			function<double(double*, double*, unsigned int, unsigned int, unsigned int)> DistanceCalculate;
+			function<double(double*, double*, unsigned int, unsigned int)> DistanceCalculate;
 
 			virtual void ExecuteClustering(double* centroids) {};
 
@@ -46,10 +46,12 @@ namespace ParallelClustering {
 
 		public:
 
-			double* ResultMatrix;
+			double * ResultMatrix;
 			double* DistanceMatrix;
 
-			Clustering(double* data, Parameters* algorithm_parameters, function<double(double*, double*, unsigned int, unsigned int, unsigned int)> distance)
+			
+
+			Clustering(double* data, Parameters* algorithm_parameters, function<double(double*, double*, unsigned int, unsigned int)> distance)
 			{
 				VectorsForClustering = data;
 				AlgorithmParameters = algorithm_parameters;
@@ -70,7 +72,7 @@ namespace ParallelClustering {
 							&VectorsForClustering[i*AlgorithmParameters->CountOfObjects],
 							&VectorsForClustering[j*AlgorithmParameters->CountOfObjects],
 							AlgorithmParameters->CountOfDimensions,
-							2, AlgorithmParameters->CountOfDimensions
+							2
 						);
 					}
 				}

@@ -7,6 +7,7 @@ namespace ParallelClustering
 
 	inline void PrintAsMatrix(double* arr, unsigned int row_length, unsigned int length)
 	{
+		return;
 		unsigned int current_size = 0;
 		cout << "###################################################################" << endl;
 		for(unsigned int i=0;i<length;i++)

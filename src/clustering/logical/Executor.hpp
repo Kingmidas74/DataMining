@@ -45,8 +45,10 @@ namespace ParallelClustering {
 				auto clustering = FuzzyCMeans(data, AlgorithmParameters, Metrics::MinkowskiSquare);
 				clustering.CalculateAllDistance();
 				clustering.StartClustering();
+				//clustering.ggg();
+
 				tryWriteFile(clustering.ResultMatrix);
-				freeAlign<double>(data);
+				//freeAlign<double>(data);
 			}
 			else {
 				//freeAlign<double>(data);
@@ -101,27 +103,34 @@ namespace ParallelClustering {
 			return true;
 		}
 
-		void tryWriteFile(double* data)
+		void tryWriteFile(double * data)
 		{
-			ofstream outfile(AlgorithmParameters->OutputFilePath, fstream::out);
+
+
+
+			ofstream outfile(AlgorithmParameters->OutputFilePath, fstream::out );
 			cout.precision(5);
+			outfile.precision(5);
+
 			if (outfile.is_open())
 			{
 				for (unsigned int n = 0; n < AlgorithmParameters->CountOfObjects; n++)
 				{
-					double s = 0;
+					double s = 0.0;
 					unsigned int c;
-					for (c = 0; c < AlgorithmParameters->CountOfDimensions - 1; c++)
+					for (c = 0; c < AlgorithmParameters->CountOfClusters - 1; c++)
 					{
-						cout << data[n*AlgorithmParameters->CountOfDimensions + c] << ";";
-						outfile << data[n*AlgorithmParameters->CountOfDimensions + c] << ";";
-						s += data[n*AlgorithmParameters->CountOfDimensions + c];
+						cout << data[n*2 + c] << ";";
+						outfile <<fixed<< data[n*AlgorithmParameters->CountOfDimensions + c] << ";";
+						s += data[n*AlgorithmParameters->CountOfClusters + c];
+						s += data[n * 2 + c];
+
 					}
-					cout << data[n*AlgorithmParameters->CountOfDimensions + c] << ";" ;
-					outfile << data[n*AlgorithmParameters->CountOfDimensions + c] << ";";
-					s += data[n*AlgorithmParameters->CountOfDimensions + c];
+					cout << data[n * 2 + c] << ";" ;
+					outfile << fixed << data[n*AlgorithmParameters->CountOfDimensions + c] << ";";
+					s += data[n * 2 + c];
 					cout << s << endl;
-					outfile << s << endl;
+					outfile << fixed << s << endl;
 				}
 				outfile.close();
 			}

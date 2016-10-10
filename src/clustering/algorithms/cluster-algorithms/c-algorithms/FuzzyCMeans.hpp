@@ -33,7 +33,7 @@ namespace ParallelClustering {
 					double sum = 0;
 					for (unsigned int i = 0; i < AlgorithmParameters->CountOfClusters; i++)
 					{
-						sum += DistanceCalculate(Centroids, centroids, AlgorithmParameters->CountOfDimensions,2, AlgorithmParameters->CountOfDimensions);
+						sum += DistanceCalculate(Centroids, centroids, AlgorithmParameters->CountOfDimensions,2);
 					}
 					return sum <= AlgorithmParameters->Epsilon;
 				}
@@ -41,8 +41,8 @@ namespace ParallelClustering {
 				void ExecuteClustering(double* centroids) override
 				{
 					bool decision = false;
-					
-					while (decision == false)
+					int s = 0;
+					while (decision == false && ++s < 10)
 					{
 						SetClusters(centroids);
 						CalculateCentroids(centroids);
@@ -64,8 +64,7 @@ namespace ParallelClustering {
 							double distance = DistanceCalculate(
 								&VectorsForClustering[i*AlgorithmParameters->CountOfDimensions], 
 								&centroids[j*AlgorithmParameters->CountOfDimensions], 
-								AlgorithmParameters->CountOfDimensions,2, 
-								AlgorithmParameters->CountOfDimensions);
+								AlgorithmParameters->CountOfDimensions,2);
 							ResultMatrix[i*AlgorithmParameters->CountOfClusters + j] = pow(1.0 / distance, 2.0 / (AlgorithmParameters->Fuzzy - 1.0));
 						}
 						normalizeArray(&ResultMatrix[i*AlgorithmParameters->CountOfClusters], AlgorithmParameters->CountOfClusters);
@@ -102,11 +101,11 @@ namespace ParallelClustering {
 			public:
 
 
-				FuzzyCMeans(double* data, Parameters* algorithm_parameters, function<double(double*, double*, unsigned int, unsigned int, unsigned int)> distance)
+				FuzzyCMeans(double* data, Parameters* algorithm_parameters, function<double(double*, double*, unsigned int, unsigned int)> distance)
 					: Clustering(data, algorithm_parameters, distance)
 				{
 					Centroids = allocateAlign<double>(AlgorithmParameters->CountOfClusters * AlgorithmParameters->CountOfDimensions);
-					ResultMatrix = allocateAlign<double>(AlgorithmParameters->CountOfObjects*AlgorithmParameters->CountOfClusters);
+					ResultMatrix = allocateAlign<double>(AlgorithmParameters->CountOfObjects*AlgorithmParameters->CountOfClusters + 65);
 					_powMatrix = allocateAlign<double>(AlgorithmParameters->CountOfObjects*AlgorithmParameters->CountOfClusters);
 				}
 

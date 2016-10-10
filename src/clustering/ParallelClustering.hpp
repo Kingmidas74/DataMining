@@ -10,7 +10,6 @@ Purpose: Primary .h file for include every elements.
 
 #include "./functions/main.hpp"
 #include "./structs/main.hpp"
-#include "./containers/main.hpp"
 #include "./algorithms/main.hpp"
 #include "./logical/main.hpp"
 
