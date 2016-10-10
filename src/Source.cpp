@@ -1,6 +1,5 @@
 #include <iostream>
 
-
 #include "./clustering/ParallelClustering.hpp"
 
 

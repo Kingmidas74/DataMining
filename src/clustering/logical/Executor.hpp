@@ -109,9 +109,7 @@ namespace ParallelClustering {
 
 
 			ofstream outfile(AlgorithmParameters->OutputFilePath, fstream::out );
-			cout.precision(5);
-			outfile.precision(5);
-
+			
 			if (outfile.is_open())
 			{
 				for (unsigned int n = 0; n < AlgorithmParameters->CountOfObjects; n++)
@@ -120,17 +118,17 @@ namespace ParallelClustering {
 					unsigned int c;
 					for (c = 0; c < AlgorithmParameters->CountOfClusters - 1; c++)
 					{
-						cout << data[n*2 + c] << ";";
-						outfile <<fixed<< data[n*AlgorithmParameters->CountOfDimensions + c] << ";";
+						cout << data[n* AlgorithmParameters->CountOfClusters + c] << ";";
+						outfile << data[n*AlgorithmParameters->CountOfDimensions + c] << ";";
 						s += data[n*AlgorithmParameters->CountOfClusters + c];
-						s += data[n * 2 + c];
+						s += data[n *  AlgorithmParameters->CountOfClusters + c];
 
 					}
-					cout << data[n * 2 + c] << ";" ;
-					outfile << fixed << data[n*AlgorithmParameters->CountOfDimensions + c] << ";";
-					s += data[n * 2 + c];
+					cout << data[n * AlgorithmParameters->CountOfClusters + c] << ";" ;
+					outfile << data[n*AlgorithmParameters->CountOfDimensions + c] << ";";
+					s += data[n * AlgorithmParameters->CountOfClusters + c];
 					cout << s << endl;
-					outfile << fixed << s << endl;
+					outfile << s << endl;
 				}
 				outfile.close();
 			}

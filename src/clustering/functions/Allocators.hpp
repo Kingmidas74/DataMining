@@ -21,8 +21,11 @@ namespace ParallelClustering
 	*/
 	template <typename Type>
 	Type* allocateAlign(unsigned long long count, unsigned int length = 64) {
-		//return static_cast<Type*>(_mm_malloc(count * sizeof(Type), length));		
-		return new Type[count + 1];
+		//return static_cast<Type*>(_mm_malloc((count + 1) * sizeof(Type), length));		
+		//return new Type[count + 1];
+		void* memptr;
+		posix_memalign(&memptr, 64, count * sizeof(Type));
+		return static_cast<Type*>(memptr);
 	}
 
 	/**
