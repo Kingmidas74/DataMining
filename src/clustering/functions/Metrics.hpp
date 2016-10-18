@@ -23,10 +23,11 @@ namespace ParallelClustering
 		}
 
 		inline double MinkowskiSquare(double* first_array, double* second_array, unsigned int length, unsigned int power) {
-			double result = 0;
+			double result = 0.0;
 			for (unsigned int i = 0; i < length; i++) {
-				result += pow(first_array[i] - second_array[i], power);
+				result += pow(first_array[i] - second_array[i], 2);
 			}
+			result = sqrt(result);
 			//result = pow(result, 1.0 / power);
 			return result;
 		}

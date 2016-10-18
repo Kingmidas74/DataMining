@@ -1,4 +1,5 @@
 #pragma once
+#include <ctime>
 
 
 /**
@@ -45,18 +46,20 @@ namespace ParallelClustering {
 				auto clustering = FuzzyCMeans(data, AlgorithmParameters, Metrics::MinkowskiSquare);
 				clustering.CalculateAllDistance();
 				clustering.StartClustering();
-				//clustering.ggg();
+				auto resultData = clustering.GetResult();
 
-				tryWriteFile(clustering.ResultMatrix);
+				Runtime = 1;
+
+				tryWriteFile(AlgorithmParameters->OutputFilePath,resultData,AlgorithmParameters->CountOfObjects*AlgorithmParameters->CountOfClusters,AlgorithmParameters->CountOfClusters);
+				WriteLog();
 				//freeAlign<double>(data);
+				//freeAlign<double>(centroids);
 			}
 			else {
 				//freeAlign<double>(data);
 				//freeAlign<double>(centroids);
 				exit(EXIT_FAILURE);
 			}
-			//freeAlign<double>(data);
-			//freeAlign<double>(centroids);
 		}
 
 	private:
@@ -66,7 +69,20 @@ namespace ParallelClustering {
 
 		void WriteLog()
 		{
-			
+			ofstream log;
+			log.open("log.csv", ios::out | ios::app);
+			if (log.is_open()) {
+				log <<
+					DateTimeNow << ";" <<
+					AlgorithmParameters->CountOfObjects << ";" <<
+					AlgorithmParameters->CountOfDimensions << ";" <<
+					AlgorithmParameters->CountOfClusters << ";" <<
+					AlgorithmParameters->Fuzzy << ";" <<
+					AlgorithmParameters->Epsilon << ";" <<
+					AlgorithmParameters->CountOfThreads << ";" <<
+					Runtime << endl;
+				log.close();
+			}
 		}
 
 		bool tryReadFile(double* data)
@@ -103,32 +119,26 @@ namespace ParallelClustering {
 			return true;
 		}
 
-		void tryWriteFile(double * data)
+		void tryWriteFile(string filePath, double * data, unsigned int length, unsigned int row_length)
 		{
-
-
-
-			ofstream outfile(AlgorithmParameters->OutputFilePath, fstream::out );
-			
+			ofstream outfile(filePath);
+			outfile.precision(5);
+			int current_size = 0;
 			if (outfile.is_open())
 			{
-				for (unsigned int n = 0; n < AlgorithmParameters->CountOfObjects; n++)
+				for (unsigned int i = 0;i < length;i++)
 				{
-					double s = 0.0;
-					unsigned int c;
-					for (c = 0; c < AlgorithmParameters->CountOfClusters - 1; c++)
+					outfile << data[i];
+					current_size++;
+					if (current_size == row_length)
 					{
-						cout << data[n* AlgorithmParameters->CountOfClusters + c] << ";";
-						outfile << data[n*AlgorithmParameters->CountOfDimensions + c] << ";";
-						s += data[n*AlgorithmParameters->CountOfClusters + c];
-						s += data[n *  AlgorithmParameters->CountOfClusters + c];
-
+						outfile << endl;
+						current_size = 0;
 					}
-					cout << data[n * AlgorithmParameters->CountOfClusters + c] << ";" ;
-					outfile << data[n*AlgorithmParameters->CountOfDimensions + c] << ";";
-					s += data[n * AlgorithmParameters->CountOfClusters + c];
-					cout << s << endl;
-					outfile << s << endl;
+					else
+					{
+						outfile << ";";
+					}
 				}
 				outfile.close();
 			}
@@ -136,7 +146,8 @@ namespace ParallelClustering {
 
 		void setDateTime()
 		{
-			/*time_t rawtime;
+			return;
+			time_t rawtime;
 			struct tm * timeinfo;
 			char buffer[80];
 
@@ -144,7 +155,7 @@ namespace ParallelClustering {
 			timeinfo = localtime(&rawtime);
 
 			strftime(buffer, 80, "%d-%m-%Y;%H:%M:%S", timeinfo);
-			DateTimeNow = buffer;*/
+			DateTimeNow = buffer;
 		}
 	};
 }

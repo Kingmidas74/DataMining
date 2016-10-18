@@ -10,8 +10,6 @@ Purpose: Parser of cmd parameters.
 
 #include <fstream>
 #include <sstream>
-#include <vector>
-#include <math.h>
 
 namespace ParallelClustering {
 	using namespace std;
@@ -29,12 +27,9 @@ namespace ParallelClustering {
 			allParameters.Fuzzy = 1.5;
 			allParameters.InputFilePath = "input.csv";
 			allParameters.OutputFilePath = "output.csv";
-			allParameters.CountOfThreads = 1;
-			_argc = argc - 1;
-			for (int i = 1; i < argc; i++)
-			{
-				_argv.push_back(string(argv[i]));
-			}
+			allParameters.CountOfThreads = 1;			
+			_argc = argc;
+			_argv = argv;
 		}
 
 		~ClusterParameters()
@@ -51,22 +46,22 @@ namespace ParallelClustering {
 	private:
 
 		int _argc;
-		vector<string> _argv;
+		char ** _argv;
 		Parameters allParameters;
 
 
 		void parse()
 		{
-			for (int i = 0; i < _argc; i = i + 2)
+			for (int i = 1; i < _argc; i = i + 2)
 			{
-				if (_argv[i].compare("-i") == 0) getInputFilPath(i + 1);
-				if (_argv[i].compare("-o") == 0) getOutputFilPath(i + 1);
-				if (_argv[i].compare("-k") == 0) getCountOfClusters(i + 1);
-				if (_argv[i].compare("-d") == 0) getCountOfDimensions(i + 1);
-				if (_argv[i].compare("-n") == 0) getCountOfObjects(i + 1);
-				if (_argv[i].compare("-f") == 0) getFuzzy(i + 1);
-				if (_argv[i].compare("-e") == 0) getEpsilon(i + 1);
-				if (_argv[i].compare("-t") == 0) getCountOfThreads(i + 1);
+				if ((string)_argv[i]==("-i")) getInputFilPath(i + 1);
+				if ((string)_argv[i] == ("-o")) getOutputFilPath(i + 1);
+				if ((string)_argv[i] == ("-k")) getCountOfClusters(i + 1);
+				if ((string)_argv[i] == ("-d")) getCountOfDimensions(i + 1);
+				if ((string)_argv[i] == ("-n")) getCountOfObjects(i + 1);
+				if ((string)_argv[i] == ("-f")) getFuzzy(i + 1);
+				if ((string)_argv[i] == ("-e")) getEpsilon(i + 1);
+				if ((string)_argv[i] == ("-t")) getCountOfThreads(i + 1);
 			}
 		}
 

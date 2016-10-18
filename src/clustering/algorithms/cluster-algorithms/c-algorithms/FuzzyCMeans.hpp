@@ -32,7 +32,6 @@ namespace ParallelClustering {
 							Centroids[i*AlgorithmParameters->CountOfDimensions + j] = GetRandomDouble();
 						}
 					}
-					PrintAsMatrix(Centroids, AlgorithmParameters->CountOfDimensions, AlgorithmParameters->CountOfDimensions*AlgorithmParameters->CountOfClusters);
 				}
 
 				inline void normalizeArray(double* row, int length) const {
@@ -55,26 +54,25 @@ namespace ParallelClustering {
 						}
 						normalizeArray(&ResultMatrix[i*AlgorithmParameters->CountOfClusters], AlgorithmParameters->CountOfClusters);
 					}
-					cout << "DRF" << endl;
-					PrintAsMatrix(ResultMatrix, AlgorithmParameters->CountOfClusters, AlgorithmParameters->CountOfClusters*AlgorithmParameters->CountOfObjects);
 				}
 
 				void ExecuteClustering(double* centroids)
 				{
 					bool decision = false;
-					int s = 0;
-					while (decision == false && ++s < 10)
+					while (decision==false)
 					{
-						SetClusters(centroids);
+						cout << "calcCent" << endl;
 						CalculateCentroids(centroids);
-						decision = calculateDecision(centroids);
-						cout << "CENTROIDS OLD:" << endl;
-						PrintAsMatrix(Centroids, AlgorithmParameters->CountOfDimensions, AlgorithmParameters->CountOfDimensions*AlgorithmParameters->CountOfClusters);
-						cout << "CENTROIDS NEW:" << endl;
-						PrintAsMatrix(centroids, AlgorithmParameters->CountOfDimensions, AlgorithmParameters->CountOfDimensions*AlgorithmParameters->CountOfClusters);
-						copy(centroids,
-							centroids + sizeof(double)*AlgorithmParameters->CountOfClusters*AlgorithmParameters->CountOfDimensions,
-							Centroids);
+						//PrintAsMatrix(ResultMatrix, AlgorithmParameters->CountOfClusters, AlgorithmParameters->CountOfClusters*AlgorithmParameters->CountOfObjects);
+						cout << "setCl" << endl;
+						SetClusters(centroids);															
+						//PrintAsMatrix(ResultMatrix, AlgorithmParameters->CountOfClusters, AlgorithmParameters->CountOfClusters*AlgorithmParameters->CountOfObjects);
+						cout << "calcDec" << endl;
+						decision = calculateDecision(centroids);						
+						//PrintAsMatrix(ResultMatrix, AlgorithmParameters->CountOfClusters, AlgorithmParameters->CountOfClusters*AlgorithmParameters->CountOfObjects);
+						cout << "copyCent" << endl;
+						copyToCentroids(centroids);
+						//PrintAsMatrix(ResultMatrix, AlgorithmParameters->CountOfClusters, AlgorithmParameters->CountOfClusters*AlgorithmParameters->CountOfObjects);						
 					}
 				}
 
@@ -119,12 +117,23 @@ namespace ParallelClustering {
 
 				bool calculateDecision(double* centroids)
 				{
-					double sum = 0;
-					for (unsigned int i = 0; i < AlgorithmParameters->CountOfClusters; i++)
+					for (unsigned int j = 0; j < AlgorithmParameters->CountOfClusters; j++)
 					{
-						sum += DistanceCalculate(Centroids, centroids, AlgorithmParameters->CountOfDimensions, 2);
+						if(DistanceCalculate(Centroids, centroids, AlgorithmParameters->CountOfDimensions, 2)>AlgorithmParameters->Epsilon)
+						{
+							return false;
+						}
 					}
-					return sum <= AlgorithmParameters->Epsilon;
+					return true;
+				}
+
+				void copyToCentroids(double* centroids)
+				{
+					unsigned int length = AlgorithmParameters->CountOfClusters*AlgorithmParameters->CountOfDimensions;
+					for(unsigned int i=0; i<length;i++)
+					{
+						Centroids[i] = centroids[i];
+					}
 				}
 
 			public:
@@ -153,13 +162,14 @@ namespace ParallelClustering {
 					copy(Centroids,
 						Centroids + sizeof(double)*AlgorithmParameters->CountOfClusters*AlgorithmParameters->CountOfDimensions,
 						centroids);
+					
 					GenerateDefaultResultMatrix();
-
-					ExecuteClustering(centroids);
-
-					//freeAlign<double>(centroids);
-
 					PrintAsMatrix(ResultMatrix, AlgorithmParameters->CountOfClusters, AlgorithmParameters->CountOfClusters*AlgorithmParameters->CountOfObjects);
+					ExecuteClustering(centroids);
+					PrintAsMatrix(ResultMatrix, AlgorithmParameters->CountOfClusters, AlgorithmParameters->CountOfClusters*AlgorithmParameters->CountOfObjects);
+					//freeAlign<double>(centroids);
+					
+					
 				}
 
 				void StartClustering(double* centroids)
@@ -180,14 +190,18 @@ namespace ParallelClustering {
 						for (unsigned int j = 0; j < AlgorithmParameters->CountOfObjects; j++)
 						{
 							DistanceMatrix[i*AlgorithmParameters->CountOfObjects + j] = DistanceCalculate(
-								&VectorsForClustering[i*AlgorithmParameters->CountOfObjects],
-								&VectorsForClustering[j*AlgorithmParameters->CountOfObjects],
+								&VectorsForClustering[i*AlgorithmParameters->CountOfDimensions],
+								&VectorsForClustering[j*AlgorithmParameters->CountOfDimensions],
 								AlgorithmParameters->CountOfDimensions,
 								2
 							);
 						}
 					}
-					PrintAsMatrix(DistanceMatrix, AlgorithmParameters->CountOfObjects, AlgorithmParameters->CountOfObjects*AlgorithmParameters->CountOfObjects);
+				}
+
+				double* GetResult() const
+				{
+					return ResultMatrix;
 				}
 
 
