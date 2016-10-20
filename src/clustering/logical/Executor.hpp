@@ -36,30 +36,23 @@ namespace ParallelClustering {
 
 		void CalculateProbabilities()
 		{
-			auto data		= allocateAlign<double>(AlgorithmParameters->CountOfObjects*AlgorithmParameters->CountOfDimensions);
-			///auto centroids	= allocateAlign<double>(AlgorithmParameters->CountOfClusters*AlgorithmParameters->CountOfDimensions);
-
 			setDateTime();
 
-			if (tryReadFile(data))
+			auto metric = MinkowskiMetric(2, true);
+			auto fileIO = FileIO(';');
+			auto clustering = FuzzyCMeans(AlgorithmParameters, &metric, fileIO);
+			cout << "1" << endl;				
+			clustering.CalculateAllDistance();
+			cout << "2" << endl;
+			clustering.StartClustering();
+			cout << "3" << endl;
+			if(!clustering.TrySaveData())
 			{
-				auto clustering = FuzzyCMeans(data, AlgorithmParameters, Metrics::MinkowskiSquare);
-				clustering.CalculateAllDistance();
-				clustering.StartClustering();
-				auto resultData = clustering.GetResult();
-
-				Runtime = 1;
-
-				tryWriteFile(AlgorithmParameters->OutputFilePath,resultData,AlgorithmParameters->CountOfObjects*AlgorithmParameters->CountOfClusters,AlgorithmParameters->CountOfClusters);
-				WriteLog();
-				//freeAlign<double>(data);
-				//freeAlign<double>(centroids);
-			}
-			else {
-				//freeAlign<double>(data);
-				//freeAlign<double>(centroids);
 				exit(EXIT_FAILURE);
-			}
+			};
+			Runtime = 1;
+			WriteLog();
+		
 		}
 
 	private:
@@ -82,65 +75,6 @@ namespace ParallelClustering {
 					AlgorithmParameters->CountOfThreads << ";" <<
 					Runtime << endl;
 				log.close();
-			}
-		}
-
-		bool tryReadFile(double* data)
-		{			
-			fstream infile(AlgorithmParameters->InputFilePath);
-			unsigned int row = 0;
-			long long elementN = 0;
-			while (infile && row<AlgorithmParameters->CountOfObjects)
-			{
-				string s;
-				if (!getline(infile, s)) break;
-
-				istringstream ss(s);
-				
-				unsigned int dim = 0;
-				while (ss && dim<AlgorithmParameters->CountOfDimensions)
-				{
-
-					string str;
-					double p;
-					if (!getline(ss, str, ';')) break;
-					
-					istringstream iss(str);
-					if (iss >> p)
-					{
-						data[elementN]=p;
-						dim++;
-						elementN++;
-					}
-				}
-				row++;
-			}
-			infile.close();
-			return true;
-		}
-
-		void tryWriteFile(string filePath, double * data, unsigned int length, unsigned int row_length)
-		{
-			ofstream outfile(filePath);
-			outfile.precision(5);
-			int current_size = 0;
-			if (outfile.is_open())
-			{
-				for (unsigned int i = 0;i < length;i++)
-				{
-					outfile << data[i];
-					current_size++;
-					if (current_size == row_length)
-					{
-						outfile << endl;
-						current_size = 0;
-					}
-					else
-					{
-						outfile << ";";
-					}
-				}
-				outfile.close();
 			}
 		}
 
