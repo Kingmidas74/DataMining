@@ -19,11 +19,11 @@ namespace ParallelClustering
 			FileIO(char _delimenter) :delimeter(_delimenter) {}
 			~FileIO() {}
 
-			bool tryReadMatrixFromFile(string filePath, unsigned int rowCount, unsigned int elementsByRow, double* target)
+			bool tryReadMatrixFromFile(string filePath, int rowCount, int elementsByRow, double* target)
 			{
 				ifstream infile(filePath);
-				unsigned int currentRow = 0;
-				unsigned int elementN = 0;
+				int currentRow = 0;
+				int elementN = 0;
 				if (infile.is_open())
 				{
 					while (infile && currentRow < rowCount)
@@ -33,7 +33,7 @@ namespace ParallelClustering
 
 						istringstream rowStream(rowString);
 
-						unsigned int elementInRow = 0;
+						int elementInRow = 0;
 						while (rowStream && elementInRow < elementsByRow)
 						{
 
@@ -57,16 +57,37 @@ namespace ParallelClustering
 				return false;
 			}
 
-			bool tryWriteMatrixToFile(string filePath, unsigned int rowCount, unsigned int elementsByRow, double* source)
+			bool tryWriteMatrixToFile(string filePath, int rowCount, int elementsByRow, double* source)
 			{
 				ofstream offile(filePath);
 				if (offile.is_open())
 				{
-					for (unsigned int i = 0; i < rowCount; i++)
+					for (int i = 0; i < rowCount; i++)
 					{
-						for (unsigned j = 0; j < elementsByRow; j++)
+						for (int j = 0; j < elementsByRow; j++)
 						{
-							offile << source[i*elementsByRow + j] << delimeter;
+							offile << source[i*elementsByRow + j];
+							if (j != elementsByRow - 1) { offile << delimeter; }
+						}
+						offile << endl;
+					}
+					offile.close();
+					return true;
+				}
+				return false;
+			}
+
+			bool tryAppendStringRowToFile(string filePath, int rowCount, int elementsByRow, string* source)
+			{
+				ofstream offile(filePath, ios::out | ios::app);
+				if(offile.is_open())
+				{
+					for (int i = 0; i < rowCount; i++)
+					{
+						for (int j = 0; j < elementsByRow; j++)
+						{
+							offile << source[i*elementsByRow + j];
+							if (j != elementsByRow - 1) { offile << delimeter; }
 						}
 						offile << endl;
 					}

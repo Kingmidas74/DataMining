@@ -10,7 +10,7 @@ namespace ParallelClustering
 		public:
 			DistanceMetric() {};
 
-			virtual double CalculateDistance(double* first_array, double* second_array, unsigned int length) { cout << "DM" << endl; return 0.0; };
+			virtual double CalculateDistance(double* first_array, double* second_array, int length) { return 0.0; };
 
 			virtual ~DistanceMetric()
 			{

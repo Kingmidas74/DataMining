@@ -27,6 +27,7 @@ namespace ParallelClustering {
 			allParameters.Fuzzy = 1.5;
 			allParameters.InputFilePath = "input.csv";
 			allParameters.OutputFilePath = "output.csv";
+			allParameters.LogFilePath = "log.csv";
 			allParameters.CountOfThreads = 1;			
 			_argc = argc;
 			_argv = argv;
@@ -56,6 +57,7 @@ namespace ParallelClustering {
 			{
 				if ((string)_argv[i]==("-i")) getInputFilPath(i + 1);
 				if ((string)_argv[i] == ("-o")) getOutputFilPath(i + 1);
+				if ((string)_argv[i] == ("-l")) getLogFilePath(i + 1);
 				if ((string)_argv[i] == ("-k")) getCountOfClusters(i + 1);
 				if ((string)_argv[i] == ("-d")) getCountOfDimensions(i + 1);
 				if ((string)_argv[i] == ("-n")) getCountOfObjects(i + 1);
@@ -78,6 +80,19 @@ namespace ParallelClustering {
 			}
 		}
 
+		void getLogFilePath(int numberOfparameter)
+		{
+			if (&_argv[numberOfparameter])
+			{
+				fstream file;
+				file.open(_argv[numberOfparameter]);
+				if (!file.fail()) {
+					allParameters.LogFilePath = _argv[numberOfparameter];
+				}
+				file.close();
+			}
+		}
+
 		void getOutputFilPath(int numberOfparameter)
 		{
 			if (&_argv[numberOfparameter])
@@ -95,7 +110,7 @@ namespace ParallelClustering {
 		{
 			if (&_argv[numberOfparameter])
 			{
-				unsigned int val;
+				int val;
 				istringstream iss(_argv[numberOfparameter]);
 				if (iss >> val)
 				{
@@ -108,7 +123,7 @@ namespace ParallelClustering {
 		{
 			if (&_argv[numberOfparameter])
 			{
-				unsigned int val;
+				int val;
 				istringstream iss(_argv[numberOfparameter]);
 				if (iss >> val)
 				{
@@ -121,7 +136,7 @@ namespace ParallelClustering {
 		{
 			if (&_argv[numberOfparameter])
 			{
-				unsigned int val;
+				int val;
 				istringstream iss(_argv[numberOfparameter]);
 				if (iss >> val)
 				{
@@ -134,7 +149,7 @@ namespace ParallelClustering {
 		{
 			if (&_argv[numberOfparameter])
 			{
-				unsigned int val;
+				int val;
 				istringstream iss(_argv[numberOfparameter]);
 				if (iss >> val)
 				{

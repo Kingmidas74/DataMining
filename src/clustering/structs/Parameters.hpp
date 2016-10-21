@@ -16,15 +16,15 @@ namespace ParallelClustering
 
 	struct Parameters
 	{
-		unsigned int CountOfObjects;
-		unsigned int CountOfDimensions;
-		unsigned int CountOfClusters;
-		unsigned int CountOfThreads;
+		int CountOfObjects;
+		int CountOfDimensions;
+		int CountOfClusters;
+		int CountOfThreads;
 		double Fuzzy;
 		double Epsilon;
 		string InputFilePath;
 		string OutputFilePath;
-
+		string LogFilePath;
 		
 	};
 }

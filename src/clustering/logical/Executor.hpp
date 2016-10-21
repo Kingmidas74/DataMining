@@ -1,6 +1,4 @@
 #pragma once
-#include <ctime>
-
 
 /**
 Executor.h
@@ -22,74 +20,76 @@ namespace ParallelClustering {
 	class Executor
 	{
 	public:
-
-		Executor():Runtime(0)
-		{
-			AlgorithmParameters = nullptr;
-		}
+		
+		Executor() :AlgorithmParameters(nullptr), Runtime(0),DateTimeNow(""),fileIO(';') {}
 
 		explicit Executor(Parameters* algorithmParameters)
 		{
 			AlgorithmParameters = algorithmParameters;
 			Runtime = 0;
+			fileIO = FileIO();
+			DateTimeNow = "";
+		}
+
+		explicit Executor(Parameters* algorithmParameters, FileIO _fileIO)
+		{
+			AlgorithmParameters = algorithmParameters;
+			Runtime = 0;
+			fileIO = _fileIO;
+			DateTimeNow = "";
 		}
 
 		void CalculateProbabilities()
 		{
-			setDateTime();
-
-			auto metric = MinkowskiMetric(2, true);
-			auto fileIO = FileIO(';');
+			auto metric = MinkowskiMetric(2, true);			
 			auto clustering = FuzzyCMeans(AlgorithmParameters, &metric, fileIO);
-			cout << "1" << endl;				
-			clustering.CalculateAllDistance();
-			cout << "2" << endl;
-			clustering.StartClustering();
-			cout << "3" << endl;
-			if(!clustering.TrySaveData())
+			cout << "1" << endl;
+			if (clustering.TryGetData()) 
+			{
+				setDateTime();
+
+				clustering.CalculateAllDistance();
+				cout << "2" << endl;
+				clustering.StartClustering();
+				cout << "3" << endl;
+				if (!clustering.TrySaveData())
+				{
+					exit(EXIT_FAILURE);
+				};
+
+				Runtime = 1;
+				CreateLogRecord();
+			}
+			else
 			{
 				exit(EXIT_FAILURE);
-			};
-			Runtime = 1;
-			WriteLog();
-		
+			}
 		}
 
 	private:
 		Parameters* AlgorithmParameters;
 		double		Runtime;
 		string		DateTimeNow;
+		FileIO		fileIO;
 
-		void WriteLog()
+		void CreateLogRecord()
 		{
-			ofstream log;
-			log.open("log.csv", ios::out | ios::app);
-			if (log.is_open()) {
-				log <<
-					DateTimeNow << ";" <<
-					AlgorithmParameters->CountOfObjects << ";" <<
-					AlgorithmParameters->CountOfDimensions << ";" <<
-					AlgorithmParameters->CountOfClusters << ";" <<
-					AlgorithmParameters->Fuzzy << ";" <<
-					AlgorithmParameters->Epsilon << ";" <<
-					AlgorithmParameters->CountOfThreads << ";" <<
-					Runtime << endl;
-				log.close();
-			}
+			string* row = new string[8];
+			row[0] = DateTimeNow;
+			row[1] = std::to_string(static_cast<unsigned long long>(AlgorithmParameters->CountOfObjects));
+			row[2] = std::to_string(static_cast<unsigned long long>(AlgorithmParameters->CountOfDimensions));
+			row[3] = std::to_string(static_cast<unsigned long long>(AlgorithmParameters->CountOfClusters));
+			row[4] = std::to_string(static_cast<long double>(AlgorithmParameters->Fuzzy));
+			row[5] = std::to_string(static_cast<long double>(AlgorithmParameters->Epsilon));
+			row[6] = std::to_string(static_cast<unsigned long long>(Runtime));
+			row[7] = std::to_string(static_cast<unsigned long long>(AlgorithmParameters->CountOfThreads));
+			fileIO.tryAppendStringRowToFile(AlgorithmParameters->LogFilePath, 1, 8, row);
+			delete[] row;
 		}
 
 		void setDateTime()
 		{
-			return;
-			time_t rawtime;
-			struct tm * timeinfo;
-			char buffer[80];
-
-			time(&rawtime);
-			timeinfo = localtime(&rawtime);
-
-			strftime(buffer, 80, "%d-%m-%Y;%H:%M:%S", timeinfo);
-			DateTimeNow = buffer;
+			DateTimeNow = GetDate();			
 		}
 	};
 }

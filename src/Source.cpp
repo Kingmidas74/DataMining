@@ -11,7 +11,8 @@ int main(int argc, char *argv[])
 	
 	ClusterParameters clusterParameters(argc, argv);
 	auto parameters = clusterParameters.GetParameters();
-	auto executor = Executor(&parameters);
+	auto fileIO = FileIO(';');
+	auto executor = Executor(&parameters, fileIO);
 	executor.CalculateProbabilities();
 	
 	return EXIT_SUCCESS;

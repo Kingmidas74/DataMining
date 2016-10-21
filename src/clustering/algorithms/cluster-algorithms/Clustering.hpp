@@ -1,5 +1,4 @@
 #pragma once
-#include <functional>
 
 namespace ParallelClustering {
 	namespace ClusteringAlgorithms {
@@ -22,9 +21,9 @@ namespace ParallelClustering {
 
 			void GenerateCentroids()
 			{
-				for (unsigned int i = 0; i < AlgorithmParameters->CountOfClusters; i++)
+				for (int i = 0; i < AlgorithmParameters->CountOfClusters; i++)
 				{
-					for (unsigned int j = 0; j < AlgorithmParameters->CountOfDimensions; j++)
+					for (int j = 0; j < AlgorithmParameters->CountOfDimensions; j++)
 					{
 						Centroids[i*AlgorithmParameters->CountOfDimensions + j] = GetRandomDouble();
 					}
@@ -41,9 +40,9 @@ namespace ParallelClustering {
 				}
 			}
 
-			void copyArray(double* from, double* to, unsigned int length)
+			void copyArray(double* from, double* to,  int length)
 			{	
-				for (unsigned int i = 0; i < length;i++)
+				for ( int i = 0; i < length;i++)
 				{
 					to[i] = from[i];
 				}
@@ -73,9 +72,9 @@ namespace ParallelClustering {
 
 			void CalculateAllDistance()
 			{
-				for (unsigned int i = 0; i < AlgorithmParameters->CountOfObjects; i++)
+				for (int i = 0; i < AlgorithmParameters->CountOfObjects; i++)
 				{
-					for (unsigned int j = 0; j < AlgorithmParameters->CountOfObjects; j++)
+					for (int j = 0; j < AlgorithmParameters->CountOfObjects; j++)
 					{
 						DistanceMatrix[i*AlgorithmParameters->CountOfObjects + j] = Metric->CalculateDistance(
 							&VectorsForClustering[i*AlgorithmParameters->CountOfDimensions],
@@ -87,6 +86,8 @@ namespace ParallelClustering {
 			}
 
 			virtual bool TrySaveData() {return false;}
+
+			virtual bool TryGetData() { return false; }
 
 			virtual ~Clustering()
 			{

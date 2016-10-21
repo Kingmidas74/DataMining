@@ -1,5 +1,4 @@
 #pragma once
-#include <functional>
 
 namespace ParallelClustering {
 	namespace ClusteringAlgorithms {
@@ -19,9 +18,9 @@ namespace ParallelClustering {
 
 				void GenerateDefaultResultMatrix()
 				{
-					for (unsigned int i = 0; i < AlgorithmParameters->CountOfObjects;i++)
+					for (int i = 0; i < AlgorithmParameters->CountOfObjects;i++)
 					{
-						for (unsigned int j = 0; j < AlgorithmParameters->CountOfClusters;j++)
+						for (int j = 0; j < AlgorithmParameters->CountOfClusters;j++)
 						{
 							ResultMatrix[i*AlgorithmParameters->CountOfClusters + j] = GetRandomDouble();
 						}
@@ -51,8 +50,8 @@ namespace ParallelClustering {
 
 				void SetClusters(double* centroids)
 				{
-					for (unsigned int i = 0; i < AlgorithmParameters->CountOfObjects;i++) {
-						for (unsigned int j = 0; j < AlgorithmParameters->CountOfClusters; j++) {
+					for (int i = 0; i < AlgorithmParameters->CountOfObjects;i++) {
+						for (int j = 0; j < AlgorithmParameters->CountOfClusters; j++) {
 							double distance = Metric->CalculateDistance(
 								&VectorsForClustering[i*AlgorithmParameters->CountOfDimensions],
 								&centroids[j*AlgorithmParameters->CountOfDimensions],
@@ -67,17 +66,17 @@ namespace ParallelClustering {
 				void CalculateCentroids(double* centroids)
 				{
 
-					for (unsigned int i = 0; i < AlgorithmParameters->CountOfObjects; i++) {
-						for (unsigned int j = 0; j < AlgorithmParameters->CountOfClusters; j++) {
+					for (int i = 0; i < AlgorithmParameters->CountOfObjects; i++) {
+						for (int j = 0; j < AlgorithmParameters->CountOfClusters; j++) {
 							_powMatrix[i*AlgorithmParameters->CountOfClusters + j] = pow(ResultMatrix[i*AlgorithmParameters->CountOfClusters + j], AlgorithmParameters->Fuzzy);
 						}
 					}
 
-					for (unsigned int i = 0; i < AlgorithmParameters->CountOfClusters; i++) {
-						for (unsigned int d = 0; d < AlgorithmParameters->CountOfDimensions; d++) {
+					for (int i = 0; i < AlgorithmParameters->CountOfClusters; i++) {
+						for (int d = 0; d < AlgorithmParameters->CountOfDimensions; d++) {
 							double numenator = 0.0;
 							double denomenator = 0.0;
-							for (unsigned int j = 0; j < AlgorithmParameters->CountOfObjects; j++) {
+							for (int j = 0; j < AlgorithmParameters->CountOfObjects; j++) {
 
 								numenator += _powMatrix[j*AlgorithmParameters->CountOfClusters + i] * VectorsForClustering[j*AlgorithmParameters->CountOfDimensions + d];
 								denomenator += _powMatrix[j*AlgorithmParameters->CountOfClusters + i];
@@ -90,7 +89,7 @@ namespace ParallelClustering {
 
 				bool calculateDecision(double* centroids)
 				{
-					for (unsigned int j = 0; j < AlgorithmParameters->CountOfClusters; j++)
+					for (int j = 0; j < AlgorithmParameters->CountOfClusters; j++)
 					{
 						if (Metric->CalculateDistance(Centroids, centroids, AlgorithmParameters->CountOfDimensions)>AlgorithmParameters->Epsilon)
 						{
@@ -99,13 +98,6 @@ namespace ParallelClustering {
 					}
 					return true;
 				}
-
-				bool tryGetData()
-				{
-					return fileIO.tryReadMatrixFromFile(AlgorithmParameters->InputFilePath, AlgorithmParameters->CountOfObjects, AlgorithmParameters->CountOfDimensions, VectorsForClustering);
-				}
-
-				
 
 			public:
 
@@ -117,35 +109,35 @@ namespace ParallelClustering {
 
 				void StartClustering() override
 				{
-					if (tryGetData()) {
-						GenerateCentroids();
-						double* centroids = allocateAlign<double>(AlgorithmParameters->CountOfClusters*AlgorithmParameters->CountOfDimensions);
+					GenerateCentroids();
+					double* centroids = allocateAlign<double>(AlgorithmParameters->CountOfClusters*AlgorithmParameters->CountOfDimensions);
 
-						copyArray(Centroids, centroids, AlgorithmParameters->CountOfDimensions*AlgorithmParameters->CountOfClusters);
-						PrintAsMatrix(Centroids, AlgorithmParameters->CountOfDimensions, AlgorithmParameters->CountOfDimensions*AlgorithmParameters->CountOfClusters);
-						PrintAsMatrix(centroids, AlgorithmParameters->CountOfDimensions, AlgorithmParameters->CountOfDimensions*AlgorithmParameters->CountOfClusters);
-						GenerateDefaultResultMatrix();
-						PrintAsMatrix(ResultMatrix, AlgorithmParameters->CountOfClusters, AlgorithmParameters->CountOfClusters*AlgorithmParameters->CountOfObjects);
-						ExecuteClustering(centroids);
-						PrintAsMatrix(ResultMatrix, AlgorithmParameters->CountOfClusters, AlgorithmParameters->CountOfClusters*AlgorithmParameters->CountOfObjects);
-					}
+					copyArray(Centroids, centroids, AlgorithmParameters->CountOfDimensions*AlgorithmParameters->CountOfClusters);
+					PrintAsMatrix(Centroids, AlgorithmParameters->CountOfDimensions, AlgorithmParameters->CountOfDimensions*AlgorithmParameters->CountOfClusters);
+					PrintAsMatrix(centroids, AlgorithmParameters->CountOfDimensions, AlgorithmParameters->CountOfDimensions*AlgorithmParameters->CountOfClusters);
+					GenerateDefaultResultMatrix();
+					PrintAsMatrix(ResultMatrix, AlgorithmParameters->CountOfClusters, AlgorithmParameters->CountOfClusters*AlgorithmParameters->CountOfObjects);
+					ExecuteClustering(centroids);
+					PrintAsMatrix(ResultMatrix, AlgorithmParameters->CountOfClusters, AlgorithmParameters->CountOfClusters*AlgorithmParameters->CountOfObjects);
 				}
 
 				void StartClustering(double* centroids) override
 				{
-					if (tryGetData())
-					{
-						copyArray(centroids, Centroids, AlgorithmParameters->CountOfDimensions*AlgorithmParameters->CountOfClusters);
+					copyArray(centroids, Centroids, AlgorithmParameters->CountOfDimensions*AlgorithmParameters->CountOfClusters);
 
-						GenerateDefaultResultMatrix();
+					GenerateDefaultResultMatrix();
 
-						ExecuteClustering(centroids);
-					}
+					ExecuteClustering(centroids);
 				}
 
 				bool TrySaveData() override
 				{
 					return fileIO.tryWriteMatrixToFile(AlgorithmParameters->OutputFilePath, AlgorithmParameters->CountOfObjects, AlgorithmParameters->CountOfClusters, ResultMatrix);
+				}
+
+				bool TryGetData() override
+				{
+					return fileIO.tryReadMatrixFromFile(AlgorithmParameters->InputFilePath, AlgorithmParameters->CountOfObjects, AlgorithmParameters->CountOfDimensions, VectorsForClustering);
 				}
 
 				virtual ~FuzzyCMeans()

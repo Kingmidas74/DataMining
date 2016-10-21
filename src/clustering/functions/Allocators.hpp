@@ -21,7 +21,7 @@ namespace ParallelClustering
 	*/
 	template <typename Type>
 	Type* allocateAlign(unsigned long long count, unsigned int length = 64) {
-		return static_cast<Type*>(_mm_malloc((count) * sizeof(Type), length));		
+		return static_cast<Type*>(_mm_malloc((count) * sizeof(Type), length));
 		//return new Type[count + 1];
 		/*void* memptr;
 		posix_memalign(&memptr, length, count * sizeof(Type));
@@ -31,7 +31,7 @@ namespace ParallelClustering
 	/**
 	Free memory align
 
-	@param pointer The pointer on array of type T.	
+	@param pointer The pointer on array of type T.
 	*/
 	template <typename Type>
 	void freeAlign(Type* pointer) {
