@@ -2,7 +2,7 @@
 
 namespace ParallelClustering {
 	namespace ClusteringAlgorithms {
-		namespace CMeansCollection {
+		namespace CCollection {
 
 
 			using namespace std;

@@ -14,7 +14,7 @@ namespace ParallelClustering {
 
 	using namespace Metrics;
 	using namespace ClusteringAlgorithms;
-	using namespace ClusteringAlgorithms::CMeansCollection;
+	using namespace ClusteringAlgorithms::CCollection;
 
 
 	class Executor

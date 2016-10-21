@@ -1,5 +1,4 @@
 #pragma once
 
-
-#include "./FuzzyCMeans.hpp"
-//#include "./FCM.hpp"
+#include "./c-means/main.hpp"
+#include "./c-medoids/main.hpp"
