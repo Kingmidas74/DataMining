@@ -10,7 +10,6 @@ namespace ParallelClustering
 		{
 		protected:
 			double* distanceMatrix;
-			double* resultMatrix;
 			int		length;
 
 
@@ -21,12 +20,10 @@ namespace ParallelClustering
 					if (length == 0)
 					{
 						distanceMatrix = allocateAlign<double>(_length*_length);
-						resultMatrix = allocateAlign<double>(_length*_length);
 					}
 					else
 					{
-						distanceMatrix=reAllocateAlign<double>(distanceMatrix, _length*_length);
-						resultMatrix=reAllocateAlign<double>(resultMatrix, _length*_length);					
+						distanceMatrix=reAllocateAlign<double>(distanceMatrix, _length*_length);				
 					}
 					length = _length;
 				}
@@ -56,7 +53,7 @@ namespace ParallelClustering
 
 		public:
 
-			DynamicTimeWarping() :DistanceMetric(), distanceMatrix(nullptr), resultMatrix(nullptr), length(0) {}
+			DynamicTimeWarping() :DistanceMetric(), distanceMatrix(nullptr), length(0) {}
 
 			double CalculateDistance(double* first_array, double* second_array, int _length) override
 			{
@@ -64,25 +61,25 @@ namespace ParallelClustering
 				
 				calculateDistanceMatrix(first_array,second_array);
 
-				resultMatrix[0] = distanceMatrix[0];
+				//resultMatrix[0] = distanceMatrix[0];
 				for(int i=1;i<length;i++)
 				{
-					resultMatrix[i] = resultMatrix[i-1]+distanceMatrix[i];
-					resultMatrix[i*length] = resultMatrix[(i-1)*length] + distanceMatrix[i*length];					
+					distanceMatrix[i] += distanceMatrix[i-1];
+					distanceMatrix[i*length] += distanceMatrix[(i - 1)*length];
 				}
 
 				for (int i = 1;i < length;i++)
 				{
 					for (int j = 1;j < length;j++)
 					{
-						resultMatrix[i*length + j] = distanceMatrix[i*length + j] + min(
-							resultMatrix[(i - 1)*length + j],
-							resultMatrix[i*length + (j - 1)],
-							resultMatrix[(i - 1)*length + (j - 1)]
+						distanceMatrix[i*length + j] += min(
+							distanceMatrix[(i - 1)*length + j],
+							distanceMatrix[i*length + (j - 1)],
+							distanceMatrix[(i - 1)*length + (j - 1)]
 						);
 					}
 				}
-				return resultMatrix[length*length-1];
+				return distanceMatrix[length*length-1];
 			};
 
 			virtual ~DynamicTimeWarping()
