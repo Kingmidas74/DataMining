@@ -41,9 +41,10 @@ namespace ParallelClustering {
 
 		void CalculateProbabilities()
 		{
-			auto metric = MinkowskiMetric(2, true);			
+			auto metric = DynamicTimeWarping(); 
 			auto clustering = FuzzyCMeans(AlgorithmParameters, &metric, fileIO);
 			cout << "1" << endl;
+			
 			if (clustering.TryGetData()) 
 			{
 				setDateTime();
@@ -55,7 +56,7 @@ namespace ParallelClustering {
 				if (!clustering.TrySaveData())
 				{
 					exit(EXIT_FAILURE);
-				};
+				}
 
 				Runtime = 1;
 				CreateLogRecord();

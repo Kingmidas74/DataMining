@@ -28,6 +28,8 @@ namespace ParallelClustering
 		return static_cast<Type*>(memptr);*/
 	}
 
+
+
 	/**
 	Free memory align
 
@@ -39,5 +41,19 @@ namespace ParallelClustering
 			_mm_free(pointer);
 			//delete[] pointer;
 		}
+	}
+
+	/**
+	Re-Allocate memory align by custom length block.
+
+	@param pointer	Pointer to previous memory
+	@param count	The count of elements in array.
+	@param length	Length block (64 by default).	
+	@return Pointer to type T.
+	*/
+	template <typename Type>
+	Type* reAllocateAlign(Type* pointer, unsigned long long count, unsigned int length = 64) {
+		freeAlign<Type>(pointer);
+		return allocateAlign<Type>(count, length);
 	}
 }

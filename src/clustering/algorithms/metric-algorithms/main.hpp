@@ -2,3 +2,4 @@
 
 #include "./DistanceMetric.hpp"
 #include "./MinkowskiMetric.hpp"
+#include "./DynamicTimeWarping.hpp"
