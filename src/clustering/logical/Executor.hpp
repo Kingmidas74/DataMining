@@ -41,24 +41,24 @@ namespace ParallelClustering {
 
 		void CalculateProbabilities()
 		{
-			auto metric = DynamicTimeWarping(); 
-			auto clustering = FuzzyCMeans(AlgorithmParameters, &metric, fileIO);
-			cout << "1" << endl;
+			auto metric = MetricFactory::GetMetric(MetricTypes::Minkowsi,2,true);
+			
+			auto clustering = FuzzyCMeansOpenMP(AlgorithmParameters, metric, fileIO);
 			
 			if (clustering.TryGetData()) 
 			{
 				setDateTime();
-
+				
 				clustering.CalculateAllDistance();
-				cout << "2" << endl;
+				
+				Runtime = omp_get_wtime();
 				clustering.StartClustering();
-				cout << "3" << endl;
+				Runtime = omp_get_wtime() - Runtime;
+				
 				if (!clustering.TrySaveData())
 				{
 					exit(EXIT_FAILURE);
-				}
-
-				Runtime = 1;
+				}				
 				CreateLogRecord();
 			}
 			else
@@ -75,16 +75,24 @@ namespace ParallelClustering {
 
 		void CreateLogRecord()
 		{
+			
 			string* row = new string[8];
 			row[0] = DateTimeNow;
 			row[1] = std::to_string(static_cast<unsigned long long>(AlgorithmParameters->CountOfObjects));
 			row[2] = std::to_string(static_cast<unsigned long long>(AlgorithmParameters->CountOfDimensions));
 			row[3] = std::to_string(static_cast<unsigned long long>(AlgorithmParameters->CountOfClusters));
-			row[4] = std::to_string(static_cast<long double>(AlgorithmParameters->Fuzzy));
-			row[5] = std::to_string(static_cast<long double>(AlgorithmParameters->Epsilon));
-			row[6] = std::to_string(static_cast<unsigned long long>(Runtime));
-			row[7] = std::to_string(static_cast<unsigned long long>(AlgorithmParameters->CountOfThreads));
-			fileIO.tryAppendStringRowToFile(AlgorithmParameters->LogFilePath, 1, 8, row);
+			row[4] = std::to_string(static_cast<unsigned long long>(AlgorithmParameters->CountOfThreads));
+			ostringstream fstring;
+			fstring << AlgorithmParameters->Fuzzy;
+			row[5] = fstring.str();
+			ostringstream estring;
+			estring << AlgorithmParameters->Epsilon;
+			row[6] = estring.str();
+			ostringstream rstring;
+			rstring << Runtime;
+			row[7] = rstring.str();
+			
+			fileIO.tryAppendStringRowToFile(AlgorithmParameters->LogFilePath, 1,8, row);
 			delete[] row;
 		}
 

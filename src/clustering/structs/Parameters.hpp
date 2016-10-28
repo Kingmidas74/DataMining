@@ -13,6 +13,7 @@ Purpose: Struct for save parameters.
 namespace ParallelClustering
 {
 	using namespace std;
+	using namespace Metrics;
 
 	struct Parameters
 	{
@@ -25,6 +26,7 @@ namespace ParallelClustering
 		string InputFilePath;
 		string OutputFilePath;
 		string LogFilePath;
+		MetricTypes MetricType;
 		
 	};
 }

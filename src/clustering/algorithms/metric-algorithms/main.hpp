@@ -1,5 +1,6 @@
 #pragma once
 
 #include "./DistanceMetric.hpp"
-#include "./sphere-algorithms/main.hpp"
-#include "./dtw-algorithms/main.hpp"
+#include "./sphere-metrics/main.hpp"
+#include "./chebyshev-metrics/main.hpp"
+#include "./dtw-metrics/main.hpp"

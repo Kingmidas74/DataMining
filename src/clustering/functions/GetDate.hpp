@@ -25,7 +25,6 @@ namespace ParallelClustering
 		time(&rawtime);
 		timeinfo = localtime(&rawtime);
 		strftime(buffer, 80, "%d-%m-%Y;%H:%M:%S", timeinfo);
-		std::cout<<buffer;
 		return  buffer;
 	}
 }

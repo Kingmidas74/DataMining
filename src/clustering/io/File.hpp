@@ -96,6 +96,7 @@ namespace ParallelClustering
 				}
 				return false;
 			}
+
 		};
 	}
 }

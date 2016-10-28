@@ -13,7 +13,7 @@ namespace ParallelClustering
 			int		length;
 
 
-			void allocateIfNot(int _length)
+			virtual void allocateIfNot(int _length)
 			{
 				if(length!=_length)
 				{
@@ -29,7 +29,7 @@ namespace ParallelClustering
 				}
 			}
 
-			void calculateDistanceMatrix(double* first_array, double* second_array)
+			virtual void calculateDistanceMatrix(double* first_array, double* second_array)
 			{
 				for(int i=0; i<length;i++)
 				{

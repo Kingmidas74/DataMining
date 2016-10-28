@@ -11,4 +11,5 @@ Purpose: Primary .h file for include every elements.
 #include <omp.h>
 
 #include "./ClusterParameters.hpp"
+#include "./MetricFactory.hpp"
 #include "./Executor.hpp"

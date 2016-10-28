@@ -9,6 +9,7 @@ Purpose: Primary .h file for include every elements.
 */
 
 #include "./io/main.hpp"
+#include "./enums/main.hpp"
 #include "./functions/main.hpp"
 #include "./structs/main.hpp"
 #include "./algorithms/main.hpp"

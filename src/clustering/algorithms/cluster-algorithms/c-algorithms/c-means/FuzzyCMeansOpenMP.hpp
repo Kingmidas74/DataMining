@@ -9,15 +9,14 @@ namespace ParallelClustering {
 			using namespace ParallelClustering::Metrics;
 			using namespace ParallelClustering::IO;
 
-			class FuzzyCMeans: public Clustering
+			class FuzzyCMeansOpenMP : public FuzzyCMeans
 			{
 
-			protected:
+			private:
 
-				double* _powMatrix;
-
-				virtual void GenerateDefaultResultMatrix()
+				void GenerateDefaultResultMatrix() override
 				{
+					#pragma omp parallel for
 					for (int i = 0; i < AlgorithmParameters->CountOfObjects;i++)
 					{
 						for (int j = 0; j < AlgorithmParameters->CountOfClusters;j++)
@@ -28,7 +27,7 @@ namespace ParallelClustering {
 					}
 				}
 
-				virtual void GenerateCentroids()
+				void GenerateCentroids() override
 				{
 					for (int i = 0; i < AlgorithmParameters->CountOfClusters; i++)
 					{
@@ -39,20 +38,29 @@ namespace ParallelClustering {
 					}
 				}
 
-				virtual void ExecuteClustering(double* centroids)
+				void ExecuteClustering(double* centroids) override
 				{
 					bool decision = false;
 					while (decision == false)
 					{
+						//cout << "calcCentOpenMP" << endl;
 						CalculateCentroids(centroids);
+						//PrintAsMatrix(ResultMatrix, AlgorithmParameters->CountOfClusters, AlgorithmParameters->CountOfClusters*AlgorithmParameters->CountOfObjects);
+						//cout << "setClOpenMP" << endl;
 						SetClusters(centroids);
+						//PrintAsMatrix(ResultMatrix, AlgorithmParameters->CountOfClusters, AlgorithmParameters->CountOfClusters*AlgorithmParameters->CountOfObjects);
+						//cout << "calcDecOpenMP" << endl;
 						decision = calculateDecision(centroids);
+						//PrintAsMatrix(ResultMatrix, AlgorithmParameters->CountOfClusters, AlgorithmParameters->CountOfClusters*AlgorithmParameters->CountOfObjects);
+						//cout << "copyCentOpenMP" << endl;
 						copyArray(centroids, Centroids, AlgorithmParameters->CountOfDimensions*AlgorithmParameters->CountOfClusters);
+						//PrintAsMatrix(ResultMatrix, AlgorithmParameters->CountOfClusters, AlgorithmParameters->CountOfClusters*AlgorithmParameters->CountOfObjects);
 					}
 				}
 
-				virtual void SetClusters(double* centroids)
+				void SetClusters(double* centroids) override
 				{
+					#pragma omp parallel for
 					for (int i = 0; i < AlgorithmParameters->CountOfObjects;i++) {
 						for (int j = 0; j < AlgorithmParameters->CountOfClusters; j++) {
 							double distance = Metric->CalculateDistance(
@@ -66,19 +74,21 @@ namespace ParallelClustering {
 
 				}
 
-				virtual void CalculateCentroids(double* centroids)
+				void CalculateCentroids(double* centroids) override
 				{
-
+					#pragma omp parallel for simd
 					for (int i = 0; i < AlgorithmParameters->CountOfObjects; i++) {
 						for (int j = 0; j < AlgorithmParameters->CountOfClusters; j++) {
 							_powMatrix[i*AlgorithmParameters->CountOfClusters + j] = pow(ResultMatrix[i*AlgorithmParameters->CountOfClusters + j], AlgorithmParameters->Fuzzy);
 						}
 					}
 
+					#pragma omp parallel for collapse(2)
 					for (int i = 0; i < AlgorithmParameters->CountOfClusters; i++) {
 						for (int d = 0; d < AlgorithmParameters->CountOfDimensions; d++) {
 							double numenator = 0.0;
 							double denomenator = 0.0;
+							#pragma omp simd reduction(+:numenator, denomenator)
 							for (int j = 0; j < AlgorithmParameters->CountOfObjects; j++) {
 
 								numenator += _powMatrix[j*AlgorithmParameters->CountOfClusters + i] * VectorsForClustering[j*AlgorithmParameters->CountOfDimensions + d];
@@ -90,7 +100,7 @@ namespace ParallelClustering {
 					}
 				}
 
-				virtual bool calculateDecision(double* centroids)
+				bool calculateDecision(double* centroids) override
 				{
 					for (int j = 0; j < AlgorithmParameters->CountOfClusters; j++)
 					{
@@ -102,36 +112,26 @@ namespace ParallelClustering {
 					return true;
 				}
 
+				inline void normalizeArray(double* row, int length) override
+				{
+					double sum = 0;
+					#pragma omp simd reduction(+:sum)
+					for (int i = 0; i < length; i++) {
+						sum += row[i];
+					}
+					#pragma omp simd
+					for (int i = 0; i < length; i++) {
+						row[i] /= sum;
+					}
+				}
+
 			public:
 
-				FuzzyCMeans(Parameters* algorithm_parameters, DistanceMetric* metric, FileIO fileIO):Clustering(algorithm_parameters, metric,fileIO)
-				{
-					ResultMatrix = allocateAlign<double>(AlgorithmParameters->CountOfObjects*AlgorithmParameters->CountOfClusters);
-					_powMatrix = allocateAlign<double>(AlgorithmParameters->CountOfObjects*AlgorithmParameters->CountOfClusters);
-				}
+				FuzzyCMeansOpenMP(Parameters* algorithm_parameters, DistanceMetric* metric, FileIO fileIO) :
+					FuzzyCMeans(algorithm_parameters, metric, fileIO)
+				{}
 
-				void StartClustering() override
-				{
-					GenerateDefaultResultMatrix();
-
-					GenerateCentroids();
-					double* centroids = allocateAlign<double>(AlgorithmParameters->CountOfClusters*AlgorithmParameters->CountOfDimensions);
-					copyArray(Centroids, centroids, AlgorithmParameters->CountOfDimensions*AlgorithmParameters->CountOfClusters);
-					
-					ExecuteClustering(centroids);
-				}
-
-				bool TrySaveData() override
-				{
-					return fileIO.tryWriteMatrixToFile(AlgorithmParameters->OutputFilePath, AlgorithmParameters->CountOfObjects, AlgorithmParameters->CountOfClusters, ResultMatrix);
-				}
-
-				bool TryGetData() override
-				{
-					return fileIO.tryReadMatrixFromFile(AlgorithmParameters->InputFilePath, AlgorithmParameters->CountOfObjects, AlgorithmParameters->CountOfDimensions, VectorsForClustering);
-				}
-
-				virtual ~FuzzyCMeans()
+				virtual ~FuzzyCMeansOpenMP()
 				{
 					/*freeAlign(ResultMatrix);
 					freeAlign(_powMatrix);

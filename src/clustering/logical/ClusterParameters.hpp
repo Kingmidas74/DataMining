@@ -28,7 +28,8 @@ namespace ParallelClustering {
 			allParameters.InputFilePath = "input.csv";
 			allParameters.OutputFilePath = "output.csv";
 			allParameters.LogFilePath = "log.csv";
-			allParameters.CountOfThreads = 1;			
+			allParameters.CountOfThreads = 1;	
+			allParameters.MetricType = MetricTypes::DTW;
 			_argc = argc;
 			_argv = argv;
 		}
@@ -55,7 +56,7 @@ namespace ParallelClustering {
 		{
 			for (int i = 1; i < _argc; i = i + 2)
 			{
-				if ((string)_argv[i]==("-i")) getInputFilPath(i + 1);
+				if ((string)_argv[i] == ("-i")) getInputFilPath(i + 1);
 				if ((string)_argv[i] == ("-o")) getOutputFilPath(i + 1);
 				if ((string)_argv[i] == ("-l")) getLogFilePath(i + 1);
 				if ((string)_argv[i] == ("-k")) getCountOfClusters(i + 1);
@@ -64,6 +65,7 @@ namespace ParallelClustering {
 				if ((string)_argv[i] == ("-f")) getFuzzy(i + 1);
 				if ((string)_argv[i] == ("-e")) getEpsilon(i + 1);
 				if ((string)_argv[i] == ("-t")) getCountOfThreads(i + 1);
+				if ((string)_argv[i] == ("-m")) getMetricType(i + 1);
 			}
 		}
 
@@ -78,6 +80,11 @@ namespace ParallelClustering {
 				}
 				file.close();
 			}
+		}
+
+		void getMetricType(int numberOfparameter)
+		{
+			
 		}
 
 		void getLogFilePath(int numberOfparameter)

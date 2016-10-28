@@ -8,11 +8,11 @@ namespace ParallelClustering
 	{
 		class MinkowskiMetric:public DistanceMetric
 		{
-		private:
+		protected:
 			int power;
 			bool sqrt;
 
-			double calculateWithSqrt(double* first_array, double* second_array, int length)
+			virtual double calculateWithSqrt(double* first_array, double* second_array, int length)
 			{
 				double result = 0.0;
 				for (int i = 0; i < length; i++) {
@@ -22,7 +22,7 @@ namespace ParallelClustering
 				return result;
 			}
 
-			double calculateWithoutSqrt(double* first_array, double* second_array, int length)
+			virtual double calculateWithoutSqrt(double* first_array, double* second_array, int length)
 			{
 				double result = 0.0;
 				for (int i = 0; i < length; i++) {
@@ -33,7 +33,7 @@ namespace ParallelClustering
 
 		public:
 
-			MinkowskiMetric():DistanceMetric(),power(2),sqrt(true) {}
+			MinkowskiMetric():DistanceMetric(),power(1),sqrt(false) {}
 			
 			MinkowskiMetric(int _power, bool _sqrt) :DistanceMetric(), power(_power), sqrt(_sqrt) {}
 

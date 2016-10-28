@@ -19,18 +19,9 @@ namespace ParallelClustering {
 			FileIO fileIO;
 
 
-			void GenerateCentroids()
-			{
-				for (int i = 0; i < AlgorithmParameters->CountOfClusters; i++)
-				{
-					for (int j = 0; j < AlgorithmParameters->CountOfDimensions; j++)
-					{
-						Centroids[i*AlgorithmParameters->CountOfDimensions + j] = GetRandomDouble();
-					}
-				}
-			}
+			virtual void GenerateCentroids() {}
 
-			inline void normalizeArray(double* row, int length) const {
+			inline virtual void normalizeArray(double* row, int length) {
 				double sum = 0;
 				for (auto i = 0; i < length; i++) {
 					sum += row[i];
@@ -43,6 +34,14 @@ namespace ParallelClustering {
 			void copyArray(double* from, double* to,  int length)
 			{	
 				for ( int i = 0; i < length;i++)
+				{
+					to[i] = from[i];
+				}
+			}
+
+			void copyArray(int* from, int* to, int length)
+			{
+				for (int i = 0; i < length;i++)
 				{
 					to[i] = from[i];
 				}
@@ -67,9 +66,7 @@ namespace ParallelClustering {
 			}
 
 			virtual void StartClustering() {};
-
-			virtual void StartClustering(double* centroids) {};
-
+			
 			void CalculateAllDistance()
 			{
 				for (int i = 0; i < AlgorithmParameters->CountOfObjects; i++)
