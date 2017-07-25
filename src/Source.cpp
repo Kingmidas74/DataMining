@@ -1,9 +1,7 @@
-#include <iostream>
 
-#include "./clustering/ParallelClustering.hpp"
+#include "./Executor.hpp"
 
-
-#include <ctime>
+using namespace DataMining;
 
 int main(int argc, char *argv[])
 {	
@@ -11,9 +9,8 @@ int main(int argc, char *argv[])
 	
 	ClusterParameters clusterParameters(argc, argv);
 	auto parameters = clusterParameters.GetParameters();
-	auto fileIO = FileIO(';');
+	auto fileIO = FileIO(',');
 	auto executor = Executor(&parameters, fileIO);
 	executor.CalculateProbabilities();
-	
 	return EXIT_SUCCESS;
 }
