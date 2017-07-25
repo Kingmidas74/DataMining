@@ -50,7 +50,7 @@ OBJECT_FILES := $(addprefix $(OBJECT_FOLDER)/, $(addsuffix .o, algorithms functi
 OBJ_COMP = $(CC) -c $< -o $(OBJECT_FOLDER)/$@.o $(CXXFLAGS)
 
 all: folders $(PROJECT_NAME) files
-	$(CC) $(OBJECT_FILES) -o $(TARGET_FOLDER)/$(PROJECT_NAME) $(CXXFLAGS)
+	$(CC) $(OBJECT_FOLDER)/$(word 2,$^).o -o $(TARGET_FOLDER)/$(PROJECT_NAME) $(CXXFLAGS)
 
 $(PROJECT_NAME): algorithms functions io
 	$(CC) -c $(ENTRY_POINT) -o $(OBJECT_FOLDER)/$@.o $(CXXFLAGS)
