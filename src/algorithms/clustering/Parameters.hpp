@@ -11,7 +11,6 @@ Purpose: Struct for save parameters.
 namespace DataMining
 {
 	using namespace std;
-	using namespace Metrics;
 
 	struct Parameters
 	{
@@ -24,7 +23,5 @@ namespace DataMining
 		string InputFilePath;
 		string OutputFilePath;
 		string LogFilePath;
-		MetricTypes MetricType;
-		
 	};
 }

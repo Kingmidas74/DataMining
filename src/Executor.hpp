@@ -10,6 +10,7 @@ namespace DataMining {
 
 	using namespace Metrics;
 	using namespace Normalization;
+	using namespace EvaluationAlgorithms;
 	using namespace ClusteringAlgorithms;
 	using namespace ClusteringAlgorithms::CCollection;
 
@@ -18,12 +19,11 @@ namespace DataMining {
 	{
 	public:
 		
-		Executor() :AlgorithmParameters(nullptr), Runtime(0),DateTimeNow(""),fileIO() {}
+		Executor() :AlgorithmParameters(nullptr),DateTimeNow(""),fileIO() {}
 
 		explicit Executor(Parameters* algorithmParameters)
 		{
 			AlgorithmParameters = algorithmParameters;
-			Runtime = 0;
 			fileIO = FileIO();
 			DateTimeNow = "";
 		}
@@ -31,70 +31,77 @@ namespace DataMining {
 		explicit Executor(Parameters* algorithmParameters, FileIO _fileIO): DateTimeNow("")
 		{
 			AlgorithmParameters = algorithmParameters;
-			Runtime = 0;
 			fileIO = _fileIO;
-			
 		}
 
 		void CalculateProbabilities()
 		{
-			auto metric = MetricFactory::GetMetric(MetricTypes::Minkowsi,2,true);
-
-			auto normalization = NormalizationFactory::GetNormalization<double>(NormalizationTypes::Mean);
+			double * vectors=allocateAlign<double>(AlgorithmParameters->CountOfObjects*AlgorithmParameters->CountOfDimensions);
 			
-			auto clustering = FuzzyCMeans<double,double>(AlgorithmParameters, metric, normalization, fileIO);
-			
-			if (clustering.TryGetData()) 
+			if(fileIO.template tryReadMatrixFromFile<double>(AlgorithmParameters->InputFilePath, AlgorithmParameters->CountOfObjects, AlgorithmParameters->CountOfDimensions, vectors))
 			{
+				auto metric = MetricFactory::GetMetric(MetricTypes::Minkowsi,2,true);
+				
+				double * distanceMatrix = allocateAlign<double>(AlgorithmParameters->CountOfObjects*AlgorithmParameters->CountOfObjects);
+				metric->CalculateDistanceMatrix(vectors,AlgorithmParameters->CountOfObjects,AlgorithmParameters->CountOfDimensions,distanceMatrix);
+			
+				auto normalization = NormalizationFactory::GetNormalization<double>(NormalizationTypes::Mean);
+			
+				auto clustering = FuzzyCMeans<double,double>(AlgorithmParameters, metric, normalization);
+
+				
+
 				setDateTime();
 
 				omp_set_num_threads(AlgorithmParameters->CountOfThreads);
-				//clustering.CalculateAllDistance();
-
+				double runtime = omp_get_wtime();
+				clustering.StartClustering(vectors);
+				runtime = omp_get_wtime() - runtime;
+				runtime = RoundTo(runtime, 3);
+				auto correctData = clustering.Verification();		
 				
-				Runtime = omp_get_wtime();
-				clustering.StartClustering();
-				Runtime = omp_get_wtime() - Runtime;
-				Runtime = RoundTo(Runtime, 3);
-				auto correctData = clustering.Verification();				
-				if (!correctData || !clustering.TrySaveData())
-				{
-					exit(EXIT_FAILURE);
-				}				
-				CreateLogRecord(correctData);
+				if(correctData && (fileIO.template tryWriteMatrixToFile<double>(AlgorithmParameters->OutputFilePath, AlgorithmParameters->CountOfObjects, AlgorithmParameters->CountOfClusters, clustering.ResultMatrix)))
+				{					
+					auto evaluation = Partition(AlgorithmParameters,clustering.ResultMatrix);
+
+					evaluation.Evaluate();
+					
+					
+
+					CreateLogRecord(runtime,evaluation.EvaluationRate);
+
+					freeAlign<double>(vectors);
+					freeAlign<double>(distanceMatrix);
+					exit(EXIT_SUCCESS);
+				}
+				freeAlign<double>(distanceMatrix);
 			}
-			else
-			{
-				exit(EXIT_FAILURE);
-			}
+			freeAlign<double>(vectors);
+			
+			exit(EXIT_FAILURE);
 		}
 
 	private:
 		Parameters* AlgorithmParameters;
-		double		Runtime;
 		string		DateTimeNow;
 		FileIO		fileIO;
 
-		void CreateLogRecord(bool correctData)
+		
+
+		void CreateLogRecord(double runtime, double eR)
 		{
 			
-			string* row = new string[8];
+			string* row = new string[9];
 			row[0] = DateTimeNow;
-			row[1] = std::to_string(static_cast<unsigned long long>(AlgorithmParameters->CountOfObjects));
-			row[2] = std::to_string(static_cast<unsigned long long>(AlgorithmParameters->CountOfDimensions));
-			row[3] = std::to_string(static_cast<unsigned long long>(AlgorithmParameters->CountOfClusters));
-			row[4] = std::to_string(static_cast<unsigned long long>(AlgorithmParameters->CountOfThreads));
-			ostringstream fstring;
-			fstring << AlgorithmParameters->Fuzzy;
-			row[5] = fstring.str();
-			ostringstream estring;
-			estring << AlgorithmParameters->Epsilon;
-			row[6] = estring.str();
-			ostringstream rstring;
-			rstring << Runtime;
-			row[7] = rstring.str();
-			//row[8]=std::to_string(static_cast<bool>(correctData));
-			fileIO.tryAppendStringRowToFile(AlgorithmParameters->LogFilePath, 1,8, row);
+			row[1] = stringify(AlgorithmParameters->CountOfObjects);
+			row[2] = stringify(AlgorithmParameters->CountOfDimensions);
+			row[3] = stringify(AlgorithmParameters->CountOfClusters);
+			row[4] = stringify(AlgorithmParameters->CountOfThreads);
+			row[5] = stringify(AlgorithmParameters->Fuzzy);
+			row[6] = stringify(AlgorithmParameters->Epsilon);
+			row[7] = stringify(runtime);
+			row[8] = stringify(eR);
+			fileIO.tryAppendStringRowToFile(AlgorithmParameters->LogFilePath, 1,9, row);
 			delete[] row;
 		}
 

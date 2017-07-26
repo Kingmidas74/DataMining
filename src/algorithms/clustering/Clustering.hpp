@@ -15,12 +15,11 @@ namespace DataMining {
 
 		protected:
 
-			IncomingType* VectorsForClustering;
+			
 			Parameters AlgorithmParameters;
 			DistanceMetric* Metric;
 			NormalizationBase<IncomingType> * Normalization;
-			FileIO fileIO;
-
+			
 
 			virtual void GenerateCentroids() {}
 			
@@ -36,43 +35,24 @@ namespace DataMining {
 
 			IncomingType* Centroids;
 			OutcomingType* ResultMatrix;
+			IncomingType* VectorsForClustering;
 			double* DistanceMatrix;
 
 
-			Clustering(Parameters* algorithm_parameters, DistanceMetric* metric, NormalizationBase<IncomingType>* normalization, FileIO _fileIO): AlgorithmParameters(algorithm_parameters[0]), Metric(metric), Normalization(normalization), fileIO(_fileIO), ResultMatrix(nullptr)
+			Clustering(Parameters* algorithm_parameters, DistanceMetric* metric, NormalizationBase<IncomingType>* normalization): AlgorithmParameters(algorithm_parameters[0]), Metric(metric), Normalization(normalization), ResultMatrix(nullptr)
 			{
-				VectorsForClustering = allocateAlign<IncomingType>(AlgorithmParameters.CountOfObjects*AlgorithmParameters.CountOfDimensions);
 				DistanceMatrix = allocateAlign<double>(AlgorithmParameters.CountOfObjects*AlgorithmParameters.CountOfObjects);
 				Centroids = allocateAlign<IncomingType>(AlgorithmParameters.CountOfClusters * AlgorithmParameters.CountOfDimensions);				
 			}
 
-			virtual void StartClustering() {};
+			virtual void StartClustering(IncomingType * vectors, double * distanceMatrix) {};
+			virtual void StartClustering(IncomingType * vectors) {};
+
 			virtual bool Verification() {return false;};
-
-			void CalculateAllDistance()
-			{
-				for (size_t i = 0; i < AlgorithmParameters.CountOfObjects; i++)
-				{
-					for (size_t j = 0; j < AlgorithmParameters.CountOfObjects; j++)
-					{
-						DistanceMatrix[i*AlgorithmParameters.CountOfObjects + j] = Metric->CalculateDistance(
-							&VectorsForClustering[i*AlgorithmParameters.CountOfDimensions],
-							&VectorsForClustering[j*AlgorithmParameters.CountOfDimensions],
-							AlgorithmParameters.CountOfDimensions
-						);
-					}
-				}
-			}
-
-			virtual bool TrySaveData() {return false;}
-
-			virtual bool TryGetData() { return false; }
 
 			virtual ~Clustering()
 			{
-				freeAlign(ResultMatrix);
 				freeAlign(DistanceMatrix);
-				freeAlign(VectorsForClustering);
 				freeAlign(Centroids);
 			}
 		};

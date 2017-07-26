@@ -67,10 +67,10 @@ c-algorithms: $(SOURCE_FOLDER)/algorithms/clustering/c-algorithms/main.h c-means
 k-algorithms: $(SOURCE_FOLDER)/algorithms/clustering/k-algorithms/main.h k-means
 	$(OBJ_COMP)
 
-c-means: $(SOURCE_FOLDER)/algorithms/clustering/c-algorithms/c-means/main.h preprocessing evaluation metric io functions
+c-means: $(SOURCE_FOLDER)/algorithms/clustering/c-algorithms/c-means/main.h preprocessing evaluation metric functions
 	$(OBJ_COMP)
 
-k-means: $(SOURCE_FOLDER)/algorithms/clustering/k-algorithms/k-means/main.h preprocessing evaluation metric io functions
+k-means: $(SOURCE_FOLDER)/algorithms/clustering/k-algorithms/k-means/main.h preprocessing evaluation metric functions
 	$(OBJ_COMP)
 
 preprocessing: $(SOURCE_FOLDER)/algorithms/preprocessing/main.h normalization

@@ -4,3 +4,4 @@
 #include "./GetDate.hpp"
 #include "./Arrays.hpp"
 #include "./Math.hpp"
+#include "./Strings.hpp"

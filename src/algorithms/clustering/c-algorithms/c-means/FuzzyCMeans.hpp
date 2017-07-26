@@ -16,7 +16,6 @@ namespace DataMining {
 
 			protected:
 
-				double* _powMatrix;
 
 				virtual void GenerateDefaultResultMatrix()
 				{
@@ -81,7 +80,7 @@ namespace DataMining {
 					auto CountOfDimensions = this->AlgorithmParameters.CountOfDimensions;
 					auto CountOfClusters = this->AlgorithmParameters.CountOfClusters;
 					
-					powMatrix<OutcomingType>(this->ResultMatrix,_powMatrix, this->AlgorithmParameters.Fuzzy,
+					powMatrix<OutcomingType>(this->ResultMatrix,this->ResultMatrix, this->AlgorithmParameters.Fuzzy,
 										this->AlgorithmParameters.CountOfObjects*this->AlgorithmParameters.CountOfClusters);
 
 					
@@ -92,8 +91,8 @@ namespace DataMining {
 							double denomenator = 0.0;
 							#pragma omp parallel for simd schedule(static,8) reduction(+:numenator,denomenator)
 							for (size_t j = 0; j < CountOfObjects; j++) {
-								numenator += _powMatrix[j*CountOfClusters + i] * this->VectorsForClustering[j*CountOfDimensions + d];
-								denomenator += _powMatrix[j*CountOfClusters + i];
+								numenator += this->ResultMatrix[j*CountOfClusters + i] * this->VectorsForClustering[j*CountOfDimensions + d];
+								denomenator += this->ResultMatrix[j*CountOfClusters + i];
 							}
 							centroids[i*CountOfClusters + d] = numenator / denomenator;
 						}
@@ -114,16 +113,32 @@ namespace DataMining {
 
 			public:
 
-				FuzzyCMeans(Parameters* algorithm_parameters, DistanceMetric* metric, NormalizationBase<IncomingType> * normalization, FileIO fileIO):Clustering<IncomingType,OutcomingType>(algorithm_parameters, metric,normalization,fileIO)
+				FuzzyCMeans(Parameters* algorithm_parameters, DistanceMetric* metric, NormalizationBase<IncomingType> * normalization):Clustering<IncomingType,OutcomingType>(algorithm_parameters, metric,normalization)
 				{
+					//_powMatrix = allocateAlign<double>(this->AlgorithmParameters.CountOfObjects*this->AlgorithmParameters.CountOfClusters);
 					this->ResultMatrix = allocateAlign<OutcomingType>(this->AlgorithmParameters.CountOfObjects*this->AlgorithmParameters.CountOfClusters);
-					_powMatrix = allocateAlign<double>(this->AlgorithmParameters.CountOfObjects*this->AlgorithmParameters.CountOfClusters);
 				}
 
-				void StartClustering() override
+				void StartClustering(IncomingType* vectors, double * distanceMatrix) override
 				{
-					GenerateDefaultResultMatrix();
+					this->VectorsForClustering = vectors;
+					this->DistanceMatrix = distanceMatrix;
 
+					GenerateDefaultResultMatrix();
+					
+					GenerateCentroids();
+					IncomingType* centroids = allocateAlign<IncomingType>(this->AlgorithmParameters.CountOfClusters*this->AlgorithmParameters.CountOfDimensions);
+					copyArray<IncomingType>(this->Centroids, centroids, this->AlgorithmParameters.CountOfDimensions*this->AlgorithmParameters.CountOfClusters);
+					ExecuteClustering(centroids);
+					freeAlign(centroids);
+				}
+
+				void StartClustering(IncomingType* vectors) override
+				{
+					this->VectorsForClustering = vectors;
+
+					GenerateDefaultResultMatrix();
+					
 					GenerateCentroids();
 					IncomingType* centroids = allocateAlign<IncomingType>(this->AlgorithmParameters.CountOfClusters*this->AlgorithmParameters.CountOfDimensions);
 					copyArray<IncomingType>(this->Centroids, centroids, this->AlgorithmParameters.CountOfDimensions*this->AlgorithmParameters.CountOfClusters);
@@ -147,19 +162,10 @@ namespace DataMining {
 					return true;
 				}
 
-				bool TrySaveData() override
-				{
-					return this->fileIO.template tryWriteMatrixToFile<OutcomingType>(this->AlgorithmParameters.OutputFilePath, this->AlgorithmParameters.CountOfObjects, this->AlgorithmParameters.CountOfClusters, this->ResultMatrix);
-				}
-
-				bool TryGetData() override
-				{
-					return this->fileIO.template tryReadMatrixFromFile<IncomingType>(this->AlgorithmParameters.InputFilePath, this->AlgorithmParameters.CountOfObjects, this->AlgorithmParameters.CountOfDimensions, this->VectorsForClustering);
-				}
-
 				virtual ~FuzzyCMeans()
 				{
-					freeAlign(_powMatrix);
+					//freeAlign<double>(_powMatrix);
+					freeAlign<OutcomingType>(this->ResultMatrix);
 				}
 			};
 		}

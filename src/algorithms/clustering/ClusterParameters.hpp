@@ -26,7 +26,6 @@ namespace DataMining {
 			allParameters.OutputFilePath = "output.csv";
 			allParameters.LogFilePath = "log.csv";
 			allParameters.CountOfThreads = 1;	
-			allParameters.MetricType = MetricTypes::DTW;
 			_argc = argc;
 			_argv = argv;
 		}
@@ -62,7 +61,7 @@ namespace DataMining {
 				if ((string)_argv[i] == ("-f")) getFuzzy(i + 1);
 				if ((string)_argv[i] == ("-e")) getEpsilon(i + 1);
 				if ((string)_argv[i] == ("-t")) getCountOfThreads(i + 1);
-				if ((string)_argv[i] == ("-m")) getMetricType(i + 1);
+				//if ((string)_argv[i] == ("-m")) getMetricType(i + 1);
 			}
 		}
 
