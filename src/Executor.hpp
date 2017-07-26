@@ -1,7 +1,6 @@
 #pragma once
 
 #include "./io/main.h"
-#include "./functions/main.h"
 #include "./algorithms/main.h"
 
 namespace DataMining {
@@ -19,20 +18,13 @@ namespace DataMining {
 	{
 	public:
 		
-		Executor() :AlgorithmParameters(nullptr),DateTimeNow(""),fileIO() {}
+		Executor() :AlgorithmParameters(nullptr),fileIO() {}
 
-		explicit Executor(Parameters* algorithmParameters)
-		{
-			AlgorithmParameters = algorithmParameters;
-			fileIO = FileIO();
-			DateTimeNow = "";
-		}
+		explicit Executor(Parameters* algorithmParameters):AlgorithmParameters(algorithmParameters), fileIO(FileIO(','))
+		{}
 
-		explicit Executor(Parameters* algorithmParameters, FileIO _fileIO): DateTimeNow("")
-		{
-			AlgorithmParameters = algorithmParameters;
-			fileIO = _fileIO;
-		}
+		Executor(Parameters* algorithmParameters, FileIO _fileIO):AlgorithmParameters(algorithmParameters), fileIO(_fileIO)
+		{}
 
 		void CalculateProbabilities()
 		{
@@ -42,22 +34,20 @@ namespace DataMining {
 			{
 				auto metric = MetricFactory::GetMetric(MetricTypes::Minkowsi,2,true);
 				
-				double * distanceMatrix = allocateAlign<double>(AlgorithmParameters->CountOfObjects*AlgorithmParameters->CountOfObjects);
-				metric->CalculateDistanceMatrix(vectors,AlgorithmParameters->CountOfObjects,AlgorithmParameters->CountOfDimensions,distanceMatrix);
-			
 				auto normalization = NormalizationFactory::GetNormalization<double>(NormalizationTypes::Mean);
 			
 				auto clustering = FuzzyCMeans<double,double>(AlgorithmParameters, metric, normalization);
 
-				
-
-				setDateTime();
+				auto date = GetDate();
 
 				omp_set_num_threads(AlgorithmParameters->CountOfThreads);
+
+				double * distanceMatrix = allocateAlign<double>(AlgorithmParameters->CountOfObjects*AlgorithmParameters->CountOfObjects);
+				metric->CalculateDistanceMatrix(vectors,AlgorithmParameters->CountOfObjects,AlgorithmParameters->CountOfDimensions,distanceMatrix);
+			
 				double runtime = omp_get_wtime();
 				clustering.StartClustering(vectors);
-				runtime = omp_get_wtime() - runtime;
-				runtime = RoundTo(runtime, 3);
+				runtime = RoundTo(omp_get_wtime() - runtime, 3);
 				auto correctData = clustering.Verification();		
 				
 				if(correctData && (fileIO.template tryWriteMatrixToFile<double>(AlgorithmParameters->OutputFilePath, AlgorithmParameters->CountOfObjects, AlgorithmParameters->CountOfClusters, clustering.ResultMatrix)))
@@ -65,10 +55,8 @@ namespace DataMining {
 					auto evaluation = Partition(AlgorithmParameters,clustering.ResultMatrix);
 
 					evaluation.Evaluate();
-					
-					
 
-					CreateLogRecord(runtime,evaluation.EvaluationRate);
+					CreateLogRecord(date,runtime,evaluation.EvaluationRate);
 
 					freeAlign<double>(vectors);
 					freeAlign<double>(distanceMatrix);
@@ -83,31 +71,23 @@ namespace DataMining {
 
 	private:
 		Parameters* AlgorithmParameters;
-		string		DateTimeNow;
 		FileIO		fileIO;
-
 		
-
-		void CreateLogRecord(double runtime, double eR)
+		void CreateLogRecord(string date, double runtime, double eR)
 		{
 			
 			string* row = new string[9];
-			row[0] = DateTimeNow;
+			row[0] = date;
 			row[1] = stringify(AlgorithmParameters->CountOfObjects);
 			row[2] = stringify(AlgorithmParameters->CountOfDimensions);
 			row[3] = stringify(AlgorithmParameters->CountOfClusters);
 			row[4] = stringify(AlgorithmParameters->CountOfThreads);
 			row[5] = stringify(AlgorithmParameters->Fuzzy);
 			row[6] = stringify(AlgorithmParameters->Epsilon);
-			row[7] = stringify(runtime);
-			row[8] = stringify(eR);
+			row[7] = stringify(eR);
+			row[8] = stringify(runtime);
 			fileIO.tryAppendStringRowToFile(AlgorithmParameters->LogFilePath, 1,9, row);
 			delete[] row;
-		}
-
-		void setDateTime()
-		{
-			DateTimeNow = GetDate();			
 		}
 	};
 }
