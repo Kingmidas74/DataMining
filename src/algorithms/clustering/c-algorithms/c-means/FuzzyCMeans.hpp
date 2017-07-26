@@ -115,7 +115,6 @@ namespace DataMining {
 
 				FuzzyCMeans(Parameters* algorithm_parameters, DistanceMetric* metric, NormalizationBase<IncomingType> * normalization):Clustering<IncomingType,OutcomingType>(algorithm_parameters, metric,normalization)
 				{
-					//_powMatrix = allocateAlign<double>(this->AlgorithmParameters.CountOfObjects*this->AlgorithmParameters.CountOfClusters);
 					this->ResultMatrix = allocateAlign<OutcomingType>(this->AlgorithmParameters.CountOfObjects*this->AlgorithmParameters.CountOfClusters);
 				}
 
@@ -164,7 +163,6 @@ namespace DataMining {
 
 				virtual ~FuzzyCMeans()
 				{
-					//freeAlign<double>(_powMatrix);
 					freeAlign<OutcomingType>(this->ResultMatrix);
 				}
 			};

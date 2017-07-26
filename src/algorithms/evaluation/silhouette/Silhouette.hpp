@@ -3,9 +3,7 @@
 namespace DataMining {
 	namespace EvaluationAlgorithms {
 
-
 		using namespace std;
-		
 		
 		class Silhouette
 		{

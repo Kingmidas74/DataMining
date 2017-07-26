@@ -52,7 +52,7 @@ namespace DataMining {
 				
 				if(correctData && (fileIO.template tryWriteMatrixToFile<double>(AlgorithmParameters->OutputFilePath, AlgorithmParameters->CountOfObjects, AlgorithmParameters->CountOfClusters, clustering.ResultMatrix)))
 				{					
-					auto evaluation = Partition(AlgorithmParameters,clustering.ResultMatrix);
+					auto evaluation = MonotonicPartition(AlgorithmParameters,clustering.ResultMatrix);
 
 					evaluation.Evaluate();
 
