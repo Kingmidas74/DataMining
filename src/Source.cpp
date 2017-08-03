@@ -9,7 +9,7 @@ int main(int argc, char *argv[])
 	
 	ClusterParameters clusterParameters(argc, argv);
 	auto parameters = clusterParameters.GetParameters();
-	auto fileIO = FileIO(',');
+	auto fileIO = FileIO(','); /*TODO: make a const maybe*/
 	auto executor = Executor(&parameters, fileIO);
 	executor.CalculateProbabilities();
 	return EXIT_SUCCESS;
