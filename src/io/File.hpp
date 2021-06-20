@@ -58,22 +58,16 @@ namespace DataMining
 			template <typename Type>
 			bool tryWriteMatrixToFile(string filePath, int rowCount, int elementsByRow, Type* source)
 			{
-				ofstream offile(filePath);
-				if (offile.is_open())
+				for (int i = 0; i < rowCount; i++)
 				{
-					for (int i = 0; i < rowCount; i++)
+					for (int j = 0; j < elementsByRow; j++)
 					{
-						for (int j = 0; j < elementsByRow; j++)
-						{
-							offile << source[i*elementsByRow + j];
-							if (j != elementsByRow - 1) { offile << delimeter; }
-						}
-						offile << endl;
+						cout << source[i*elementsByRow + j];
+						if (j != elementsByRow - 1) { cout << delimeter; }
 					}
-					offile.close();
-					return true;
+					cout << endl;
 				}
-				return false;
+				return true;
 			}
 
 			bool tryAppendStringRowToFile(string filePath, int rowCount, int elementsByRow, string* source)
