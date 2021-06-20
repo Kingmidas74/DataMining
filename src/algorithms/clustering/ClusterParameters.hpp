@@ -17,12 +17,9 @@ namespace DataMining {
 
 		ClusterParameters(int argc, char* argv[])
 		{
-			allParameters.CountOfDimensions = 3;
 			allParameters.CountOfClusters = 3;
-			allParameters.CountOfObjects = 15;
 			allParameters.Epsilon = 0.1;
 			allParameters.Fuzzy = 1.5;
-			allParameters.InputFilePath = "input.csv";
 			allParameters.OutputFilePath = "output.csv";
 			allParameters.LogFilePath = "log.csv";
 			allParameters.CountOfThreads = 1;
@@ -69,12 +66,10 @@ namespace DataMining {
 		{
 			if (&_argv[numberOfparameter])
 			{
-				fstream file;
-				file.open(_argv[numberOfparameter]);
-				if (!file.fail()) {
+				if(tryGetDataParameters(_argv[numberOfparameter]))
+				{
 					allParameters.InputFilePath = _argv[numberOfparameter];
 				}
-				file.close();
 			}
 		}
 
@@ -185,6 +180,24 @@ namespace DataMining {
 					allParameters.Epsilon = val;
 				}
 			}
+		}
+
+		bool tryGetDataParameters(string filePath)
+		{
+			bool result = false;
+			ifstream file;
+			file.open(filePath);
+			if (!file.fail())
+			{
+				string sLine;
+				getline(file, sLine);
+				std::stringstream ss(sLine);
+				allParameters.CountOfDimensions = count(std::istreambuf_iterator<char>(ss), std::istreambuf_iterator<char>(), ',')+1;
+				allParameters.CountOfObjects = count(std::istreambuf_iterator<char>(file), std::istreambuf_iterator<char>(), '\n')+1;
+				result = true;
+			}
+			file.close();
+			return result;
 		}
 	};
 }
