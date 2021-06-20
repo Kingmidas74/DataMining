@@ -9,7 +9,7 @@ while [ true ]; do
 	if [ "$sum" != "$current_sum" ]; then
 		sum=$current_sum
 		echo "--------------------------------------------------"
-		make ACC=MIC
+		make ACC=$1
 		echo "--------------------------------------------------"
 	fi;
 	sleep 5

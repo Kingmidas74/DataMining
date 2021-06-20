@@ -13,7 +13,7 @@ namespace DataMining
 	using namespace std;
 
 	template <typename Type>
-	inline void copyArray(const Type *  const from, Type * to,  const size_t const length)
+	inline void copyArray(const Type *  const from, Type * to,  const size_t length)
 	{
 		copy(from, from+length, to);
 	}

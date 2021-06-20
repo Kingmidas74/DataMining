@@ -29,7 +29,17 @@ ENTRY_POINT	:= $(SOURCE_FOLDER)/Source.cpp
 PCH_FILE	:= $(PCH_FOLDER)/$(PROJECT_NAME)
 #End Files
 
-# Options
+
+
+# ICPC Options
+GCC_BASE_OPTIONS	= -std=c++17 -fopenmp -I ./src
+GCC_OPTIMIZATIONS	= -O3 -Ofast -march=skylake #-ipo -ipo-c -parallel -no-prec-div -align
+GCC_WARNING_OPTIONS= -Wall -Warray-bounds -Wchar-subscripts -Wcomment -Wenum-compare -Wformat -Wuninitialized -Wmaybe-uninitialized -Wmain -Wnarrowing -Wnonnull -Wparentheses -Wpointer-sign -Wreorder -Wreturn-type -Wsign-compare -Wsequence-point -Wtrigraphs -Wunused-function -Wunused-but-set-variable -Wunused-variable -Wwrite-strings
+
+GCC_SHORT_OPTIONS	= $(GCC_BASE_OPTIONS) $(GCC_OPTIMIZATIONS) #$(GCC_WARNING_OPTIONS)
+
+
+# ICPC Options
 ICPC_BASE_OPTIONS	= -std=c++17 -qopenmp -qopt-report-phase=all -I $(SOURCE_FOLDER)
 ICPC_OPTIMIZATIONS	= -ansi-alias -O3 -ipo -ipo-c -parallel -no-prec-div -align -fast -m64
 ICPC_WARNING_OPTIONS= -Wall -Warray-bounds -Wchar-subscripts -Wcomment -Wenum-compare -Wformat -Wuninitialized -Wmaybe-uninitialized -Wmain -Wnarrowing -Wnonnull -Wparentheses -Wpointer-sign -Wreorder -Wreturn-type -Wsign-compare -Wsequence-point -Wtrigraphs -Wunused-function -Wunused-but-set-variable -Wunused-variable -Wwrite-strings
@@ -37,9 +47,9 @@ ICPC_WARNING_OPTIONS= -Wall -Warray-bounds -Wchar-subscripts -Wcomment -Wenum-co
 ICPC_PHI_OPTIONS	= -mmic -qopt-report-file=$(REPORTS_FOLDER)/$@.phi.optrpt
 ICPC_XEON_OPTIONS	= -xSSE4.2 -qopt-report-file=$(REPORTS_FOLDER)/$@.node.optrpt
 
-ICPC_SHORT_OPTIONS	= $(ICPC_BASE_OPTIONS) $(ICPC_WARNING_OPTIONS) $(ICPC_OPTIMIZATION)
+ICPC_SHORT_OPTIONS	= $(ICPC_BASE_OPTIONS) $(ICPC_WARNING_OPTIONS) $(ICPC_OPTIMIZATIONS)
 
-CXXFLAGS := $(ICPC_SHORT_OPTIONS) $(ICPC_XEON_OPTIONS)
+CXXFLAGS := $(GCC_SHORT_OPTIONS)
 ifeq ($(ACC),MIC)
 CXXFLAGS := $(ICPC_SHORT_OPTIONS) $(ICPC_XEON_OPTIONS)
 endif
@@ -47,7 +57,7 @@ endif
 
 OBJECT_FILES := $(addprefix $(OBJECT_FOLDER)/, $(addsuffix .o, algorithms functions io $(PROJECT_NAME)))
 
-OBJ_COMP = $(CC) -c $< -o $(OBJECT_FOLDER)/$@.o $(CXXFLAGS)
+OBJ_COMP = $(CC) $< -o $(OBJECT_FOLDER)/$@.o $(CXXFLAGS)
 
 all: folders $(PROJECT_NAME) files
 	$(CC) $(OBJECT_FOLDER)/$(word 2,$^).o -o $(TARGET_FOLDER)/$(PROJECT_NAME) $(CXXFLAGS)

@@ -22,7 +22,7 @@ namespace DataMining
 	template <typename Type>
 	Type* allocateAlign(unsigned long long count, unsigned int length = 64) {
 		Type * result;
-		result = static_cast<Type*>(_mm_malloc((count) * sizeof(Type), length));
+		result = static_cast<Type*>(aligned_alloc(length,(count) * sizeof(Type)));
 		if (result == nullptr) {
 			printf( "\n ERROR: Can't allocate memory for matrices. Aborting... \n\n");
 			exit(EXIT_FAILURE);
@@ -40,7 +40,7 @@ namespace DataMining
 	template <typename Type>
 	void freeAlign(Type* pointer) {
 		if (pointer) {
-			_mm_free(pointer);
+			free(pointer);
 			//delete[] pointer;
 		}
 	}
