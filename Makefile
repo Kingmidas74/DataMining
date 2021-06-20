@@ -32,7 +32,7 @@ PCH_FILE	:= $(PCH_FOLDER)/$(PROJECT_NAME)
 
 
 # ICPC Options
-GCC_BASE_OPTIONS	= -std=c++17 -fopenmp -I ./src
+GCC_BASE_OPTIONS	= -std=c++2a -fopenmp -I ./src
 GCC_OPTIMIZATIONS	= -O3 -Ofast -march=skylake #-ipo -ipo-c -parallel -no-prec-div -align
 GCC_WARNING_OPTIONS= -Wall -Warray-bounds -Wchar-subscripts -Wcomment -Wenum-compare -Wformat -Wuninitialized -Wmaybe-uninitialized -Wmain -Wnarrowing -Wnonnull -Wparentheses -Wpointer-sign -Wreorder -Wreturn-type -Wsign-compare -Wsequence-point -Wtrigraphs -Wunused-function -Wunused-but-set-variable -Wunused-variable -Wwrite-strings
 
