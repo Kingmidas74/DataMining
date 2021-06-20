@@ -4,7 +4,7 @@ namespace DataMining {
 	namespace EvaluationAlgorithms {
 
 		using namespace std;
-		
+
 		class Silhouette
 		{
             private:
@@ -19,10 +19,10 @@ namespace DataMining {
                 double result = 0.0;
                 size_t count = 0;
                 size_t N=parameters.CountOfObjects;
-                
+
                 for (size_t i = 0; i<N;i++)
                 {
-                    if(clusteringResults[i] == clusterNumber) 
+                    if(clusteringResults[i] == clusterNumber)
                     {
                         result += distanceMatrix[indexofPoint*N + i];
                         count++;
@@ -42,7 +42,7 @@ namespace DataMining {
                 {
                     nearestClusters[i] = clusteringResults[i];
                     double distance = std::numeric_limits<double>::max();
-                    
+
                     for (size_t j = 0;j < N;j++)
                     {
                         if (clusteringResults[j] != clusteringResults[i] && distanceMatrix[i*parameters.CountOfObjects + j] < distance)
@@ -65,7 +65,7 @@ namespace DataMining {
 
                     EvaluationRate=0;
 
-                    nearestClusters=allocateAlign<int>(parameters.CountOfClusters);                    
+                    nearestClusters=allocateAlign<int>(parameters.CountOfClusters);
                 }
 
                 ~Silhouette()
@@ -75,7 +75,7 @@ namespace DataMining {
 
                 void Evaluate()
                 {
-                    calculateNearestClusters();     
+                    calculateNearestClusters();
                     auto result = 0.0;
                     for (size_t i = 0; i<parameters.CountOfObjects;i++)
                     {
@@ -84,8 +84,8 @@ namespace DataMining {
                         double s = (b - a) / max(a, b);
                         result += s;
                     }
-                    result/= parameters.CountOfObjects; 
-                    EvaluationRate=result;             
+                    result/= parameters.CountOfObjects;
+                    EvaluationRate=result;
                 }
         };
     }

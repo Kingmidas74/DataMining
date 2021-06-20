@@ -21,7 +21,7 @@ namespace DataMining
 				return result;
 			}
 
-			
+
 			#pragma omp declare simd uniform(first_array, second_array, length)
 			virtual double calculateWithoutSqrt(double* first_array, double* second_array, int length)
 			{
@@ -35,10 +35,10 @@ namespace DataMining
 		public:
 
 			MinkowskiMetric():DistanceMetric(),power(1),sqrt(false) {}
-			
+
 			MinkowskiMetric(int _power, bool _sqrt) :DistanceMetric(), power(_power), sqrt(_sqrt) {}
 
-			#pragma omp declare simd uniform(first_array, second_array, length)		
+			#pragma omp declare simd uniform(first_array, second_array, length)
 			double CalculateDistance(double* first_array, double* second_array, int length) override
 			{
 				double result;

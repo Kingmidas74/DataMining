@@ -25,7 +25,7 @@ namespace DataMining {
 			allParameters.InputFilePath = "input.csv";
 			allParameters.OutputFilePath = "output.csv";
 			allParameters.LogFilePath = "log.csv";
-			allParameters.CountOfThreads = 1;	
+			allParameters.CountOfThreads = 1;
 			_argc = argc;
 			_argv = argv;
 		}
@@ -80,7 +80,7 @@ namespace DataMining {
 
 		void getMetricType(int numberOfparameter)
 		{
-			
+
 		}
 
 		void getLogFilePath(int numberOfparameter)

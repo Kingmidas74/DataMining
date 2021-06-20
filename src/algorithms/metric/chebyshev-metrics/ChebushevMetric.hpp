@@ -16,7 +16,7 @@ namespace DataMining
 				for(int i=0;i<length;i++)
 				{
 					double tmp=abs(first_array[i] - second_array[i]);
-					if (tmp > result) result = tmp;					
+					if (tmp > result) result = tmp;
 				}
 				return result;
 			};

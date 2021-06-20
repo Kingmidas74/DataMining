@@ -22,7 +22,7 @@ namespace DataMining
 					}
 					else
 					{
-						distanceMatrix=reAllocateAlign<double>(distanceMatrix, _length*_length);				
+						distanceMatrix=reAllocateAlign<double>(distanceMatrix, _length*_length);
 					}
 					length = _length;
 				}
@@ -34,7 +34,7 @@ namespace DataMining
 				{
 					for(int j=0;j<length;j++)
 					{
-						distanceMatrix[i*length + j] = abs(first_array[j]-second_array[i]);						
+						distanceMatrix[i*length + j] = abs(first_array[j]-second_array[i]);
 					}
 				}
 			}
@@ -49,7 +49,7 @@ namespace DataMining
 			{
 				return min(a, min(b, c));
 			}
-			
+
 			int max(int a, int b)
 			{
 				if(a>b) return a;
@@ -65,13 +65,13 @@ namespace DataMining
 		public:
 
 			DynamicTimeWarping() :DistanceMetric(), distanceMatrix(nullptr), length(0), SakoeChiba(2) {}
-			
+
 			explicit DynamicTimeWarping(int SC) :DistanceMetric(), distanceMatrix(nullptr), length(0), SakoeChiba(SC) {}
 
 			double CalculateDistance(double* first_array, double* second_array, int _length) override
 			{
 				allocateIfNot(_length);
-				
+
 				calculateDistanceMatrix(first_array,second_array);
 
 				//resultMatrix[0] = distanceMatrix[0];

@@ -11,9 +11,9 @@ namespace DataMining
 		public:
 			NormalizationBase() {};
 
-			virtual bool Normalize(Type* array, size_t length) 
-			{ 
-				return true; 
+			virtual bool Normalize(Type* array, size_t length)
+			{
+				return true;
 			};
 
 			virtual ~NormalizationBase()

@@ -11,8 +11,8 @@ namespace DataMining
 		public:
 			ZeroMeanNormalization() :NormalizationBase<Type>() {};
 
-			virtual bool Normalize(Type* array, size_t length) 
-			{ 
+			virtual bool Normalize(Type* array, size_t length)
+			{
 				Type avg=0;
 				for(size_t i=0; i<length;i++)
 				{

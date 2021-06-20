@@ -25,7 +25,7 @@ namespace DataMining
 		result = static_cast<Type*>(_mm_malloc((count) * sizeof(Type), length));
 		if (result == nullptr) {
 			printf( "\n ERROR: Can't allocate memory for matrices. Aborting... \n\n");
-			exit(EXIT_FAILURE);			
+			exit(EXIT_FAILURE);
 		}
 		return result;
 	}
@@ -50,7 +50,7 @@ namespace DataMining
 
 	@param pointer	Pointer to previous memory
 	@param count	The count of elements in array.
-	@param length	Length block (64 by default).	
+	@param length	Length block (64 by default).
 	@return Pointer to type T.
 	*/
 	template <typename Type>

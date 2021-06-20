@@ -12,6 +12,6 @@
 
 #ifdef CUDA_COMPILE
     #include "./FuzzyCMeans.cuh"
-#else    
+#else
     #include "./FuzzyCMeans.hpp"
 #endif

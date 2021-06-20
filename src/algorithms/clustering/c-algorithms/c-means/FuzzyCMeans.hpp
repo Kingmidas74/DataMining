@@ -35,7 +35,7 @@ namespace DataMining {
 					size_t length = this->AlgorithmParameters.CountOfClusters * this->AlgorithmParameters.CountOfDimensions;
 					for (size_t i = 0; i < length; i++)
 					{
-						this->Centroids[i] = GetRandom<IncomingType>();						
+						this->Centroids[i] = GetRandom<IncomingType>();
 					}
 				}
 
@@ -57,7 +57,7 @@ namespace DataMining {
 					auto CountOfDimensions = this->AlgorithmParameters.CountOfDimensions;
 					auto CountOfClusters = this->AlgorithmParameters.CountOfClusters;
 					auto Fuzzy = this->AlgorithmParameters.Fuzzy;
-					
+
 					#pragma omp parallel for schedule(static,8)
 					for (size_t i = 0; i < CountOfObjects;i++) {
 						for (size_t j = 0; j < CountOfClusters; j++) {
@@ -79,11 +79,11 @@ namespace DataMining {
 					auto CountOfObjects = this->AlgorithmParameters.CountOfObjects;
 					auto CountOfDimensions = this->AlgorithmParameters.CountOfDimensions;
 					auto CountOfClusters = this->AlgorithmParameters.CountOfClusters;
-					
+
 					powMatrix<OutcomingType>(this->ResultMatrix,this->ResultMatrix, this->AlgorithmParameters.Fuzzy,
 										this->AlgorithmParameters.CountOfObjects*this->AlgorithmParameters.CountOfClusters);
 
-					
+
 					#pragma omp parallel for collapse(2)
 					for (size_t i = 0; i < CountOfClusters; i++) {
 						for (size_t d = 0; d < CountOfDimensions; d++) {
@@ -124,7 +124,7 @@ namespace DataMining {
 					this->DistanceMatrix = distanceMatrix;
 
 					GenerateDefaultResultMatrix();
-					
+
 					GenerateCentroids();
 					IncomingType* centroids = allocateAlign<IncomingType>(this->AlgorithmParameters.CountOfClusters*this->AlgorithmParameters.CountOfDimensions);
 					copyArray<IncomingType>(this->Centroids, centroids, this->AlgorithmParameters.CountOfDimensions*this->AlgorithmParameters.CountOfClusters);
@@ -137,7 +137,7 @@ namespace DataMining {
 					this->VectorsForClustering = vectors;
 
 					GenerateDefaultResultMatrix();
-					
+
 					GenerateCentroids();
 					IncomingType* centroids = allocateAlign<IncomingType>(this->AlgorithmParameters.CountOfClusters*this->AlgorithmParameters.CountOfDimensions);
 					copyArray<IncomingType>(this->Centroids, centroids, this->AlgorithmParameters.CountOfDimensions*this->AlgorithmParameters.CountOfClusters);

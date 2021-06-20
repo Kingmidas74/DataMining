@@ -23,7 +23,7 @@ namespace DataMining
 				{
 					int currentRow = 0;
 					int elementN = 0;
-				
+
 					while (infile && currentRow < rowCount)
 					{
 						string rowString;

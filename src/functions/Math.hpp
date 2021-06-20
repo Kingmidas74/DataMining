@@ -11,7 +11,7 @@ Purpose: Alignment allocators for XeonPhi.
 namespace DataMining
 {
 	using namespace std;
-	
+
 	template <typename Type>
 	inline Type RoundTo(Type source, size_t count)
 	{
@@ -21,7 +21,7 @@ namespace DataMining
 			zeros*=10;
 		}
 		source *= zeros;
-		return floor(source*zeros)/zeros;				
+		return floor(source*zeros)/zeros;
 	}
 
 	template<typename Type>

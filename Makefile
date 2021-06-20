@@ -30,7 +30,7 @@ PCH_FILE	:= $(PCH_FOLDER)/$(PROJECT_NAME)
 #End Files
 
 # Options
-ICPC_BASE_OPTIONS	= -std=c++17 -qopenmp -qopt-report-phase=all -I $(SOURCE_FOLDER) 
+ICPC_BASE_OPTIONS	= -std=c++17 -qopenmp -qopt-report-phase=all -I $(SOURCE_FOLDER)
 ICPC_OPTIMIZATIONS	= -ansi-alias -O3 -ipo -ipo-c -parallel -no-prec-div -align -fast -m64
 ICPC_WARNING_OPTIONS= -Wall -Warray-bounds -Wchar-subscripts -Wcomment -Wenum-compare -Wformat -Wuninitialized -Wmaybe-uninitialized -Wmain -Wnarrowing -Wnonnull -Wparentheses -Wpointer-sign -Wreorder -Wreturn-type -Wsign-compare -Wsequence-point -Wtrigraphs -Wunused-function -Wunused-but-set-variable -Wunused-variable -Wwrite-strings
 
@@ -91,14 +91,14 @@ io: $(SOURCE_FOLDER)/io/main.h
 functions: $(SOURCE_FOLDER)/functions/main.h
 	$(OBJ_COMP)
 
-clean:	
+clean:
 	rm -r $(OBJECT_FOLDER)
 	rm -r $(TARGET_FOLDER)
 
 folders:
 	mkdir -p $(TARGET_FOLDER)
 	mkdir -p $(REPORTS_FOLDER)
-	mkdir -p $(OBJECT_FOLDER)	
-	
+	mkdir -p $(OBJECT_FOLDER)
+
 files:
 	cp -a -n $(DATA_FOLDER)/. $(TARGET_FOLDER)

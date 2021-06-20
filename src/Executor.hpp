@@ -17,7 +17,7 @@ namespace DataMining {
 	class Executor
 	{
 	public:
-		
+
 		Executor() :AlgorithmParameters(nullptr),fileIO() {}
 
 		explicit Executor(Parameters* algorithmParameters):AlgorithmParameters(algorithmParameters), fileIO(FileIO(','))
@@ -29,13 +29,13 @@ namespace DataMining {
 		void CalculateProbabilities()
 		{
 			double * vectors=allocateAlign<double>(AlgorithmParameters->CountOfObjects*AlgorithmParameters->CountOfDimensions);
-			
+
 			if(fileIO.template tryReadMatrixFromFile<double>(AlgorithmParameters->InputFilePath, AlgorithmParameters->CountOfObjects, AlgorithmParameters->CountOfDimensions, vectors))
 			{
 				auto metric = MetricFactory::GetMetric(MetricTypes::Minkowsi,2,true);
-				
+
 				auto normalization = NormalizationFactory::GetNormalization<double>(NormalizationTypes::Mean);
-			
+
 				auto clustering = FuzzyCMeans<double,double>(AlgorithmParameters, metric, normalization);
 
 				auto date = GetDate();
@@ -44,14 +44,14 @@ namespace DataMining {
 
 				double * distanceMatrix = allocateAlign<double>(AlgorithmParameters->CountOfObjects*AlgorithmParameters->CountOfObjects);
 				metric->CalculateDistanceMatrix(vectors,AlgorithmParameters->CountOfObjects,AlgorithmParameters->CountOfDimensions,distanceMatrix);
-			
+
 				double runtime = omp_get_wtime();
 				clustering.StartClustering(vectors);
 				runtime = RoundTo(omp_get_wtime() - runtime, 3);
-				auto correctData = clustering.Verification();		
-				
+				auto correctData = clustering.Verification();
+
 				if(correctData && (fileIO.template tryWriteMatrixToFile<double>(AlgorithmParameters->OutputFilePath, AlgorithmParameters->CountOfObjects, AlgorithmParameters->CountOfClusters, clustering.ResultMatrix)))
-				{					
+				{
 					auto evaluation = MonotonicPartition(AlgorithmParameters,clustering.ResultMatrix);
 
 					evaluation.Evaluate();
@@ -65,17 +65,17 @@ namespace DataMining {
 				freeAlign<double>(distanceMatrix);
 			}
 			freeAlign<double>(vectors);
-			
+
 			exit(EXIT_FAILURE);
 		}
 
 	private:
 		Parameters* AlgorithmParameters;
 		FileIO		fileIO;
-		
+
 		void CreateLogRecord(string date, double runtime, double eR)
 		{
-			
+
 			string* row = new string[9];
 			row[0] = date;
 			row[1] = stringify(AlgorithmParameters->CountOfObjects);

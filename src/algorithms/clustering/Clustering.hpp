@@ -8,21 +8,21 @@ namespace DataMining {
 		using namespace DataMining::Metrics;
 		using namespace DataMining::Normalization;
 		using namespace DataMining::IO;
-		
+
 		template<typename IncomingType, typename OutcomingType>
 		class Clustering
 		{
 
 		protected:
 
-			
+
 			Parameters AlgorithmParameters;
 			DistanceMetric* Metric;
 			NormalizationBase<IncomingType> * Normalization;
-			
+
 
 			virtual void GenerateCentroids() {}
-			
+
 			inline virtual void NormalizeData()
 			{
 				for(size_t i=0; i<AlgorithmParameters.CountOfObjects;i++)
@@ -42,7 +42,7 @@ namespace DataMining {
 			Clustering(Parameters* algorithm_parameters, DistanceMetric* metric, NormalizationBase<IncomingType>* normalization): AlgorithmParameters(algorithm_parameters[0]), Metric(metric), Normalization(normalization), ResultMatrix(nullptr)
 			{
 				DistanceMatrix = allocateAlign<double>(AlgorithmParameters.CountOfObjects*AlgorithmParameters.CountOfObjects);
-				Centroids = allocateAlign<IncomingType>(AlgorithmParameters.CountOfClusters * AlgorithmParameters.CountOfDimensions);				
+				Centroids = allocateAlign<IncomingType>(AlgorithmParameters.CountOfClusters * AlgorithmParameters.CountOfDimensions);
 			}
 
 			virtual void StartClustering(IncomingType * vectors, double * distanceMatrix) {};

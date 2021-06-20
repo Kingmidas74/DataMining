@@ -11,7 +11,7 @@ Purpose: Alignment allocators for XeonPhi.
 namespace DataMining
 {
 	using namespace std;
-	
+
 	template<class T>
 	typename std::enable_if<std::is_fundamental<T>::value, std::string>::type stringify(const T& t)
 	{
