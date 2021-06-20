@@ -6,9 +6,9 @@ namespace DataMining
 	{
 		enum class MetricTypes
 		{
-			DTW,
-			Minkowsi,
-			Chebyshev
+			DTW = 0,
+			Minkowski = 1,
+			Chebyshev = 2
 		};
 	}
 }

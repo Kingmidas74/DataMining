@@ -10,6 +10,7 @@ Purpose: Parser of cmd parameters.
 
 namespace DataMining {
 	using namespace std;
+	using namespace Metrics;
 
 	class ClusterParameters
 	{
@@ -20,7 +21,7 @@ namespace DataMining {
 			allParameters.CountOfClusters = 3;
 			allParameters.Epsilon = 0.1;
 			allParameters.Fuzzy = 1.5;
-			allParameters.OutputFilePath = "output.csv";
+			allParameters.Metric = MetricTypes::Minkowski;
 			allParameters.LogFilePath = "log.csv";
 			allParameters.CountOfThreads = 1;
 			_argc = argc;
@@ -50,7 +51,6 @@ namespace DataMining {
 			for (int i = 1; i < _argc; i = i + 2)
 			{
 				if ((string)_argv[i] == ("-i")) getInputFilPath(i + 1);
-				if ((string)_argv[i] == ("-o")) getOutputFilPath(i + 1);
 				if ((string)_argv[i] == ("-l")) getLogFilePath(i + 1);
 				if ((string)_argv[i] == ("-k")) getCountOfClusters(i + 1);
 				if ((string)_argv[i] == ("-d")) getCountOfDimensions(i + 1);
@@ -58,7 +58,7 @@ namespace DataMining {
 				if ((string)_argv[i] == ("-f")) getFuzzy(i + 1);
 				if ((string)_argv[i] == ("-e")) getEpsilon(i + 1);
 				if ((string)_argv[i] == ("-t")) getCountOfThreads(i + 1);
-				//if ((string)_argv[i] == ("-m")) getMetricType(i + 1);
+				if ((string)_argv[i] == ("-m")) getMetric(i + 1);
 			}
 		}
 
@@ -73,11 +73,6 @@ namespace DataMining {
 			}
 		}
 
-		void getMetricType(int numberOfparameter)
-		{
-
-		}
-
 		void getLogFilePath(int numberOfparameter)
 		{
 			if (&_argv[numberOfparameter])
@@ -86,19 +81,6 @@ namespace DataMining {
 				file.open(_argv[numberOfparameter]);
 				if (!file.fail()) {
 					allParameters.LogFilePath = _argv[numberOfparameter];
-				}
-				file.close();
-			}
-		}
-
-		void getOutputFilPath(int numberOfparameter)
-		{
-			if (&_argv[numberOfparameter])
-			{
-				fstream file;
-				file.open(_argv[numberOfparameter], fstream::out);
-				if (!file.fail()) {
-					allParameters.OutputFilePath = _argv[numberOfparameter];
 				}
 				file.close();
 			}
@@ -179,6 +161,21 @@ namespace DataMining {
 				{
 					allParameters.Epsilon = val;
 				}
+			}
+		}
+
+		void getMetric(int numberOfParameter)
+		{
+			static unordered_map<string,MetricTypes> const table =
+			{
+				{"minkowski",MetricTypes::Minkowski},
+				{"dtw",MetricTypes::DTW},
+				{"chebyshev",MetricTypes::Chebyshev}
+			};
+			auto it = table.find(_argv[numberOfParameter]);
+			if (it != table.end())
+			{
+				allParameters.Metric = it->second;
 			}
 		}
 

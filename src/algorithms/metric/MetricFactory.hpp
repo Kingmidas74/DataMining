@@ -13,10 +13,10 @@ namespace DataMining
 				DistanceMetric * result;
 				switch (type)
 				{
-				case MetricTypes::DTW: result = new DynamicTimeWarping(); break;
-				case MetricTypes::Minkowsi: result = new MinkowskiMetric(args...); break;
-				case MetricTypes::Chebyshev: result = new ChebyshevMetric(); break;
-				default:  result = new MinkowskiMetric(args...); break;
+					case MetricTypes::DTW: result = new DynamicTimeWarping(); break;
+					case MetricTypes::Minkowski: result = new MinkowskiMetric(args...); break;
+					case MetricTypes::Chebyshev: result = new ChebyshevMetric(); break;
+					default:  result = new MinkowskiMetric(args...); break;
 				}
 				return result;
 			}

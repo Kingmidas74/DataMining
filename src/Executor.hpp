@@ -32,7 +32,7 @@ namespace DataMining {
 
 			if(fileIO.template tryReadMatrixFromFile<double>(AlgorithmParameters->InputFilePath, AlgorithmParameters->CountOfObjects, AlgorithmParameters->CountOfDimensions, vectors))
 			{
-				auto metric = MetricFactory::GetMetric(MetricTypes::Minkowsi,2,true);
+				auto metric = MetricFactory::GetMetric(AlgorithmParameters->Metric,2,true);
 
 				auto normalization = NormalizationFactory::GetNormalization<double>(NormalizationTypes::Mean);
 
@@ -52,7 +52,7 @@ namespace DataMining {
 				runtime = RoundTo(omp_get_wtime() - runtime, 3);
 				auto correctData = clustering.Verification();
 
-				if(correctData && (fileIO.template tryWriteMatrixToFile<double>(AlgorithmParameters->OutputFilePath, AlgorithmParameters->CountOfObjects, AlgorithmParameters->CountOfClusters, clustering.ResultMatrix)))
+				if(correctData && (fileIO.template tryOutMatrix<double>(AlgorithmParameters->CountOfObjects, AlgorithmParameters->CountOfClusters, clustering.ResultMatrix)))
 				{
 					auto evaluation = MonotonicPartition(AlgorithmParameters,clustering.ResultMatrix);
 

@@ -9,3 +9,4 @@
 #include <limits>
 #include <type_traits>
 #include <omp.h>
+#include <unordered_map>

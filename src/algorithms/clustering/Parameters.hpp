@@ -11,6 +11,7 @@ Purpose: Struct for save parameters.
 namespace DataMining
 {
 	using namespace std;
+	using namespace Metrics;
 
 	struct Parameters
 	{
@@ -20,8 +21,8 @@ namespace DataMining
 		size_t CountOfThreads;
 		double Fuzzy;
 		double Epsilon;
+		MetricTypes Metric;
 		string InputFilePath;
-		string OutputFilePath;
 		string LogFilePath;
 	};
 }

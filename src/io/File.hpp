@@ -56,7 +56,7 @@ namespace DataMining
 			}
 
 			template <typename Type>
-			bool tryWriteMatrixToFile(string filePath, int rowCount, int elementsByRow, Type* source)
+			bool tryOutMatrix(int rowCount, int elementsByRow, Type* source)
 			{
 				for (int i = 0; i < rowCount; i++)
 				{
