@@ -38,6 +38,8 @@ namespace DataMining {
 
 				auto clustering = FuzzyCMeans<double,double>(AlgorithmParameters, metric, normalization);
 
+				if(!clustering.Guard()) exit(EXIT_FAILURE);
+
 				auto date = GetDate();
 
 				omp_set_num_threads(AlgorithmParameters->CountOfThreads);

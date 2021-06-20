@@ -118,6 +118,11 @@ namespace DataMining {
 					this->ResultMatrix = allocateAlign<OutcomingType>(this->AlgorithmParameters.CountOfObjects*this->AlgorithmParameters.CountOfClusters);
 				}
 
+				bool Guard()
+				{
+					return this->AlgorithmParameters.CountOfClusters<=this->AlgorithmParameters.CountOfDimensions;
+				}
+
 				void StartClustering(IncomingType* vectors, double * distanceMatrix) override
 				{
 					this->VectorsForClustering = vectors;
