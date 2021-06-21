@@ -19,7 +19,7 @@ namespace DataMining {
 
 				virtual void GenerateDefaultResultMatrix()
 				{
-					size_t length = this->AlgorithmParameters.CountOfObjects * this->AlgorithmParameters.CountOfDimensions;
+					size_t length = this->AlgorithmParameters.CountOfObjects * this->AlgorithmParameters.CountOfClusters;
 					for (size_t i = 0; i < length; i++)
 					{
 							this->ResultMatrix[i] = GetRandom<OutcomingType>();

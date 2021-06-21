@@ -6,20 +6,17 @@ namespace DataMining
 	{
 		using namespace std;
 
-		inline void PrintAsMatrix(double* arr, int row_length, int length)
+		template<typename Type>
+		inline void PrintAsMatrix(Type* arr, int row_length, int length)
 		{
-
-			int current_size = 0;
 			cout << "###################################################################" << endl;
 			for (int i = 0;i < length;i++)
 			{
-				cout << arr[i] << " ";
-				current_size++;
-				if (current_size == row_length)
+				for(int j=0;j<row_length;j++)
 				{
-					cout << endl;
-					current_size = 0;
+					cout << arr[i*row_length+j] << " ";
 				}
+				cout<<endl;
 			}
 			cout << "###################################################################" << endl;
 		}
