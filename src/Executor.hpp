@@ -12,6 +12,7 @@ namespace DataMining {
 	using namespace EvaluationAlgorithms;
 	using namespace ClusteringAlgorithms;
 	using namespace ClusteringAlgorithms::CCollection;
+	using namespace ClusteringAlgorithms::KCollection;
 
 
 	class Executor
@@ -32,39 +33,49 @@ namespace DataMining {
 
 			if(fileIO.template tryReadMatrixFromFile<double>(AlgorithmParameters->InputFilePath, AlgorithmParameters->CountOfObjects, AlgorithmParameters->CountOfDimensions, vectors))
 			{
-				auto metric = MetricFactory::GetMetric(AlgorithmParameters->Metric,2,true);
+				auto kmetric = MetricFactory::GetMetric(AlgorithmParameters->Metric,2,true);
+				auto cmetric = MetricFactory::GetMetric(AlgorithmParameters->Metric,2,true);
 
 				auto normalization = NormalizationFactory::GetNormalization<double>(NormalizationTypes::Mean);
 
-				auto clustering = FuzzyCMeans<double,double>(AlgorithmParameters, metric, normalization);
+				auto kclustering = KMeans<double>(AlgorithmParameters, kmetric, normalization);
+				auto cclustering = FuzzyCMeans<double,double>(AlgorithmParameters, cmetric, normalization);
 
-				if(!clustering.Guard()) exit(EXIT_FAILURE);
+				if(!kclustering.Guard() || !cclustering.Guard()) exit(EXIT_FAILURE);
 
 				auto date = GetDate();
 
 				omp_set_num_threads(AlgorithmParameters->CountOfThreads);
 
-				double * distanceMatrix = allocateAlign<double>(AlgorithmParameters->CountOfObjects*AlgorithmParameters->CountOfObjects);
-				metric->CalculateDistanceMatrix(vectors,AlgorithmParameters->CountOfObjects,AlgorithmParameters->CountOfDimensions,distanceMatrix);
+				double * kdistanceMatrix = allocateAlign<double>(AlgorithmParameters->CountOfObjects*AlgorithmParameters->CountOfObjects);
+				double * cdistanceMatrix = allocateAlign<double>(AlgorithmParameters->CountOfObjects*AlgorithmParameters->CountOfObjects);
+				kmetric->CalculateDistanceMatrix(vectors,AlgorithmParameters->CountOfObjects,AlgorithmParameters->CountOfDimensions,kdistanceMatrix);
+				cmetric->CalculateDistanceMatrix(vectors,AlgorithmParameters->CountOfObjects,AlgorithmParameters->CountOfDimensions,cdistanceMatrix);
 
 				double runtime = omp_get_wtime();
-				clustering.StartClustering(vectors);
+				kclustering.StartClustering(vectors);
+				cclustering.StartClustering(vectors);
 				runtime = RoundTo(omp_get_wtime() - runtime, 3);
-				auto correctData = clustering.Verification();
+				auto correctData = kclustering.Verification() && cclustering.Verification();
 
-				if(correctData && (fileIO.template tryOutMatrix<double>(AlgorithmParameters->CountOfObjects, AlgorithmParameters->CountOfClusters, clustering.ResultMatrix)))
+				if(correctData
+					&& (fileIO.template tryOutMatrix<double>(AlgorithmParameters->CountOfObjects, AlgorithmParameters->CountOfClusters, cclustering.ResultMatrix))
+					&& (fileIO.template tryOutMatrix<size_t>(AlgorithmParameters->CountOfObjects, 1, kclustering.ResultMatrix))
+				)
 				{
-					auto evaluation = MonotonicPartition(AlgorithmParameters,clustering.ResultMatrix);
+					auto evaluation = MonotonicPartition(AlgorithmParameters,cclustering.ResultMatrix);
 
 					evaluation.Evaluate();
 
 					CreateLogRecord(date,runtime,evaluation.EvaluationRate);
 
 					freeAlign<double>(vectors);
-					freeAlign<double>(distanceMatrix);
+					freeAlign<double>(kdistanceMatrix);
+					freeAlign<double>(cdistanceMatrix);
 					exit(EXIT_SUCCESS);
 				}
-				freeAlign<double>(distanceMatrix);
+				freeAlign<double>(kdistanceMatrix);
+				freeAlign<double>(cdistanceMatrix);
 			}
 			freeAlign<double>(vectors);
 
